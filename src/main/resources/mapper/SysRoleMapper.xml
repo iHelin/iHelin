@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="me.ianhe.dao.SysRoleMapper">
-    <resultMap id="BaseResultMap" type="me.ianhe.entity.SysRole">
+<mapper namespace="me.ianhe.isite.dao.SysRoleMapper">
+    <resultMap id="BaseResultMap" type="me.ianhe.isite.entity.SysRole">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
     </resultMap>
@@ -18,11 +18,11 @@
         delete from sys_role
         where id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insert" parameterType="me.ianhe.entity.SysRole" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insert" parameterType="me.ianhe.isite.entity.SysRole" useGeneratedKeys="true" keyProperty="id">
         insert into sys_role (name)
         values (#{name,jdbcType=VARCHAR})
     </insert>
-    <insert id="insertSelective" parameterType="me.ianhe.entity.SysRole" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertSelective" parameterType="me.ianhe.isite.entity.SysRole" useGeneratedKeys="true" keyProperty="id">
         insert into sys_role
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="name != null">
@@ -35,7 +35,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="me.ianhe.entity.SysRole">
+    <update id="updateByPrimaryKeySelective" parameterType="me.ianhe.isite.entity.SysRole">
         update sys_role
         <set>
             <if test="name != null">
@@ -44,7 +44,7 @@
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
-    <update id="updateByPrimaryKey" parameterType="me.ianhe.entity.SysRole">
+    <update id="updateByPrimaryKey" parameterType="me.ianhe.isite.entity.SysRole">
         update sys_role
         set name = #{name,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}
@@ -57,7 +57,7 @@
         sys_role role,sys_role_user ru
         where role.`id` = ru.`roleID` and ru.`userID` = #{userID,jdbcType=INTEGER}
     </select>
-    <select id="getAllRoles" resultType="me.ianhe.entity.SysRole">
+    <select id="getAllRoles" resultType="me.ianhe.isite.entity.SysRole">
         select
         <include refid="Base_Column_List"/>
         from

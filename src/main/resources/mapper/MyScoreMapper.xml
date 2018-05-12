@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="me.ianhe.dao.MyScoreMapper">
-    <resultMap id="BaseResultMap" type="me.ianhe.entity.MyScore">
+<mapper namespace="me.ianhe.isite.dao.MyScoreMapper">
+    <resultMap id="BaseResultMap" type="me.ianhe.isite.entity.MyScore">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="score" property="score" jdbcType="INTEGER"/>
         <result column="reason" property="reason" jdbcType="LONGVARCHAR"/>
@@ -21,13 +21,13 @@
         delete from MyScore
         where id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insert" parameterType="me.ianhe.entity.MyScore" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insert" parameterType="me.ianhe.isite.entity.MyScore" useGeneratedKeys="true" keyProperty="id">
         insert into MyScore (score, add_writer, add_date,
         reason)
         values (#{score,jdbcType=INTEGER}, #{addWriter,jdbcType=INTEGER}, #{addDate,jdbcType=TIMESTAMP},
         #{reason,jdbcType=LONGVARCHAR})
     </insert>
-    <insert id="insertSelective" parameterType="me.ianhe.entity.MyScore" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertSelective" parameterType="me.ianhe.isite.entity.MyScore" useGeneratedKeys="true" keyProperty="id">
         insert into MyScore
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="score != null">
@@ -58,7 +58,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="me.ianhe.entity.MyScore">
+    <update id="updateByPrimaryKeySelective" parameterType="me.ianhe.isite.entity.MyScore">
         update MyScore
         <set>
             <if test="score != null">
@@ -76,7 +76,7 @@
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
-    <update id="updateByPrimaryKeyWithBLOBs" parameterType="me.ianhe.entity.MyScore">
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="me.ianhe.isite.entity.MyScore">
         update MyScore
         set score = #{score,jdbcType=INTEGER},
         add_writer = #{addWriter,jdbcType=INTEGER},
@@ -84,7 +84,7 @@
         reason = #{reason,jdbcType=LONGVARCHAR}
         where id = #{id,jdbcType=INTEGER}
     </update>
-    <update id="updateByPrimaryKey" parameterType="me.ianhe.entity.MyScore">
+    <update id="updateByPrimaryKey" parameterType="me.ianhe.isite.entity.MyScore">
         update MyScore
         set score = #{score,jdbcType=INTEGER},
         add_writer = #{addWriter,jdbcType=INTEGER},
