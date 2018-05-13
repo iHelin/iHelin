@@ -61,6 +61,7 @@
             <el-card style="min-height: 500px;">
                 <div slot="header" class="clearfix">
                     <span>${title!}</span>
+                    <span style="float: right;"><a href="${request.contextPath}/admin/logout">注销</a></span>
                 </div>
                 <#nested>
             </el-card>

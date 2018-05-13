@@ -27,10 +27,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userService;
 
+    private static final String COOKIE_NAME = "IAN-SESSIONID";
+
     @Bean
     public CookieSerializer cookieSerializer() {
         DefaultCookieSerializer serializer = new DefaultCookieSerializer();
-        serializer.setCookieName("IAN-SESSIONID");
+        serializer.setCookieName(COOKIE_NAME);
         serializer.setCookiePath("/");
         serializer.setCookieMaxAge(1800);
         serializer.setDomainNamePattern("^.+?\\.(\\w+\\.[a-z]+)$");
@@ -62,13 +64,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/admin/**").authenticated().and()
-                .formLogin().loginPage("/admin/login").defaultSuccessUrl("/admin/index")
-                .failureUrl("/admin/login?error")
-                .permitAll()
+                .antMatchers("/admin/**").authenticated()
+                .and()
+                .formLogin().loginPage("/admin/login").permitAll()
                 .and()
                 .logout()
-                .logoutUrl("/admin/logout").permitAll();
+                .logoutUrl("/admin/logout").permitAll()
+                .deleteCookies(COOKIE_NAME)
+                .and()
+                .oauth2Login();
     }
 
     @Override

@@ -128,6 +128,7 @@
                     登录
                 </el-button>
             </el-form-item>
+            <a href="${request.contextPath}/oauth2/authorization/github">GitHub 登录</a>
         </el-form>
     </div>
 </div>

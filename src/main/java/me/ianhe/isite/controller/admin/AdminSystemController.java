@@ -20,6 +20,7 @@ import java.util.Properties;
  */
 @RestController
 public class AdminSystemController extends BaseAdminController {
+
     @Autowired
     private RequestMappingHandlerMapping handlerMapping;
 
