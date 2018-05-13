@@ -22,7 +22,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <docker.image.prefix>iHelin</docker.image.prefix>
+        <docker.image.prefix>ihelin</docker.image.prefix>
     </properties>
 
     <dependencies>
@@ -166,7 +166,7 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>0.4.12</version>
                 <configuration>
-                    <imageName>${project.artifactId}-${project.version}</imageName>
+                    <imageName>${docker.image.prefix}/ihelin:${project.version}</imageName>
                     <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
                     <resources>
                         <resource>
