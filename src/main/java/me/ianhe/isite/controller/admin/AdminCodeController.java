@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.io.OutputStream;
 
 /**
  * 二维码图片生成
@@ -26,11 +26,11 @@ public class AdminCodeController extends BaseAdminController {
      * @since 2017/8/31 22:24
      */
     @GetMapping("generate")
-    public void generateQRCode(String content, HttpServletRequest request, HttpServletResponse response) {
+    public void generateQRCode(String content, HttpServletRequest request, OutputStream outputStream) {
         String format = "png";
         logger.info("Success generate qrcode： {},ip is {}", content, RequestUtil.getRealIp(request));
         try {
-            qrcodeService.generate(content, 300, 300, format, response.getOutputStream());
+            qrcodeService.generate(content, 300, 300, format, outputStream);
         } catch (Exception e) {
             logger.error("生成二维码失败", e);
         }
