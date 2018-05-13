@@ -22,7 +22,7 @@ import java.util.Properties;
  * @since 2018/4/26 09:43
  */
 @Configuration
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService userService;
