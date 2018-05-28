@@ -1,10 +1,10 @@
 package me.ianhe.isite.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
 import me.ianhe.isite.dao.CommonRedisDao;
 import me.ianhe.isite.model.Pagination;
 import me.ianhe.isite.service.*;
-import me.ianhe.isite.utils.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +34,8 @@ public abstract class BaseController {
     protected WebSocketService webSocket;
     @Autowired
     protected CommonRedisDao commonRedisDao;
+    @Autowired
+    protected ObjectMapper objectMapper;
 
     protected Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -46,10 +48,10 @@ public abstract class BaseController {
     private static final String STATUS = "status";
     private static final String DATA = "data";
 
-    protected String success() {
+    protected Map<String, Object> success() {
         Map<String, Object> res = Maps.newHashMap();
         res.put(STATUS, SUCCESS);
-        return JsonUtil.toJson(res);
+        return res;
     }
 
     /**
@@ -62,24 +64,24 @@ public abstract class BaseController {
         return new Pagination(data, totalCount, currentPage, pageLength);
     }
 
-    protected <T> String success(T model) {
+    protected Map<String, Object> success(Object model) {
         Map<String, Object> res = Maps.newHashMap();
         res.put(STATUS, SUCCESS);
         res.put(DATA, model);
-        return JsonUtil.toJson(res);
+        return res;
     }
 
-    protected String error() {
+    protected Map<String, Object> error() {
         Map<String, Object> res = Maps.newHashMap();
         res.put(STATUS, ERROR);
-        return JsonUtil.toJson(res);
+        return res;
     }
 
-    protected <T> String error(T model) {
+    protected Map<String, Object> error(Object model) {
         Map<String, Object> res = Maps.newHashMap();
         res.put(STATUS, ERROR);
         res.put(DATA, model);
-        return JsonUtil.toJson(res);
+        return res;
     }
 
     protected String ftl(String ftlFileName) {

@@ -87,7 +87,7 @@ public class ArticleService {
         return articleMapper.listByCondition(res, new RowBounds(currentPage, pageLength));
     }
 
-    public int addAdvice(Advice advice){
+    public int addAdvice(Advice advice) {
         return adviceMapper.insert(advice);
     }
 }

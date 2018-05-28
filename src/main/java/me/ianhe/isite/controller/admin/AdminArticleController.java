@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 /**
  * 文章管理
@@ -23,7 +24,7 @@ public class AdminArticleController extends BaseAdminController {
      * @since 2017/8/28 13:26
      */
     @PostMapping("article")
-    public String addArticle(Article article) {
+    public Map<String, Object> addArticle(Article article) {
         articleService.addArticle(article);
         return success();
     }
@@ -46,7 +47,7 @@ public class AdminArticleController extends BaseAdminController {
      * @since 2017/8/28 13:28
      */
     @PutMapping(value = "article")
-    public String editArticle(Article article) {
+    public Map<String, Object> editArticle(Article article) {
         if (article == null || article.getId() == null) {
             return error("文章不存在");
         }
@@ -65,7 +66,7 @@ public class AdminArticleController extends BaseAdminController {
      * @since 2017/8/28 13:29
      */
     @DeleteMapping(value = "article/{articleId}")
-    public String deleteProduct(@PathVariable Integer articleId) {
+    public Map<String, Object> deleteProduct(@PathVariable Integer articleId) {
         articleService.deleteById(articleId);
         return success();
     }

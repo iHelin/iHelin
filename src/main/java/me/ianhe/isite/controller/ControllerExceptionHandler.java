@@ -2,7 +2,6 @@ package me.ianhe.isite.controller;
 
 import com.google.common.collect.Maps;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -13,7 +12,7 @@ import java.util.Map;
  * @author iHelin
  * @since 2017/9/20 11:39
  */
-@ControllerAdvice
+//@ControllerAdvice
 public class ControllerExceptionHandler {
 
     @ExceptionHandler(Exception.class)

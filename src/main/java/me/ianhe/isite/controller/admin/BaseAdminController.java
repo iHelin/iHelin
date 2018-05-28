@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author iHelin
  * @since 2017/10/17 15:27
  */
-@RequestMapping("admin")
+@RequestMapping("/admin")
 public abstract class BaseAdminController extends BaseController {
 
     private static final String NAMESPACE = "admin";

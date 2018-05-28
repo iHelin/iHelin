@@ -51,26 +51,26 @@ public class ScoreController extends BaseController {
      * @return
      */
     @PostMapping("score")
-    public String addScore(MyScore myScore) {
+    public Map<String, Object> addScore(MyScore myScore) {
         myScore.setAddDate(new Date());
         scoreService.addRecord(myScore);
         return success();
     }
 
     @GetMapping("score/all")
-    public String getTotalScore() {
+    public Map<String, Object> getTotalScore() {
         long totalScore = scoreService.getMyTotalScore();
         return success(totalScore);
     }
 
     @GetMapping("score/{id}")
-    public String getScore(@PathVariable Integer id) {
+    public Map<String, Object> getScore(@PathVariable Integer id) {
         MyScore myScore = scoreService.getById(id);
         return success(myScore);
     }
 
     @GetMapping("scores")
-    public String getScores(Integer pageNum, Integer pageLength) {
+    public Map<String, Object> getScores(Integer pageNum, Integer pageLength) {
         pageNum = pageNum == null ? 1 : pageNum;
         pageLength = pageLength == null ? DEFAULT_PAGE_LENGTH : pageLength;
         List<MyScore> scores = scoreService.selectByCondition(pageNum, pageLength);

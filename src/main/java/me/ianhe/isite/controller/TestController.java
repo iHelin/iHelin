@@ -34,7 +34,7 @@ public class TestController extends BaseController {
     public static final String BUS_PREFIX = "shanghaibus:";
 
     @PostMapping("ws")
-    public String sendMessage(@RequestBody Map<String, String> data) {
+    public Map<String, Object> sendMessage(@RequestBody Map<String, String> data) {
         webSocket.sendMessage(data.get("data"));
         return success();
     }

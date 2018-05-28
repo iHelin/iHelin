@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -28,7 +29,7 @@ public class AdminFileController extends BaseAdminController {
      * @return
      */
     @PostMapping("upload")
-    public String handleUpload(MultipartFile file) {
+    public Map<String, Object> handleUpload(MultipartFile file) {
         if (file.isEmpty()) {
             return error("请选择文件...");
         }
@@ -38,7 +39,7 @@ public class AdminFileController extends BaseAdminController {
         } catch (IOException e) {
             logger.error("文件上传失败", e);
         }
-        return fileService.uploadFile("admin/image/" + UUID.randomUUID().toString(), inputStream);
+        return success(fileService.uploadFile("admin/image/" + UUID.randomUUID().toString(), inputStream));
     }
 
     @GetMapping("files")
@@ -53,7 +54,7 @@ public class AdminFileController extends BaseAdminController {
      * @since 2017/11/13 23:08
      */
     @DeleteMapping("files")
-    public String deleteFile(String key) {
+    public Map<String, Object> deleteFile(String key) {
         fileService.deleteFile(key);
         return success();
     }

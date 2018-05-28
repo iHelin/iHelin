@@ -31,7 +31,7 @@ public class AdminSystemController extends BaseAdminController {
      * @since 2017/11/14 15:52
      */
     @GetMapping("props")
-    public String props() {
+    public Map<String, Object> props() {
         Properties props = System.getProperties();
         return success(props);
     }
@@ -43,7 +43,7 @@ public class AdminSystemController extends BaseAdminController {
      * @since 2017/11/14 15:52
      */
     @GetMapping("mappings")
-    public String mappings() {
+    public Map<String, Object> mappings() {
         Map<RequestMappingInfo, HandlerMethod> map = handlerMapping.getHandlerMethods();
         List<Map> mappingList = Lists.newArrayList();
         for (RequestMappingInfo key : map.keySet()) {
