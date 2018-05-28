@@ -5,6 +5,7 @@
                 <el-menu-item index="/">首页</el-menu-item>
                 <el-menu-item index="/articles">文章</el-menu-item>
                 <el-menu-item index="/music">音乐</el-menu-item>
+                <el-menu-item index="/test">测试</el-menu-item>
                 <el-submenu index="2">
                     <template slot="title">我的工作台</template>
                     <el-menu-item index="/2-1">工作台1</el-menu-item>
@@ -18,7 +19,7 @@
         <el-main>
             <router-view></router-view>
         </el-main>
-        <el-footer>
+        <el-footer style="color: #999;">
             <p style="text-align: center;">Copyright © Ian He 2018</p>
         </el-footer>
     </el-container>

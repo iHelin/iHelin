@@ -6,6 +6,13 @@ Vue.use(Router);
 const router = new Router({
     routes: [
         {
+            path: '/admin/login',
+            meta: {
+                title: '登录'
+            },
+            component: () => import('src/pages/login'),
+        },
+        {
             path: '/',
             component: () => import('src/pages/home'),
             children: [
@@ -40,6 +47,13 @@ const router = new Router({
                         title: '音乐'
                     },
                     component: () => import('src/pages/music')
+                }, {
+                    path: '/test',
+                    name: 'test',
+                    meta: {
+                        title: 'test'
+                    },
+                    component: () => import('src/pages/test')
                 }
             ]
         }

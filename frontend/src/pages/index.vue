@@ -5,8 +5,11 @@
                 <router-link :to="'/articles/'+article.id">{{article.title}}</router-link>
             </li>
         </ul>
-        <h2 style="text-align: center">{{poem.content}}</h2>
-        <p style="text-align: right">{{poem.title}}</p>
+        <el-collapse v-model="activeNames">
+            <el-collapse-item :title="poem.title" name="1">
+                <div>{{poem.content}}</div>
+            </el-collapse-item>
+        </el-collapse>
     </div>
 </template>
 
@@ -14,6 +17,7 @@
     export default {
         data() {
             return {
+                activeNames: ['1'],
                 articles: [],
                 poem: {
                     title: '',
