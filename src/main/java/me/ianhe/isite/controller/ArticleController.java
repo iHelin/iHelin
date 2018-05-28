@@ -33,7 +33,8 @@ public class ArticleController extends BaseController {
     }
 
     @GetMapping
-    public List<Article> getArticles(@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "10") Integer pageLength) {
+    public List<Article> getArticles(@RequestParam(defaultValue = "1") Integer pageNum,
+                                     @RequestParam(defaultValue = "10") Integer pageLength) {
         return articleService.listByCondition(null, pageNum, pageLength);
     }
 

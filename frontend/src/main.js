@@ -12,7 +12,25 @@ Vue.config.productionTip = false;
 
 Vue.use(ElementUI);
 Vue.use(VueResource);
-/* eslint-disable no-new */
+
+Vue.http.interceptors.push((request, next) => {
+    next(response => {
+        if (200 === response.status) {
+            /*ElementUI.Notification.success({
+                title: response.status + ' ' + response.statusText,
+                message: response.data.message
+            });*/
+        } else {
+            ElementUI.Notification.error({
+                title: response.status + ' ' + response.statusText,
+                message: 'path: ' + response.data.path
+            });
+        }
+        return response;
+    });
+});
+Vue.http.options.emulateJSON = true;
+
 new Vue({
     el: '#app',
     router,

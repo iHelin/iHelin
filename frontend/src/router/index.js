@@ -3,7 +3,7 @@ import Router from 'vue-router'
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
     routes: [
         {
             path: '/',
@@ -12,14 +12,45 @@ export default new Router({
                 {
                     path: '/',
                     name: 'index',
+                    meta: {
+                        title: '首页'
+                    },
                     component: () => import('src/pages/index')
                 },
                 {
-                    path: '/articles/:id',
+                    path: '/articles',
                     name: 'articles',
+                    meta: {
+                        title: '文章列表'
+                    },
+                    component: () => import('src/pages/articles')
+                },
+                {
+                    path: '/articles/:id',
+                    name: 'article',
+                    meta: {
+                        title: '文章'
+                    },
                     component: () => import('src/pages/article')
+                },
+                {
+                    path: '/music',
+                    name: 'music',
+                    meta: {
+                        title: '音乐'
+                    },
+                    component: () => import('src/pages/music')
                 }
             ]
         }
     ]
-})
+});
+
+router.afterEach((to, from) => {
+    if (to.meta.title) {
+        document.title = to.meta.title + ' | Ian He'
+    }
+    window.scrollTo(0, 0);
+});
+
+export default router;

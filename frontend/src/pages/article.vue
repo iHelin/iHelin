@@ -1,6 +1,7 @@
 <template>
     <div>
-        <div v-html="content"></div>
+        <div v-if="article" v-html="article.content"></div>
+        <div v-else>文章不存在</div>
     </div>
 </template>
 
@@ -8,7 +9,7 @@
     export default {
         data() {
             return {
-                content: ''
+                article: undefined
             };
         },
         mounted() {
@@ -18,7 +19,7 @@
                 pageLength: 10
             }).then(res => {
                 console.log(res.data);
-                this.content = res.data.content;
+                this.article = res.data;
             });
         }
     }
