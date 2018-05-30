@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="me.ianhe.dao.BusStationMapper">
-    <resultMap id="BaseResultMap" type="me.ianhe.entity.BusStation">
+<mapper namespace="me.ianhe.isite.dao.BusStationMapper">
+    <resultMap id="BaseResultMap" type="me.ianhe.isite.entity.BusStation">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="station_name" jdbcType="VARCHAR" property="stationName"/>
         <result column="bus_id" jdbcType="VARCHAR" property="busId"/>
@@ -20,7 +20,7 @@
         DELETE FROM bus_station
         WHERE id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="me.ianhe.entity.BusStation"
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="me.ianhe.isite.entity.BusStation"
             useGeneratedKeys="true">
         INSERT INTO bus_station (station_name, bus_id, bus_index
         )
@@ -35,7 +35,7 @@
             #{item.busIndex,jdbcType=INTEGER})
         </foreach>
     </insert>
-    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="me.ianhe.entity.BusStation"
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="me.ianhe.isite.entity.BusStation"
             useGeneratedKeys="true">
         insert into bus_station
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -61,7 +61,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="me.ianhe.entity.BusStation">
+    <update id="updateByPrimaryKeySelective" parameterType="me.ianhe.isite.entity.BusStation">
         update bus_station
         <set>
             <if test="stationName != null">
@@ -76,7 +76,7 @@
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
-    <update id="updateByPrimaryKey" parameterType="me.ianhe.entity.BusStation">
+    <update id="updateByPrimaryKey" parameterType="me.ianhe.isite.entity.BusStation">
         UPDATE bus_station
         SET station_name = #{stationName,jdbcType=VARCHAR},
             bus_id       = #{busId,jdbcType=VARCHAR},
