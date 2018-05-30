@@ -31,7 +31,7 @@
 </template>
 <script>
     export default {
-        data: function () {
+        data() {
             return {
                 files: [],
                 imageUrl: '',

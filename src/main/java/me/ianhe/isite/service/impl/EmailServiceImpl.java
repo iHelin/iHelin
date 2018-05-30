@@ -4,6 +4,8 @@ import me.ianhe.isite.exception.SystemException;
 import me.ianhe.isite.service.EmailService;
 import me.ianhe.isite.service.TemplateService;
 import org.apache.commons.lang3.tuple.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -24,6 +26,8 @@ import java.util.Map;
 @Service
 public class EmailServiceImpl implements EmailService {
 
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     private JavaMailSender mailSender;
     @Autowired
@@ -39,6 +43,7 @@ public class EmailServiceImpl implements EmailService {
         message.setSubject(title);
         message.setText(content);
         mailSender.send(message);
+        logger.debug("success send mail.");
     }
 
     @Override

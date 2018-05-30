@@ -36,7 +36,7 @@ public class ScoreAfterAspect {
     private JmsProducerService producerService;
 
     @Autowired
-    @Qualifier("mail")
+    @Qualifier("email")
     private Destination destination;
 
     @Autowired
@@ -71,8 +71,8 @@ public class ScoreAfterAspect {
         res.put("total", total);
         String mailContent = templateService.applyTemplate("score.ftl", res);
         String title = "加分提醒:今天加了" + myScore.getScore() + "分";
-        MailModel mail = new MailModel("ahaqhelin@163.com;1018954240@qq.com", "葫芦娃", title, mailContent);
-        producerService.sendMessage(destination, mail);
+        MailModel email = new MailModel("ahaqhelin@163.com;1018954240@qq.com", "葫芦娃", title, mailContent);
+        producerService.sendMessage(destination, email);
     }
 
 }

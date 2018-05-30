@@ -25,7 +25,7 @@ public class MailMessageListener {
     @Autowired
     private EmailService emailService;
 
-    @JmsListener(destination = "mail")
+    @JmsListener(destination = "email")
     public void onMessage(ObjectMessage message) {
         logger.debug("消费者接收到一条邮件消息。");
         try {

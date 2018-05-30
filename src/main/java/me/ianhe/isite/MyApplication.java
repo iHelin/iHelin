@@ -19,7 +19,7 @@ import javax.jms.Queue;
  * @since 2018/5/12 16:53
  */
 @EnableJms
-@EnableAsync
+@EnableAsync(proxyTargetClass = true)
 @EnableScheduling
 @EnableWebSecurity
 @SpringBootApplication
@@ -32,8 +32,8 @@ public class MyApplication {
     }
 
     @Bean
-    public Queue mail() {
-        return new ActiveMQQueue("mail");
+    public Queue email() {
+        return new ActiveMQQueue("email");
     }
 
     public static void main(String[] args) {

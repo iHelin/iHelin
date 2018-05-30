@@ -31,7 +31,7 @@ public class JmsProducerService {
      * @since 2017/8/31 11:18
      */
     public void sendMessage(Destination destination, final Object message) {
-        logger.debug("-----生产者发送了一个消息--------");
+        logger.debug("-----生产者发送消息:{}", message);
         jmsMessagingTemplate.convertAndSend(destination, message);
     }
 

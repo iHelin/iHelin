@@ -42,7 +42,7 @@ public abstract class BaseController {
     /**
      * 默认分页大小
      */
-    protected static final int DEFAULT_PAGE_LENGTH = 10;
+    protected static final String DEFAULT_PAGE_LENGTH = "10";
     private static final String SUCCESS = "success";
     private static final String ERROR = "error";
     private static final String STATUS = "status";
