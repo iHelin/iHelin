@@ -1,6 +1,7 @@
 package me.ianhe.isite.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.common.collect.Maps;
 import me.ianhe.isite.dao.CommonRedisDao;
 import me.ianhe.isite.model.Pagination;
@@ -36,6 +37,12 @@ public abstract class BaseController {
     protected CommonRedisDao commonRedisDao;
     @Autowired
     protected ObjectMapper objectMapper;
+    @Autowired
+    protected CommonService commonService;
+    @Autowired
+    protected DefaultKaptcha defaultKaptcha;
+    @Autowired
+    protected AsyncService asyncService;
 
     protected Logger logger = LoggerFactory.getLogger(getClass());
 

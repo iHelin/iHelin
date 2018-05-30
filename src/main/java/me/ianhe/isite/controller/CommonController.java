@@ -1,11 +1,8 @@
 package me.ianhe.isite.controller;
 
-import com.google.code.kaptcha.impl.DefaultKaptcha;
+import me.ianhe.isite.dao.AdviceMapper;
 import me.ianhe.isite.entity.Advice;
 import me.ianhe.isite.entity.Poem;
-import me.ianhe.isite.service.AsyncService;
-import me.ianhe.isite.service.CommonService;
-import me.ianhe.isite.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,15 +23,8 @@ import java.util.Map;
 public class CommonController extends BaseController {
 
     @Autowired
-    private CommonService commonService;
-    @Autowired
-    private DefaultKaptcha defaultKaptcha;
-    @Autowired
-    private HttpSession session;
-    @Autowired
-    private EmailService emailService;
-    @Autowired
-    private AsyncService asyncService;
+    private AdviceMapper adviceMapper;
+
 
     /**
      * 古诗接口
@@ -54,7 +44,7 @@ public class CommonController extends BaseController {
      * @since 2017/10/20 16:38
      */
     @GetMapping("kaptcha")
-    public void createKaptcha(HttpServletResponse response) throws IOException {
+    public void createKaptcha(HttpServletResponse response, HttpSession session) throws IOException {
         response.setHeader("Pragma", "no-cache");
         response.setHeader("Cache-Control", "no-cache");
         response.setDateHeader("Expires", 0);
@@ -74,6 +64,7 @@ public class CommonController extends BaseController {
      */
     @PostMapping("/advices")
     public Map<String, Object> addAdvice(Advice advice) {
+        adviceMapper.insert(advice);
         asyncService.asyncSendEmail(advice.getEmail(), "感谢您的反馈", advice.getMessage());
         return success();
     }
