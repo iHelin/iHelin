@@ -16,8 +16,7 @@
                 <el-input type="textarea" v-model="ruleForm.message" placeholder="请输入您的建议"></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm')">立即提交</el-button>
-                <el-button @click="resetForm('ruleForm')">重置</el-button>
+                <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -40,6 +39,7 @@
                         this.$resource("/ihelin/advices").save(this.ruleForm).then(res => {
                             loading.close();
                             this.$message[res.data.status]('感谢您的反馈！');
+                            this.resetForm('ruleForm');
                         })
                     } else {
                         return false;

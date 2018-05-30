@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -64,8 +65,9 @@ public class CommonController extends BaseController {
      */
     @PostMapping("/advices")
     public Map<String, Object> addAdvice(Advice advice) {
+        advice.setCreateTime(new Date());
         adviceMapper.insert(advice);
-        asyncService.asyncSendEmail(advice.getEmail(), "感谢您的反馈", advice.getMessage());
+        asyncService.asyncSendEmail(advice.getEmail(), "感谢您的反馈", "反馈内容：" + advice.getMessage());
         return success();
     }
 
