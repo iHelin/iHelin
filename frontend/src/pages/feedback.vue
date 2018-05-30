@@ -27,7 +27,7 @@
         data() {
             return {
                 ruleForm: {
-                    email: 'ahaqhelin@163.com',
+                    email: '',
                     message: ''
                 }
             }
