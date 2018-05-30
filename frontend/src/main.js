@@ -3,7 +3,8 @@ import App from './App'
 import router from './router'
 import VueResource from 'vue-resource';
 import ElementUI from 'element-ui';
-import 'src/styles/element-variables.scss';
+import 'element-ui/lib/theme-chalk/index.css';
+// import 'src/styles/element-variables.scss';
 import 'src/styles/app.css';
 
 import Vuelidate from 'vuelidate';
