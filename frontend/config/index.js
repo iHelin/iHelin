@@ -10,12 +10,12 @@ module.exports = {
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
         proxyTable: {
-            '/ihelin': {
+            '/ihelin/': {
                 logLevel: 'warn',
                 target: 'http://localhost:8080/',
                 changeOrigin: true,
                 pathRewrite: {
-                    '^/ihelin': '/'
+                    '^/ihelin/': '/'
                 }
             },
         },
