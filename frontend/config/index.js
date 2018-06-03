@@ -12,7 +12,7 @@ module.exports = {
         proxyTable: {
             '/ihelin/': {
                 logLevel: 'warn',
-                target: 'http://localhost:8080/',
+                target: 'http://localhost:8888/',
                 changeOrigin: true,
                 pathRewrite: {
                     '^/ihelin/': '/'

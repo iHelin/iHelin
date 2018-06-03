@@ -4,10 +4,14 @@ import router from './router'
 import VueResource from 'vue-resource';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import 'simplemde/dist/simplemde.min.css';
 // import 'src/styles/element-variables.scss';
 import 'src/styles/app.css';
+import {formatTime} from 'src/components/index';
 
 import Vuelidate from 'vuelidate';
+
+Vue.filter('formatTime', formatTime);
 
 Vue.use(Vuelidate);
 
@@ -19,6 +23,12 @@ Vue.use(VueResource);
 Vue.http.interceptors.push((request, next) => {
     next(response => {
         if (200 === response.status) {
+        }else if(403 === response.status){
+            /*router.push({
+                path: '/login',
+            });
+            return;*/
+            console.log(403);
         } else {
             ElementUI.Notification.error({
                 title: response.status + ' ' + response.statusText,

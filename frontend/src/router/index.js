@@ -5,7 +5,7 @@ Vue.use(Router);
 
 const routes = [
     {
-        path: '/admin/login',
+        path: '/login',
         meta: {
             title: '登录'
         },
@@ -54,6 +54,13 @@ const routes = [
                 },
                 component: () => import('src/pages/test')
             }, {
+                path: '/test2',
+                name: 'test2',
+                meta: {
+                    title: 'test2'
+                },
+                component: () => import('src/pages/test2')
+            },{
                 path: '/feedback',
                 name: 'feedback',
                 meta: {
@@ -79,7 +86,7 @@ const router = new Router({
         if (savedPosition) {
             return savedPosition
         } else {
-            return { x: 0, y: 0 }
+            return {x: 0, y: 0}
         }
     }
 });
