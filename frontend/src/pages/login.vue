@@ -2,8 +2,6 @@
     <div>
         <div class="panel panel-primary">
             <el-form :model="loginForm"
-                     action="/ihelin/admin/login"
-                     method="post"
                      label-position="left" label-width="0px"
                      class="login-container">
                 <h3 style="text-align: center;" class="title">系统登录</h3>
@@ -35,7 +33,7 @@
                                 class="el-input__inner">
                     </div>
                 </el-form-item>
-                <el-form-item>
+                <!--<el-form-item>
                     <el-row type="flex" justify="space-between">
                         <el-col :span="12">
                             <img :src="kaptchaSrc"
@@ -43,7 +41,7 @@
                                  @click="changeKaptcha">
                         </el-col>
                         <el-col :span="11">
-                            <div class="el-input el-input--prefix" required="required" style="width: 100%;">
+                            <div class="el-input el-input&#45;&#45;prefix" required="required" style="width: 100%;">
                                 <input
                                         autocomplete="off"
                                         required
@@ -61,11 +59,10 @@
                             </div>
                         </el-col>
                     </el-row>
-                </el-form-item>
+                </el-form-item>-->
                 <el-form-item>
                     <el-button
                             type="primary"
-                            native-type="submit"
                             style="width:100%;"
                             @click="handleSubmit"
                             :loading="logining">
@@ -93,8 +90,21 @@
         },
         methods: {
             handleSubmit() {
-                if (this.loginForm.username && this.loginForm.password && this.loginForm.captcha) {
+                if (this.loginForm.username && this.loginForm.password) {
                     this.logining = true;
+                    this.$resource('/ihelin/login').save({
+                        username: this.loginForm.username,
+                        password: this.loginForm.password
+                    }).then(res => {
+                        console.log(res.data.data);
+                        const username = res.data.data.name;
+                        this.$store.dispatch('setUsername', username);
+                        if (res.data.status === 'success') {
+                            this.$router.push({
+                                path: '/admin'
+                            })
+                        }
+                    })
                 }
             },
             changeKaptcha() {

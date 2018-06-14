@@ -2,335 +2,116 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="me.ianhe.isite.dao.UserMapper">
     <resultMap id="BaseResultMap" type="me.ianhe.isite.entity.User">
-        <id column="id" property="id" jdbcType="INTEGER"/>
-        <result column="username" property="username" jdbcType="VARCHAR"/>
-        <result column="password" property="password" jdbcType="VARCHAR"/>
-        <result column="enabled" property="enabled" jdbcType="BIT"/>
-        <result column="open_id" property="openId" jdbcType="VARCHAR"/>
-        <result column="nick_name" property="nickName" jdbcType="VARCHAR"/>
-        <result column="gender" property="gender" jdbcType="INTEGER"/>
-        <result column="city" property="city" jdbcType="VARCHAR"/>
-        <result column="province" property="province" jdbcType="VARCHAR"/>
-        <result column="country" property="country" jdbcType="VARCHAR"/>
-        <result column="headimgurl" property="headimgurl" jdbcType="VARCHAR"/>
-        <result column="subscribe_time" property="subscribeTime" jdbcType="TIMESTAMP"/>
-        <result column="status" property="status" jdbcType="INTEGER"/>
-        <result column="subscribe" property="subscribe" jdbcType="INTEGER"/>
-        <result column="language" property="language" jdbcType="VARCHAR"/>
-        <result column="unionid" property="unionid" jdbcType="VARCHAR"/>
-        <result column="remark" property="remark" jdbcType="VARCHAR"/>
-        <result column="groupid" property="groupid" jdbcType="INTEGER"/>
-        <result column="tagid_list" property="tagidList" jdbcType="VARCHAR"/>
-        <result column="phone" property="phone" jdbcType="VARCHAR"/>
-        <result column="is_bind" property="isBind" jdbcType="BIT"/>
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="phone" property="phone"/>
+        <result column="telephone" property="telephone"/>
+        <result column="address" property="address"/>
+        <result column="enabled" property="enabled"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="userface" property="userface"/>
+        <result column="remark" property="remark"/>
     </resultMap>
-
-    <resultMap id="UserRoleResultMap" type="me.ianhe.isite.model.SecurityUser">
-        <id column="id" property="id" jdbcType="INTEGER"/>
-        <result column="username" property="username" jdbcType="VARCHAR"/>
-        <result column="password" property="password" jdbcType="VARCHAR"/>
-        <result column="enabled" property="enabled" jdbcType="BIT"/>
-        <collection property="sysRoles" ofType="me.ianhe.isite.entity.SysRole">
-            <id column="id" property="id"/>
-            <result column="name" property="name"/>
+    <resultMap id="lazyLoadRoles" type="me.ianhe.isite.entity.User" extends="BaseResultMap">
+        <collection property="roles" ofType="me.ianhe.isite.entity.Role"
+                    select="me.ianhe.isite.dao.UserMapper.getRolesByHrId"
+                    column="id">
         </collection>
     </resultMap>
-
-
-    <sql id="Base_Column_List">
-        id, username, password, enabled, open_id, nick_name, gender, city, province, country, headimgurl,
-        subscribe_time, status, subscribe, language, unionid, remark, groupid, tagid_list,
-        phone, is_bind
-    </sql>
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        select
-        <include refid="Base_Column_List"/>
-        from sys_user
-        where id = #{id,jdbcType=INTEGER}
+    <resultMap id="eagerLoadRoles" type="me.ianhe.isite.entity.User" extends="BaseResultMap">
+        <collection property="roles" ofType="me.ianhe.isite.entity.Role">
+            <id property="id" column="rid"/>
+            <result property="name" column="rname"/>
+            <result property="nameZh" column="rnameZh"/>
+        </collection>
+    </resultMap>
+    <select id="loadUserByUsername" resultMap="lazyLoadRoles">
+        select *
+        from t_user
+        WHERE username = #{username};
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-        delete from sys_user
-        where id = #{id,jdbcType=INTEGER}
-    </delete>
-    <insert id="insert" parameterType="me.ianhe.isite.entity.User" useGeneratedKeys="true" keyProperty="id">
-        insert into sys_user (username, password, enabled, open_id,
-                              nick_name, gender, city,
-                              province, country, headimgurl,
-                              subscribe_time, status, subscribe,
-                              language, unionid, remark,
-                              groupid, tagid_list, phone,
-                              is_bind)
-        values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{enabled,jdbcType=BIT},
-                                              #{openId,jdbcType=VARCHAR},
-                                              #{nickName,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER},
-                                              #{city,jdbcType=VARCHAR},
-                                              #{province,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR},
-                                              #{headimgurl,jdbcType=VARCHAR},
-                                              #{subscribeTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER},
-                #{subscribe,jdbcType=INTEGER},
-                #{language,jdbcType=VARCHAR}, #{unionid,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
-                #{groupid,jdbcType=INTEGER}, #{tagidList,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
-                #{isBind,jdbcType=BIT})
+    <select id="getRolesByHrId" resultType="me.ianhe.isite.entity.Role">
+        SELECT r.*
+        FROM t_user_role h, t_role r
+        where h.rid = r.id AND h.hrid = #{id}
+    </select>
+    <insert id="hrReg">
+        INSERT INTO t_user
+        set username = #{username}, password = #{password}
     </insert>
-    <insert id="insertSelective" parameterType="me.ianhe.isite.entity.User" useGeneratedKeys="true"
-            keyProperty="id">
-        insert into sys_user
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="username != null">
-                username,
-            </if>
-            <if test="password != null">
-                password,
-            </if>
-            <if test="enabled != null">
-                enabled,
-            </if>
-            <if test="openId != null">
-                open_id,
-            </if>
-            <if test="nickName != null">
-                nick_name,
-            </if>
-            <if test="gender != null">
-                gender,
-            </if>
-            <if test="city != null">
-                city,
-            </if>
-            <if test="province != null">
-                province,
-            </if>
-            <if test="country != null">
-                country,
-            </if>
-            <if test="headimgurl != null">
-                headimgurl,
-            </if>
-            <if test="subscribeTime != null">
-                subscribe_time,
-            </if>
-            <if test="status != null">
-                status,
-            </if>
-            <if test="subscribe != null">
-                subscribe,
-            </if>
-            <if test="language != null">
-                language,
-            </if>
-            <if test="unionid != null">
-                unionid,
-            </if>
-            <if test="remark != null">
-                remark,
-            </if>
-            <if test="groupid != null">
-                groupid,
-            </if>
-            <if test="tagidList != null">
-                tagid_list,
-            </if>
-            <if test="phone != null">
-                phone,
-            </if>
-            <if test="isBind != null">
-                is_bind,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="username != null">
-                #{username,jdbcType=VARCHAR},
-            </if>
-            <if test="password != null">
-                #{password,jdbcType=VARCHAR},
-            </if>
-            <if test="enabled != null">
-                #{enabled,jdbcType=BIT},
-            </if>
-            <if test="openId != null">
-                #{openId,jdbcType=VARCHAR},
-            </if>
-            <if test="nickName != null">
-                #{nickName,jdbcType=VARCHAR},
-            </if>
-            <if test="gender != null">
-                #{gender,jdbcType=INTEGER},
-            </if>
-            <if test="city != null">
-                #{city,jdbcType=VARCHAR},
-            </if>
-            <if test="province != null">
-                #{province,jdbcType=VARCHAR},
-            </if>
-            <if test="country != null">
-                #{country,jdbcType=VARCHAR},
-            </if>
-            <if test="headimgurl != null">
-                #{headimgurl,jdbcType=VARCHAR},
-            </if>
-            <if test="subscribeTime != null">
-                #{subscribeTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="status != null">
-                #{status,jdbcType=INTEGER},
-            </if>
-            <if test="subscribe != null">
-                #{subscribe,jdbcType=INTEGER},
-            </if>
-            <if test="language != null">
-                #{language,jdbcType=VARCHAR},
-            </if>
-            <if test="unionid != null">
-                #{unionid,jdbcType=VARCHAR},
-            </if>
-            <if test="remark != null">
-                #{remark,jdbcType=VARCHAR},
-            </if>
-            <if test="groupid != null">
-                #{groupid,jdbcType=INTEGER},
-            </if>
-            <if test="tagidList != null">
-                #{tagidList,jdbcType=VARCHAR},
-            </if>
-            <if test="phone != null">
-                #{phone,jdbcType=VARCHAR},
-            </if>
-            <if test="isBind != null">
-                #{isBind,jdbcType=BIT},
-            </if>
-        </trim>
-    </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="me.ianhe.isite.entity.User">
-        update sys_user
+    <select id="getHrsByKeywords" resultMap="eagerLoadRoles">
+        select h.*,`r`.`id` AS `rid`,`r`.`name` AS `rname`,`r`.`nameZh` AS `rnameZh` from ((`t_user` `h` left join
+        `t_user_role`
+        `h_r` on ((`h`.`id` = `h_r`.`hrid`))) left join `t_role` `r` on ((`h_r`.`rid` = `r`.`id`))) where h.`id` not
+        in(select h_r.`hrid` from t_user_role h_r,t_role r where h_r.`rid`=r.`id` and r.`nameZh`='系统管理员')
+        <if test="keywords!='all' and keywords!=''">
+            and h.`name` like concat('%',#{keywords},'%')
+        </if>
+        order by h.`id` limit 10
+    </select>
+    <select id="getHrById" resultMap="eagerLoadRoles">
+        select
+            h.*,
+            `r`.`id`     AS `rid`,
+            `r`.`name`   AS `rname`,
+            `r`.`nameZh` AS `rnameZh`
+        from ((`t_user` `h` left join `t_user_role`
+                                      `h_r` on ((`h`.`id` = `h_r`.`hrid`))) left join `t_role` `r`
+                on ((`h_r`.`rid` = `r`.`id`)))
+        where h.`id` = #{hrId}
+    </select>
+    <update id="updateHr" parameterType="me.ianhe.isite.entity.User">
+        update t_user
         <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=CHAR},
+            </if>
+            <if test="telephone != null">
+                telephone = #{telephone,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="enabled != null">
+                enabled = #{enabled,jdbcType=BIT},
+            </if>
             <if test="username != null">
                 username = #{username,jdbcType=VARCHAR},
             </if>
             <if test="password != null">
                 password = #{password,jdbcType=VARCHAR},
             </if>
-            <if test="enabled != null">
-                enabled = #{enabled,jdbcType=BIT},
-            </if>
-            <if test="openId != null">
-                open_id = #{openId,jdbcType=VARCHAR},
-            </if>
-            <if test="nickName != null">
-                nick_name = #{nickName,jdbcType=VARCHAR},
-            </if>
-            <if test="gender != null">
-                gender = #{gender,jdbcType=INTEGER},
-            </if>
-            <if test="city != null">
-                city = #{city,jdbcType=VARCHAR},
-            </if>
-            <if test="province != null">
-                province = #{province,jdbcType=VARCHAR},
-            </if>
-            <if test="country != null">
-                country = #{country,jdbcType=VARCHAR},
-            </if>
-            <if test="headimgurl != null">
-                headimgurl = #{headimgurl,jdbcType=VARCHAR},
-            </if>
-            <if test="subscribeTime != null">
-                subscribe_time = #{subscribeTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="status != null">
-                status = #{status,jdbcType=INTEGER},
-            </if>
-            <if test="subscribe != null">
-                subscribe = #{subscribe,jdbcType=INTEGER},
-            </if>
-            <if test="language != null">
-                language = #{language,jdbcType=VARCHAR},
-            </if>
-            <if test="unionid != null">
-                unionid = #{unionid,jdbcType=VARCHAR},
+            <if test="userface != null">
+                userface = #{userface,jdbcType=VARCHAR},
             </if>
             <if test="remark != null">
                 remark = #{remark,jdbcType=VARCHAR},
             </if>
-            <if test="groupid != null">
-                groupid = #{groupid,jdbcType=INTEGER},
-            </if>
-            <if test="tagidList != null">
-                tagid_list = #{tagidList,jdbcType=VARCHAR},
-            </if>
-            <if test="phone != null">
-                phone = #{phone,jdbcType=VARCHAR},
-            </if>
-            <if test="isBind != null">
-                is_bind = #{isBind,jdbcType=BIT},
-            </if>
         </set>
-        where id = #{id,jdbcType=INTEGER}
+        where id = #{id}
     </update>
-    <update id="updateByPrimaryKey" parameterType="me.ianhe.isite.entity.User">
-        update sys_user
-        set username       = #{username,jdbcType=VARCHAR},
-            password       = #{password,jdbcType=VARCHAR},
-            enabled        = #{enabled,jdbcType=BIT},
-            open_id        = #{openId,jdbcType=VARCHAR},
-            nick_name      = #{nickName,jdbcType=VARCHAR},
-            gender         = #{gender,jdbcType=INTEGER},
-            city           = #{city,jdbcType=VARCHAR},
-            province       = #{province,jdbcType=VARCHAR},
-            country        = #{country,jdbcType=VARCHAR},
-            headimgurl     = #{headimgurl,jdbcType=VARCHAR},
-            subscribe_time = #{subscribeTime,jdbcType=TIMESTAMP},
-            status         = #{status,jdbcType=INTEGER},
-            subscribe      = #{subscribe,jdbcType=INTEGER},
-            language       = #{language,jdbcType=VARCHAR},
-            unionid        = #{unionid,jdbcType=VARCHAR},
-            remark         = #{remark,jdbcType=VARCHAR},
-            groupid        = #{groupid,jdbcType=INTEGER},
-            tagid_list     = #{tagidList,jdbcType=VARCHAR},
-            phone          = #{phone,jdbcType=VARCHAR},
-            is_bind        = #{isBind,jdbcType=BIT}
-        where id = #{id,jdbcType=INTEGER}
-    </update>
-
-    <select id="listUserByCondition" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from sys_user
-        <where>
-            <if test="nickName!=null">nick_name like "%"#{nickName,jdbcType=VARCHAR}"%"</if>
-            <if test="status!=null">and status = #{status}</if>
-        </where>
-    </select>
-    <select id="listUserCount" resultType="int" parameterType="java.util.Map">
-        select
-        count(id)
-        from sys_user
-        <where>
-            <if test="nickName!=null">nick_name like "%"#{nickName,jdbcType=VARCHAR}"%"</if>
-            <if test="status!=null">and status = #{status}</if>
-        </where>
-    </select>
-    <select id="selectByOpenId" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from sys_user
-        where open_id = #{openId,jdbcType=VARCHAR}
-        limit 1
-    </select>
-    <select id="selectByPhone" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from sys_user
-        where phone = #{phone,jdbcType=VARCHAR}
-        limit 1
-    </select>
-
-    <select id="selectByUsername" resultMap="UserRoleResultMap">
-        select
-            user.*,
-            role.*
-        from sys_user user
-            left join sys_role_user ru on user.id = ru.userID
-            left join sys_role role on role.id = ru.roleID
-        where user.username = #{username,jdbcType=VARCHAR}
+    <delete id="deleteRoleByHrId" parameterType="Long">
+        DELETE FROM t_user_role
+        where hrid = #{hrId}
+    </delete>
+    <insert id="addRolesForHr">
+        INSERT INTO t_user_role(hrid,rid) VALUES
+        <foreach collection="rids" separator="," item="rid">
+            (#{hrId},#{rid})
+        </foreach>
+    </insert>
+    <delete id="deleteHr" parameterType="Long">
+        DELETE FROM t_user
+        WHERE id = #{hrId}
+    </delete>
+    <select id="getAllHr" resultType="me.ianhe.isite.entity.User">
+        select * from t_user
+        <if test="currentId!=null">
+            WHERE id !=#{currentId}
+        </if>
     </select>
 </mapper>

@@ -2,18 +2,22 @@ package me.ianhe.isite.config;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.code.kaptcha.util.Config;
+import me.ianhe.isite.service.UserService;
+import me.ianhe.isite.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.session.web.http.CookieSerializer;
-import org.springframework.session.web.http.DefaultCookieSerializer;
+import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import java.util.Properties;
 
@@ -22,22 +26,21 @@ import java.util.Properties;
  * @since 2018/4/26 09:43
  */
 @Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UserDetailsService userService;
-
-    private static final String COOKIE_NAME = "IAN-SESSIONID";
-
-    @Bean
-    public CookieSerializer cookieSerializer() {
-        DefaultCookieSerializer serializer = new DefaultCookieSerializer();
-        serializer.setCookieName(COOKIE_NAME);
-        serializer.setCookiePath("/");
-        serializer.setCookieMaxAge(1800);
-        serializer.setDomainNamePattern("^.+?\\.(\\w+\\.[a-z]+)$");
-        return serializer;
-    }
+    private UserService userService;
+    @Autowired
+    private AccessDeniedHandler accessDeniedHandler;
+    @Autowired
+    private AuthenticationFailureHandler authenticationFailureHandler;
+    @Autowired
+    private AuthenticationSuccessHandler authenticationSuccessHandler;
+    @Autowired
+    private UrlFilterInvocationSecurityMetadataSource urlFilterInvocationSecurityMetadataSource;
+    @Autowired
+    private UrlAccessDecisionManager urlAccessDecisionManager;
 
     @Bean
     public DefaultKaptcha defaultKaptcha() {
@@ -49,40 +52,37 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return defaultKaptcha;
     }
 
-    /**
-     * 默认密码处理器
-     *
-     * @return PasswordEncoder
-     */
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userService).passwordEncoder(new BCryptPasswordEncoder());
+    }
+
+    @Override
+    public void configure(WebSecurity web) {
+        web.ignoring().antMatchers("/index.html", "/static/**", Constant.LOGIN_PAGE);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+        http.authorizeRequests()
+//                .antMatchers("/admin/**").authenticated()
+                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+                    @Override
+                    public <O extends FilterSecurityInterceptor> O postProcess(O o) {
+                        o.setSecurityMetadataSource(urlFilterInvocationSecurityMetadataSource);
+                        o.setAccessDecisionManager(urlAccessDecisionManager);
+                        return o;
+                    }
+                })
+                .and().formLogin().loginPage(Constant.LOGIN_PAGE).loginProcessingUrl("/login").permitAll()
+                .failureHandler(authenticationFailureHandler)
+                .successHandler(authenticationSuccessHandler)
+                .and().logout().permitAll()
+                .and()
                 .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/admin/**").authenticated()
-                .and()
-                .formLogin().loginPage("/admin/login").permitAll()
-                .and()
-                .logout()
-                .logoutUrl("/admin/logout").permitAll()
-                .deleteCookies(COOKIE_NAME)
-                .and()
-                .oauth2Login();
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService);
-    }
-
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        super.configure(web);
+                .exceptionHandling()
+                .authenticationEntryPoint(new MyAuthenticationEntryPoint())
+                .accessDeniedHandler(accessDeniedHandler);
     }
 
 }

@@ -1,33 +1,33 @@
 package me.ianhe.isite.dao;
 
+import me.ianhe.isite.entity.Role;
 import me.ianhe.isite.entity.User;
-import me.ianhe.isite.model.SecurityUser;
-import org.apache.ibatis.session.RowBounds;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-import java.util.Map;
 
+/**
+ * Created by sang on 2017/12/28.
+ */
 public interface UserMapper {
-    int deleteByPrimaryKey(Integer id);
 
-    int insert(User record);
+    User loadUserByUsername(String username);
 
-    int insertSelective(User record);
+    List<Role> getRolesByHrId(Long id);
 
-    User selectByPrimaryKey(Integer id);
+    int hrReg(@Param("username") String username, @Param("password") String password);
 
-    int updateByPrimaryKeySelective(User record);
+    List<User> getHrsByKeywords(@Param("keywords") String keywords);
 
-    int updateByPrimaryKey(User record);
+    int updateHr(User hr);
 
-    User selectByOpenId(String openId);
+    int deleteRoleByHrId(Long hrId);
 
-    User selectByPhone(String phone);
+    int addRolesForHr(@Param("hrId") Long hrId, @Param("rids") Long[] rids);
 
-    List<User> listUserByCondition(Map<String, Object> res, RowBounds rowBounds);
+    User getHrById(Long hrId);
 
-    int listUserCount(Map<String, Object> res);
+    int deleteHr(Long hrId);
 
-    SecurityUser selectByUsername(String username);
-
+    List<User> getAllHr(@Param("currentId") Long currentId);
 }

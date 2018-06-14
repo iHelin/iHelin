@@ -9,7 +9,27 @@ const routes = [
         meta: {
             title: '登录'
         },
-        component: () => import('src/pages/login'),
+        component: () => import('src/pages/login')
+    },
+    {
+        path: '/admin',
+        component: () => import('src/pages/admin/home'),
+        children: [
+            {
+                path: '/',
+                meta: {
+                    title: '首页'
+                },
+                component: () => import('src/pages/admin/index')
+            },
+            {
+                path: 'articles',
+                meta: {
+                    title: '文章列表'
+                },
+                component: () => import('src/pages/admin/article')
+            }
+        ]
     },
     {
         path: '/',
@@ -60,7 +80,7 @@ const routes = [
                     title: 'test2'
                 },
                 component: () => import('src/pages/test2')
-            },{
+            }, {
                 path: '/feedback',
                 name: 'feedback',
                 meta: {

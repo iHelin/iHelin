@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import VueResource from 'vue-resource';
+import store from './store';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import 'simplemde/dist/simplemde.min.css';
@@ -21,14 +22,14 @@ Vue.use(ElementUI);
 Vue.use(VueResource);
 
 Vue.http.interceptors.push((request, next) => {
+    console.log(router);
     next(response => {
         if (200 === response.status) {
-        }else if(403 === response.status){
-            /*router.push({
+        } else if (403 === response.status) {
+            router.push({
                 path: '/login',
             });
-            return;*/
-            console.log(403);
+            // store.dispatch('setFrom', router.from);
         } else {
             ElementUI.Notification.error({
                 title: response.status + ' ' + response.statusText,
@@ -43,6 +44,7 @@ Vue.http.options.emulateJSON = true;
 new Vue({
     el: '#app',
     router,
+    store,
     components: {App},
     template: '<App/>'
 });

@@ -1,8 +1,12 @@
 package me.ianhe.isite.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -11,199 +15,50 @@ import java.util.List;
  * @author iHelin
  * @since 2017/11/9 19:44
  */
-public class User {
+public class User implements UserDetails {
 
-    private Integer id;
-
-    private String username;
-
-    @JsonIgnore
-    private String password;
-
-    private Boolean enabled;
-
-    private String openId;
-
-    private String nickName;
-
-    private Integer gender;
-
-    private String city;
-
-    private String province;
-
-    private String country;
-
-    private String headimgurl;
-
-    private Date subscribeTime;
-
-    private Integer status;
-
-    private Integer subscribe;
-
-    private String language;
-
-    private String unionid;
-
-    private String remark;
-
-    private Integer groupid;
-
-    private String tagidList;
-
+    private Long id;
+    private String name;
     private String phone;
+    private String telephone;
+    private String address;
+    private boolean enabled;
+    private String username;
+    private String password;
+    private String remark;
+    private List<Role> roles;
+    private String userface;
 
-    private Boolean isBind;
+    public String getUserface() {
+        return userface;
+    }
 
-    private List<SysRole> sysRoles;
+    public void setUserface(String userface) {
+        this.userface = userface;
+    }
 
-    public Integer getId() {
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public String getName() {
+        return name;
     }
 
-    public Boolean getBind() {
-        return isBind;
-    }
-
-    public void setBind(Boolean bind) {
-        isBind = bind;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getOpenId() {
-        return openId;
-    }
-
-    public void setOpenId(String openId) {
-        this.openId = openId;
-    }
-
-    public String getNickName() {
-        return nickName;
-    }
-
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
-    }
-
-    public Integer getGender() {
-        return gender;
-    }
-
-    public void setGender(Integer gender) {
-        this.gender = gender;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getProvince() {
-        return province;
-    }
-
-    public void setProvince(String province) {
-        this.province = province;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getHeadimgurl() {
-        return headimgurl;
-    }
-
-    public void setHeadimgurl(String headimgurl) {
-        this.headimgurl = headimgurl;
-    }
-
-    public Date getSubscribeTime() {
-        return subscribeTime;
-    }
-
-    public void setSubscribeTime(Date subscribeTime) {
-        this.subscribeTime = subscribeTime;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public Integer getSubscribe() {
-        return subscribe;
-    }
-
-    public void setSubscribe(Integer subscribe) {
-        this.subscribe = subscribe;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
-    public String getUnionid() {
-        return unionid;
-    }
-
-    public void setUnionid(String unionid) {
-        this.unionid = unionid;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-
-    public Integer getGroupid() {
-        return groupid;
-    }
-
-    public void setGroupid(Integer groupid) {
-        this.groupid = groupid;
-    }
-
-    public String getTagidList() {
-        return tagidList;
-    }
-
-    public void setTagidList(String tagidList) {
-        this.tagidList = tagidList;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPhone() {
@@ -214,32 +69,84 @@ public class User {
         this.phone = phone;
     }
 
-    public Boolean getIsBind() {
-        return isBind;
+    public String getTelephone() {
+        return telephone;
     }
 
-    public void setIsBind(Boolean isBind) {
-        this.isBind = isBind;
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
     }
 
-    public List<SysRole> getSysRoles() {
-        return sysRoles;
+    public String getAddress() {
+        return address;
     }
 
-    public void setSysRoles(List<SysRole> sysRoles) {
-        this.sysRoles = sysRoles;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    @Override
     public String getUsername() {
         return username;
     }
 
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
+    @JsonIgnore
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
-    public boolean isEnabled() {
-        return enabled;
+    @JsonIgnore
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @JsonIgnore
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        for (Role role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        }
+        return authorities;
+    }
+
+    @JsonIgnore
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
 }

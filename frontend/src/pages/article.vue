@@ -18,7 +18,7 @@
     export default {
         data() {
             return {
-                article: undefined,
+                article: null,
                 loading: true
             };
         },
