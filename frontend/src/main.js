@@ -22,7 +22,6 @@ Vue.use(ElementUI);
 Vue.use(VueResource);
 
 Vue.http.interceptors.push((request, next) => {
-    console.log(router);
     next(response => {
         if (200 === response.status) {
         } else if (403 === response.status) {

@@ -8,7 +8,7 @@
                 <small>更新时间：{{article.updateTime | formatTime('{y}-{m}-{d}')}}</small>
             </p>
             <p><code>{{article.summary}}</code></p>
-            <div v-html="article.content"></div>
+            <div v-html="html"></div>
         </div>
         <div v-else>文章不存在</div>
     </div>
@@ -19,7 +19,8 @@
         data() {
             return {
                 article: null,
-                loading: true
+                loading: true,
+                html: ''
             };
         },
         mounted() {
@@ -28,6 +29,10 @@
             }).then(res => {
                 this.article = res.data;
                 this.loading = false;
+                import('showdown').then(showdown => {
+                    const converter = new showdown.Converter();
+                    this.html = converter.makeHtml(this.article.content);
+                });
             });
         }
     }

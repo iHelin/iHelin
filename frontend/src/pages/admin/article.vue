@@ -1,21 +1,38 @@
 <template>
     <div>
+        <div style="float: right">
+            <el-button type="primary" @click="()=>$router.push('/admin/articles/add')">新增文章</el-button>
+        </div>
         <el-table
                 v-loading="loading"
                 :data="tableData"
                 style="width: 100%">
             <el-table-column
                     prop="title"
+                    showOverflowTooltip
+                    width="200"
                     label="标题">
             </el-table-column>
             <el-table-column
                     prop="summary"
+                    showOverflowTooltip
                     label="摘要">
             </el-table-column>
             <el-table-column
                     prop="readNum"
                     width="100"
+                    align="right"
                     label="阅读数">
+            </el-table-column>
+            <el-table-column
+                    fixed="right"
+                    label="操作"
+                    width="100">
+                <template slot-scope="scope">
+                    <!--<el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>-->
+                    <el-button type="text" size="small" @click="handleEdit(scope.row)">编辑</el-button>
+                    <el-button type="text" size="small" @click="handleDelete(scope.row)">删除</el-button>
+                </template>
             </el-table-column>
         </el-table>
         <el-pagination
@@ -32,23 +49,47 @@
 <script>
     export default {
         mounted() {
-            this.$resource('/ihelin/admin/articleList').get({
-                pageNum: this.pageNum,
-                pageSize: this.pageSize
-            }).then(res => {
-                this.loading = false;
-                this.tableData = res.data.data;
-                this.total = res.data.totalCount;
-            }, error => {
-                // console.error(error);
-            })
+            this.init();
         },
         methods: {
             handleSizeChange(val) {
-                console.log(`每页 ${val} 条`);
+                this.pageNum = 1;
+                this.pageSize = val;
+                this.init();
             },
             handleCurrentChange(val) {
-                console.log(`当前页: ${val}`);
+                this.pageNum = val;
+                this.init();
+            },
+            handleDelete(article) {
+                this.$resource('/ihelin/admin/article/{id}').remove({
+                    id: article.id
+                }).then(res => {
+                    this.pageNum = 1;
+                    this.init();
+                }, error => {
+                    // console.error(error);
+                })
+            },
+            handleEdit(article) {
+                this.$router.push({
+                    path: '/admin/articles/edit',
+                    query: {
+                        id: article.id
+                    }
+                })
+            },
+            init() {
+                this.$resource('/ihelin/admin/articleList').get({
+                    pageNum: this.pageNum,
+                    pageSize: this.pageSize
+                }).then(res => {
+                    this.loading = false;
+                    this.tableData = res.data.data;
+                    this.total = res.data.totalCount;
+                }, error => {
+                    // console.error(error);
+                })
             }
         },
         data() {

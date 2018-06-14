@@ -5,11 +5,12 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
     state: {
-        username: ''
+        username: sessionStorage.getItem("username")
     },
     mutations: {
         SET_USERNAME: (state, username) => {
             state.username = username;
+            sessionStorage.setItem("username", username);
         }
     },
     actions: {

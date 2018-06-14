@@ -2,6 +2,7 @@ package me.ianhe.isite.controller.admin;
 
 import me.ianhe.isite.entity.Article;
 import me.ianhe.isite.model.Pagination;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
 
@@ -38,6 +39,18 @@ public class AdminArticleController extends BaseAdminController {
     @GetMapping("articleList")
     public Pagination getArticles(Integer pageNum, Integer pageSize) {
         return articleService.findByPage(null, pageNum, pageSize);
+    }
+
+    /**
+     * 按id获取文章
+     *
+     * @param id 文章id
+     * @return
+     */
+    @GetMapping("/articles/{id:\\d+}")
+    public Article getArticle(@PathVariable Integer id) {
+        Assert.notNull(id, "Article id can not be null.");
+        return articleService.selectArticleById(id);
     }
 
     /**

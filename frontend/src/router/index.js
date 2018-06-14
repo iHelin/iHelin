@@ -28,6 +28,20 @@ const routes = [
                     title: '文章列表'
                 },
                 component: () => import('src/pages/admin/article')
+            },
+            {
+                path: 'articles/add',
+                meta: {
+                    title: '新建文章'
+                },
+                component: () => import('src/pages/admin/addArticle')
+            },
+            {
+                path: 'articles/edit',
+                meta: {
+                    title: '编辑文章'
+                },
+                component: () => import('src/pages/admin/editArticle')
             }
         ]
     },
