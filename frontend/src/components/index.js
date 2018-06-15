@@ -143,7 +143,6 @@ export function scrollTo(element, to, duration) {
     const difference = to - element.scrollTop
     const perTick = difference / duration * 10
     setTimeout(() => {
-        console.log(new Date())
         element.scrollTop = element.scrollTop + perTick
         if (element.scrollTop === to) return
         scrollTo(element, to, duration - 10)
@@ -168,7 +167,7 @@ export const pickerOptions = [
     {
         text: '今天',
         onClick(picker) {
-            const end = new Date()
+            const end = new Date();
             const start = new Date(new Date().toDateString())
             end.setTime(start.getTime())
             picker.$emit('pick', [start, end])
