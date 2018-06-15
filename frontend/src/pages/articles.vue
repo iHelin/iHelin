@@ -1,5 +1,5 @@
 <template>
-    <ul>
+    <ul v-loading="loading" style="min-height: 200px">
         <li v-for="article in articles">
             <router-link :to="'/articles/'+article.id">{{article.title}}</router-link>
         </li>
@@ -9,7 +9,8 @@
     export default {
         data() {
             return {
-                articles: []
+                articles: [],
+                loading: true
             };
         },
         mounted() {
@@ -18,6 +19,7 @@
                 pageLength: 10
             }).then(res => {
                 this.articles = res.data;
+                this.loading = false;
             }, e => {
                 console.error(e);
             });

@@ -96,13 +96,17 @@
                         username: this.loginForm.username,
                         password: this.loginForm.password
                     }).then(res => {
-                        console.log(res.data.data);
-                        const username = res.data.data.name;
-                        this.$store.dispatch('setUsername', username);
+                        this.logining = false;
                         if (res.data.status === 'success') {
-                            this.$router.push({
-                                path: '/admin'
-                            })
+                            const username = res.data.data.name;
+                            this.$store.dispatch('setUsername', username);
+                            if (res.data.status === 'success') {
+                                this.$router.push({
+                                    path: '/admin'
+                                })
+                            }
+                        } else {
+                            this.$message.error(res.data.msg);
                         }
                     })
                 }
