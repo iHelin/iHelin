@@ -30,7 +30,7 @@ Vue.http.interceptors.push((request, next) => {
             });
             // store.dispatch('setFrom', router.from);
         } else if (403 === response.status) {
-            this.$message.error('权限不足');
+            ElementUI.Message.error('权限不足');
         } else {
             ElementUI.Notification.error({
                 title: response.status + ' ' + response.statusText,

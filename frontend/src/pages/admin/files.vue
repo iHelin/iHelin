@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div  v-loading="loading">
         <el-row>
             <el-col :span="24">
                 <el-upload
@@ -35,7 +35,8 @@
             return {
                 files: [],
                 imageUrl: '',
-                prefix: 'https://resource.ianhe.me/'
+                prefix: 'https://resource.ianhe.me/',
+                loading: true
             }
         },
         mounted() {
@@ -77,6 +78,7 @@
             init() {
                 this.$http.get('/ihelin/admin/files').then(res => {
                     this.files = res.data;
+                    this.loading = false;
                 });
             },
             beforeAvatarUpload(file) {
