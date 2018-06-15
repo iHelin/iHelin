@@ -42,6 +42,27 @@ const routes = [
                     title: '编辑文章'
                 },
                 component: () => import('src/pages/admin/editArticle')
+            },
+            {
+                path: 'mappings',
+                meta: {
+                    title: 'Mappings'
+                },
+                component: () => import('src/pages/admin/mappings')
+            },
+            {
+                path: 'props',
+                meta: {
+                    title: 'Props'
+                },
+                component: () => import('src/pages/admin/props')
+            },
+            {
+                path: 'files',
+                meta: {
+                    title: '文件管理'
+                },
+                component: () => import('src/pages/admin/files')
             }
         ]
     },
@@ -80,20 +101,6 @@ const routes = [
                     title: '音乐'
                 },
                 component: () => import('src/pages/music')
-            }, {
-                path: '/test',
-                name: 'test',
-                meta: {
-                    title: 'test'
-                },
-                component: () => import('src/pages/test')
-            }, {
-                path: '/test2',
-                name: 'test2',
-                meta: {
-                    title: 'test2'
-                },
-                component: () => import('src/pages/test2')
             }, {
                 path: '/feedback',
                 name: 'feedback',

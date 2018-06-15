@@ -4,6 +4,9 @@
             <el-menu router :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
                 <el-menu-item index="/admin">首页</el-menu-item>
                 <el-menu-item index="/admin/articles">文章</el-menu-item>
+                <el-menu-item index="/admin/mappings">Mappings</el-menu-item>
+                <el-menu-item index="/admin/props">Props</el-menu-item>
+                <el-menu-item index="/admin/files">文件管理</el-menu-item>
                 <el-menu-item style="float: right;" index="">{{$store.state.username}}</el-menu-item>
             </el-menu>
         </el-header>

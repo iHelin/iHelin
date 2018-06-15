@@ -38,7 +38,7 @@
         },
         methods: {
             save() {
-                this.$resource('/ihelin/admin/article').save(this.form).then(res => {
+                this.$resource('/ihelin/admin/articles').save(this.form).then(res => {
                     if (res.data.status === 'success') {
                         this.$router.push("/admin/articles");
                     }

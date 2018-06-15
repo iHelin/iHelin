@@ -5,12 +5,14 @@
         </div>
         <el-table
                 v-loading="loading"
+                border
+                stripe
                 :data="tableData"
                 style="width: 100%">
             <el-table-column
                     prop="title"
                     showOverflowTooltip
-                    width="200"
+                    width="300"
                     label="标题">
             </el-table-column>
             <el-table-column
@@ -27,6 +29,7 @@
             <el-table-column
                     fixed="right"
                     label="操作"
+                    align="center"
                     width="100">
                 <template slot-scope="scope">
                     <!--<el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>-->
@@ -62,7 +65,7 @@
                 this.init();
             },
             handleDelete(article) {
-                this.$resource('/ihelin/admin/article/{id}').remove({
+                this.$resource('/ihelin/admin/articles/{id}').remove({
                     id: article.id
                 }).then(res => {
                     this.pageNum = 1;
@@ -80,7 +83,7 @@
                 })
             },
             init() {
-                this.$resource('/ihelin/admin/articleList').get({
+                this.$resource('/ihelin/admin/articles').get({
                     pageNum: this.pageNum,
                     pageSize: this.pageSize
                 }).then(res => {

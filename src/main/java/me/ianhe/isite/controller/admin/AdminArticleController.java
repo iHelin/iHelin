@@ -62,10 +62,10 @@ public class AdminArticleController extends BaseAdminController {
      */
     @PutMapping(value = "/{id:\\d+}")
     public Map<String, Object> editArticle(@PathVariable Integer id, Article article) {
-        if (article == null || article.getId() == null) {
+        if (article == null || id == null) {
             return error("文章不存在");
         }
-        Article newArticle = articleService.selectArticleById(article.getId());
+        Article newArticle = articleService.selectArticleById(id);
         newArticle.setTitle(HtmlUtils.htmlEscape(article.getTitle(), StandardCharsets.UTF_8.name()));
         newArticle.setSummary(HtmlUtils.htmlEscape(article.getSummary(), StandardCharsets.UTF_8.name()));
         newArticle.setContent(article.getContent());
