@@ -1,5 +1,5 @@
 <template>
-    <div v-loading="loading">
+    <div v-loading="loading" style="margin: 0 auto;padding-top: 20px;padding-bottom: 40px;width: 880px;">
         <div v-if="article">
             <h1 style="text-align: center">{{article.title}}</h1>
             <p style="text-align: center">
@@ -18,7 +18,13 @@
     export default {
         data() {
             return {
-                article: null,
+                article: {
+                    title: '',
+                    author: '',
+                    readNum: 0,
+                    updateTime: Date(),
+                    summary: ''
+                },
                 loading: true,
                 html: ''
             };
@@ -38,5 +44,39 @@
     }
 </script>
 <style>
+    pre {
+        margin-bottom: 20px;
+        padding: 15px;
+        font-size: 13px;
+        word-wrap: normal;
+        white-space: pre;
+        overflow: auto;
+        border-radius: 4px;
+        display: block;
+        color: #abb2bf;
+        background: #282c34;
+    }
+
+    code {
+        color: #c7254e;
+        border-radius: 4px;
+        padding: 2px 4px;
+        background-color: #f6f6f6;
+        border: none;
+        font-size: 12px;
+        white-space: pre-wrap;
+        vertical-align: middle;
+    }
+
+    pre code {
+        padding: 0;
+        background-color: transparent;
+        white-space: pre;
+        border: none;
+        font-size: 12px;
+        color: inherit;
+        vertical-align: middle;
+    }
+
 
 </style>
