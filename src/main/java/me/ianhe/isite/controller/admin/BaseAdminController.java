@@ -14,9 +14,4 @@ public abstract class BaseAdminController extends BaseController {
 
     private static final String NAMESPACE = "admin";
 
-    @Override
-    protected String ftl(String ftlFileName) {
-        return NAMESPACE + "/" + ftlFileName;
-    }
-
 }

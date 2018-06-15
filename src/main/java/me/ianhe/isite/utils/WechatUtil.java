@@ -68,21 +68,6 @@ public class WechatUtil {
         }
     }
 
-    /**
-     * 判断是否为number
-     *
-     * @param str
-     * @return
-     */
-    public static boolean isNumeric(String str) {
-        try {
-            Long.parseLong(str);
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
-    }
-
     private WechatUtil() {
         //工具类不允许实例化
     }

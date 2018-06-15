@@ -1,4 +1,4 @@
-package me.ianhe.isite.config;
+package me.ianhe.isite.config.security;
 
 import me.ianhe.isite.entity.Menu;
 import me.ianhe.isite.entity.Role;

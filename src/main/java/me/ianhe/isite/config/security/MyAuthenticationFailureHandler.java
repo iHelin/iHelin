@@ -1,5 +1,9 @@
-package me.ianhe.isite.config;
+package me.ianhe.isite.config.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Maps;
+import me.ianhe.isite.utils.Constant;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.AuthenticationException;
@@ -12,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 
 /**
  * @author iHelin
@@ -20,21 +25,23 @@ import java.io.PrintWriter;
 @Component
 public class MyAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @Override
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-        httpServletResponse.setContentType("application/json;charset=utf-8");
+        httpServletResponse.setContentType(Constant.CONTENT_TYPE_JSON);
         PrintWriter out = httpServletResponse.getWriter();
-        StringBuffer sb = new StringBuffer();
-        sb.append("{\"status\":\"error\",\"msg\":\"");
+        Map<String, String> res = Maps.newHashMap();
+        res.put("status", "error");
         if (e instanceof UsernameNotFoundException || e instanceof BadCredentialsException) {
-            sb.append("用户名或密码输入错误，登录失败!");
+            res.put("msg", "用户名或密码输入错误，登录失败!");
         } else if (e instanceof DisabledException) {
-            sb.append("账户被禁用，登录失败，请联系管理员!");
+            res.put("msg", "账户被禁用，登录失败，请联系管理员!");
         } else {
-            sb.append("登录失败!");
+            res.put("msg", "登录失败!");
         }
-        sb.append("\"}");
-        out.write(sb.toString());
+        out.write(objectMapper.writeValueAsString(res));
         out.flush();
         out.close();
     }

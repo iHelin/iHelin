@@ -71,8 +71,8 @@ public class RequestUtil {
         String data = null;
         try {
             data = IOUtils.toString(request.getInputStream(), StandardCharsets.UTF_8);
-        } catch (IOException e1) {
-            logger.info("getInputStream throw IOException: " + e1.getMessage() + ", request's complete url: "
+        } catch (IOException e) {
+            logger.info("getInputStream throw IOException: " + e.getMessage() + ", request's complete url: "
                     + getCompleteRequestURL(request));
         }
         return data;

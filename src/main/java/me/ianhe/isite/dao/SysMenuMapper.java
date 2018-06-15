@@ -7,10 +7,11 @@ import java.util.List;
 /**
  * Created by sang on 2017/12/28.
  */
-public interface MenuMapper {
+public interface SysMenuMapper {
+
     List<Menu> getAllMenu();
 
-    List<Menu> getMenusByHrId(Long hrId);
+    List<Menu> getMenusByUserId(Long uid);
 
     List<Menu> menuTree();
 

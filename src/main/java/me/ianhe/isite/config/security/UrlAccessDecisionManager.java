@@ -1,4 +1,4 @@
-package me.ianhe.isite.config;
+package me.ianhe.isite.config.security;
 
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;

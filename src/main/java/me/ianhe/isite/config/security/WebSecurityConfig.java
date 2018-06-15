@@ -1,4 +1,4 @@
-package me.ianhe.isite.config;
+package me.ianhe.isite.config.security;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.code.kaptcha.util.Config;
@@ -41,6 +41,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private UrlFilterInvocationSecurityMetadataSource urlFilterInvocationSecurityMetadataSource;
     @Autowired
     private UrlAccessDecisionManager urlAccessDecisionManager;
+    @Autowired
+    private MyAuthenticationEntryPoint myAuthenticationEntryPoint;
 
     @Bean
     public DefaultKaptcha defaultKaptcha() {
@@ -68,10 +70,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/admin/**").authenticated()
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override
-                    public <O extends FilterSecurityInterceptor> O postProcess(O o) {
-                        o.setSecurityMetadataSource(urlFilterInvocationSecurityMetadataSource);
-                        o.setAccessDecisionManager(urlAccessDecisionManager);
-                        return o;
+                    public FilterSecurityInterceptor postProcess(FilterSecurityInterceptor interceptor) {
+                        interceptor.setSecurityMetadataSource(urlFilterInvocationSecurityMetadataSource);
+                        interceptor.setAccessDecisionManager(urlAccessDecisionManager);
+                        return interceptor;
                     }
                 })
                 .and().formLogin().loginPage(Constant.LOGIN_PAGE).loginProcessingUrl("/login").permitAll()
@@ -81,7 +83,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .exceptionHandling()
-                .authenticationEntryPoint(new MyAuthenticationEntryPoint())
+                .authenticationEntryPoint(myAuthenticationEntryPoint)
                 .accessDeniedHandler(accessDeniedHandler);
     }
 

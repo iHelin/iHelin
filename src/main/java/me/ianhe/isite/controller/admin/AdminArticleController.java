@@ -16,6 +16,7 @@ import java.util.Map;
  * @since 2017/8/28 13:26
  */
 @RestController
+@RequestMapping("/admin/articles")
 public class AdminArticleController extends BaseAdminController {
 
     /**
@@ -24,7 +25,7 @@ public class AdminArticleController extends BaseAdminController {
      * @author iHelin
      * @since 2017/8/28 13:26
      */
-    @PostMapping("article")
+    @PostMapping
     public Map<String, Object> addArticle(Article article) {
         articleService.addArticle(article);
         return success();
@@ -36,8 +37,8 @@ public class AdminArticleController extends BaseAdminController {
      * @author iHelin
      * @since 2017/12/21 10:02
      */
-    @GetMapping("articleList")
-    public Pagination getArticles(Integer pageNum, Integer pageSize) {
+    @GetMapping
+    public Pagination getArticles(@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "10") Integer pageSize) {
         return articleService.findByPage(null, pageNum, pageSize);
     }
 
@@ -47,7 +48,7 @@ public class AdminArticleController extends BaseAdminController {
      * @param id 文章id
      * @return
      */
-    @GetMapping("/articles/{id:\\d+}")
+    @GetMapping("/{id:\\d+}")
     public Article getArticle(@PathVariable Integer id) {
         Assert.notNull(id, "Article id can not be null.");
         return articleService.selectArticleById(id);
@@ -59,8 +60,8 @@ public class AdminArticleController extends BaseAdminController {
      * @author iHelin
      * @since 2017/8/28 13:28
      */
-    @PutMapping(value = "article")
-    public Map<String, Object> editArticle(Article article) {
+    @PutMapping(value = "/{id:\\d+}")
+    public Map<String, Object> editArticle(@PathVariable Integer id, Article article) {
         if (article == null || article.getId() == null) {
             return error("文章不存在");
         }
@@ -78,9 +79,9 @@ public class AdminArticleController extends BaseAdminController {
      * @author iHelin
      * @since 2017/8/28 13:29
      */
-    @DeleteMapping(value = "article/{articleId}")
-    public Map<String, Object> deleteProduct(@PathVariable Integer articleId) {
-        articleService.deleteById(articleId);
+    @DeleteMapping("/{id:\\d+}")
+    public Map<String, Object> deleteProduct(@PathVariable Integer id) {
+        articleService.deleteById(id);
         return success();
     }
 

@@ -1,10 +1,7 @@
 package me.ianhe.isite.controller.admin;
 
 import com.qiniu.storage.model.FileInfo;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -20,6 +17,7 @@ import java.util.UUID;
  * @since 2017/10/17 15:29
  */
 @RestController
+@RequestMapping("/admin/files")
 public class AdminFileController extends BaseAdminController {
 
     /**
@@ -28,7 +26,7 @@ public class AdminFileController extends BaseAdminController {
      * @param file 待上传的文件
      * @return
      */
-    @PostMapping("upload")
+    @PostMapping("/upload")
     public Map<String, Object> handleUpload(MultipartFile file) {
         if (file.isEmpty()) {
             return error("请选择文件...");
@@ -42,7 +40,7 @@ public class AdminFileController extends BaseAdminController {
         return success(fileService.uploadFile("admin/image/" + UUID.randomUUID().toString(), inputStream));
     }
 
-    @GetMapping("files")
+    @GetMapping
     public List<FileInfo> getFileInfoList() {
         return fileService.getFileInfoList("", "");
     }
@@ -53,7 +51,7 @@ public class AdminFileController extends BaseAdminController {
      * @author iHelin
      * @since 2017/11/13 23:08
      */
-    @DeleteMapping("files")
+    @DeleteMapping
     public Map<String, Object> deleteFile(String key) {
         fileService.deleteFile(key);
         return success();

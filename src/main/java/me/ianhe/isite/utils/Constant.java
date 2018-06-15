@@ -7,4 +7,6 @@ package me.ianhe.isite.utils;
 public class Constant {
 
     public static final String LOGIN_PAGE = "/login_p";
+
+    public static final String CONTENT_TYPE_JSON = "application/json; charset=UTF-8";
 }

@@ -1,8 +1,8 @@
 package me.ianhe.isite.service;
 
-import me.ianhe.isite.dao.UserMapper;
+import me.ianhe.isite.dao.SysUserMapper;
 import me.ianhe.isite.entity.User;
-import me.ianhe.isite.utils.SecurityUtils;
+import me.ianhe.isite.utils.SystemUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,7 +21,7 @@ import java.util.List;
 public class UserService implements UserDetailsService {
 
     @Autowired
-    private UserMapper userMapper;
+    private SysUserMapper userMapper;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
@@ -42,32 +42,32 @@ public class UserService implements UserDetailsService {
         return userMapper.hrReg(username, encode);
     }
 
-    public List<User> getHrsByKeywords(String keywords) {
-        return userMapper.getHrsByKeywords(keywords);
+    public List<User> getUsersByKeywords(String keywords) {
+        return userMapper.getUsersByKeywords(keywords);
     }
 
-    public int updateHr(User hr) {
-        return userMapper.updateHr(hr);
+    public int updateUser(User user) {
+        return userMapper.updateUser(user);
     }
 
-    public int updateHrRoles(Long hrId, Long[] rids) {
-        int i = userMapper.deleteRoleByHrId(hrId);
-        return userMapper.addRolesForHr(hrId, rids);
+    public int updateUserRoles(Long uid, Long[] rids) {
+        int i = userMapper.deleteRoleByUserId(uid);
+        return userMapper.addRolesForUser(uid, rids);
     }
 
-    public User getHrById(Long hrId) {
-        return userMapper.getHrById(hrId);
+    public User getUserById(Long uid) {
+        return userMapper.getUserById(uid);
     }
 
-    public int deleteHr(Long hrId) {
-        return userMapper.deleteHr(hrId);
+    public int deleteUser(Long uid) {
+        return userMapper.deleteUser(uid);
     }
 
-    public List<User> getAllHrExceptAdmin() {
-        return userMapper.getAllHr(SecurityUtils.getCurrentHr().getId());
+    public List<User> getAllUserExceptAdmin() {
+        return userMapper.getAllUser(SystemUtils.getCurrentUser().getId());
     }
 
-    public List<User> getAllHr() {
-        return userMapper.getAllHr(null);
+    public List<User> getAllUser() {
+        return userMapper.getAllUser(null);
     }
 }

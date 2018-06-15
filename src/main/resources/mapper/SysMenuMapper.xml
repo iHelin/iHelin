@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="me.ianhe.isite.dao.MenuMapper">
+<mapper namespace="me.ianhe.isite.dao.SysMenuMapper">
     <resultMap id="BaseResultMap" type="me.ianhe.isite.entity.Menu">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="url" property="url" jdbcType="VARCHAR"/>
@@ -39,16 +39,17 @@
     </resultMap>
     <select id="getAllMenu" resultMap="BaseResultMap">
         select
-            m.*,
-            r.`id`     as rid,
-            r.`name`   as rname,
-            r.`nameZh` as rnamezh
-        from t_menu m left join t_menu_role mr on m.`id` = mr.`mid`
-            left join t_role r on mr.`rid` = r.`id`
-        WHERE m.`enabled` = true
-        order by m.`id` desc
+            t_menu.*,
+            t_role.`id`     as rid,
+            t_role.`name`   as rname,
+            t_role.`nameZh` as rnamezh
+        from t_menu
+            left join t_menu_role on t_menu.`id` = t_menu_role.`mid`
+            left join t_role on t_menu_role.`rid` = t_role.`id`
+        WHERE t_menu.`enabled` = true
+        order by t_menu.`id` desc
     </select>
-    <select id="getMenusByHrId" parameterType="Long" resultMap="BaseResultMap">
+    <select id="getMenusByUserId" parameterType="Long" resultMap="BaseResultMap">
         select
             m1.`id`,
             m1.`path`,
@@ -64,9 +65,9 @@
             m2.`requireAuth` as requireAuth2
         from t_menu m1, t_menu m2
         where m1.`id` = m2.`parentId` and m1.`id` != 1 and m2.`id` in (select mr.`mid`
-                                                                       from t_user_role h_r, t_menu_role mr
-                                                                       where h_r.`rid` = mr.`rid` and
-                                                                             h_r.`hrid` = #{hrId}) and
+                                                                       from t_user_role, t_menu_role mr
+                                                                       where t_user_role.`rid` = mr.`rid` and
+                                                                             t_user_role.`uid` = #{uid}) and
               m2.`enabled` = true
         order by m1.`id`, m2.`id`
     </select>

@@ -4,13 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.common.collect.Maps;
 import me.ianhe.isite.dao.CommonRedisDao;
-import me.ianhe.isite.model.Pagination;
 import me.ianhe.isite.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -49,11 +47,12 @@ public abstract class BaseController {
     /**
      * 默认分页大小
      */
-    protected static final String DEFAULT_PAGE_LENGTH = "10";
+    static final String DEFAULT_PAGE_LENGTH = "10";
     private static final String SUCCESS = "success";
     private static final String ERROR = "error";
     private static final String STATUS = "status";
     private static final String DATA = "data";
+    private static final String MESSAGE = "msg";
 
     protected Map<String, Object> success() {
         Map<String, Object> res = Maps.newHashMap();
@@ -61,20 +60,10 @@ public abstract class BaseController {
         return res;
     }
 
-    /**
-     * 分页
-     *
-     * @author iHelin
-     * @since 2017/12/19 15:07
-     */
-    protected Pagination page(Collection data, int totalCount, int currentPage, int pageLength) {
-        return new Pagination(data, totalCount, currentPage, pageLength);
-    }
-
-    protected Map<String, Object> success(Object model) {
+    protected Map<String, Object> success(Object data) {
         Map<String, Object> res = Maps.newHashMap();
         res.put(STATUS, SUCCESS);
-        res.put(DATA, model);
+        res.put(DATA, data);
         return res;
     }
 
@@ -87,12 +76,8 @@ public abstract class BaseController {
     protected Map<String, Object> error(Object model) {
         Map<String, Object> res = Maps.newHashMap();
         res.put(STATUS, ERROR);
-        res.put(DATA, model);
+        res.put(MESSAGE, model);
         return res;
-    }
-
-    protected String ftl(String ftlFileName) {
-        return ftlFileName;
     }
 
 }
