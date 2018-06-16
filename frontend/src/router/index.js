@@ -108,6 +108,13 @@ const routes = [
                     title: '反馈'
                 },
                 component: () => import('src/pages/feedback')
+            },{
+                path: '/test',
+                name: 'test',
+                meta: {
+                    title: 'test'
+                },
+                component: () => import('src/pages/test')
             }, {
                 path: '*',
                 name: '404',
