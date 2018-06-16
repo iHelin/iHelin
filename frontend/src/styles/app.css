@@ -40,3 +40,6 @@ img {
     color: inherit;
     vertical-align: middle;
 }
+.el-rate__icon {
+    vertical-align: middle;
+}

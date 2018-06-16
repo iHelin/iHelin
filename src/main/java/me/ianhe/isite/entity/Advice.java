@@ -9,6 +9,8 @@ public class Advice {
 
     private String phone;
 
+    private Integer grade;
+
     private String email;
 
     private String message;
@@ -29,6 +31,14 @@ public class Advice {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Integer grade) {
+        this.grade = grade;
     }
 
     public String getPhone() {
