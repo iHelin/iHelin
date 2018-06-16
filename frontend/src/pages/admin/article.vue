@@ -83,6 +83,7 @@
                 })
             },
             init() {
+                this.loading = true;
                 this.$resource('/ihelin/admin/articles').get({
                     pageNum: this.pageNum,
                     pageSize: this.pageSize

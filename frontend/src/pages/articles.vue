@@ -16,7 +16,7 @@
         mounted() {
             this.$resource('/ihelin/articles').get({
                 pageNum: 1,
-                pageLength: 10
+                pageLength: 1000
             }).then(res => {
                 this.articles = res.data;
                 this.loading = false;
