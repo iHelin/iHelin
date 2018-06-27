@@ -8,7 +8,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import 'simplemde/dist/simplemde.min.css';
 // import 'src/styles/element-variables.scss';
 import 'src/styles/app.css';
-import {formatTime} from 'src/components/index';
+import {formatTime, parseTime} from 'src/components/index';
 
 import Vuelidate from 'vuelidate';
 
@@ -18,6 +18,7 @@ Vue.use(Vuelidate);
 
 Vue.config.productionTip = false;
 
+Vue.prototype.$parseTime = parseTime;
 Vue.use(ElementUI);
 Vue.use(VueResource);
 

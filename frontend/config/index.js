@@ -13,9 +13,18 @@ module.exports = {
             '/ihelin/': {
                 logLevel: 'warn',
                 target: 'http://localhost:8888/',
+                // target: 'http://112.74.203.110:8888/',
                 changeOrigin: true,
                 pathRewrite: {
                     '^/ihelin/': '/'
+                }
+            },
+            '/eat/': {
+                logLevel: 'warn',
+                target: 'https://dev.fluttercn.com/',
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/eat/': '/'
                 }
             },
         },

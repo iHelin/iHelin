@@ -115,6 +115,13 @@ const routes = [
                     title: 'test'
                 },
                 component: () => import('src/pages/test')
+            },{
+                path: '/eat',
+                name: 'eat',
+                meta: {
+                    title: 'Eating'
+                },
+                component: () => import('src/pages/eat')
             }, {
                 path: '*',
                 name: '404',
