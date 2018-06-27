@@ -1,7 +1,6 @@
 package me.ianhe.isite.controller;
 
 import com.google.common.collect.Lists;
-import me.ianhe.isite.utils.Constant;
 import me.ianhe.isite.utils.JsonUtil;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
@@ -12,8 +11,10 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -38,10 +39,10 @@ public class TestController extends BaseController {
         return success();
     }
 
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @GetMapping(Constant.LOGIN_PAGE)
+    @GetMapping("/eat")
     public Map<String, Object> login() {
-        return success("请登录!");
+        taskService.runEveryDay11();
+        return success();
     }
 
     @GetMapping("bus")

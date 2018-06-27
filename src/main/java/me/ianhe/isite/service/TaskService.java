@@ -20,7 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +46,8 @@ public class TaskService {
 
     @Autowired
     private CommonRedisDao commonRedisDao;
+    @Autowired
+    private EmailService emailService;
 
     /**
      * 工作日18点执行
@@ -87,6 +91,45 @@ public class TaskService {
     @Scheduled(cron = "0 0 7 * * *")
     public void runEveryDay7() {
         dailyEnglish();
+    }
+
+    /**
+     * 每天11点执行
+     *
+     * @author iHelin
+     * @since 2018/1/10 09:07
+     */
+    @Scheduled(cron = "0 0 11 * * *")
+    public void runEveryDay11() {
+        String dataStr = WechatUtil.doGetStr("https://dev.fluttercn.com/now-eat/menu-0620.json");
+        Map<String, Object> map = JsonUtil.parseMap(dataStr);
+        List<String> workDate = (List<String>) map.get("workDate");
+        String currentDateStr = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
+        for (int currentIndex = 0; currentIndex < workDate.size(); currentIndex++) {
+            if (currentDateStr.equals(workDate.get(currentIndex))) {
+                Map<String, Object> nooning = (Map<String, Object>) map.get("nooning");
+                nooning.put("currentIndex", currentIndex);
+                List<Map> a22f = (List<Map>) nooning.get("a22f");
+                for (Map anA22f : a22f) {
+                    String foodType = (String) anA22f.get("key");
+                    List<String> foodList = (List<String>) anA22f.get("value");
+                    String foodName = foodList.get(currentIndex);
+                    String secondFoodName = foodList.size() > 5 ? foodList.get(currentIndex + 5) : "";
+                    System.out.println(foodType.replaceAll("&ensp;", "")
+                            .replaceAll("&emsp;", "") + ":" + foodName + "/" + secondFoodName);
+                }
+                List<Map> timeplan = (List<Map>) map.get("timeplan");
+                String mealTime = "";
+                for (Map tp : timeplan) {
+                    if (((String) tp.get("key")).contains("B")) {
+                        mealTime = (String) tp.get("value");
+                    }
+                }
+                nooning.put("mealTime", mealTime);
+                emailService.sendTemplateMail("linhe2@iflytek.com", "今日菜单", "iflytekFood.ftl", nooning);
+            }
+        }
+
     }
 
     /**

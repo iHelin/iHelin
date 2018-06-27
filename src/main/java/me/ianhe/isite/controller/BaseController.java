@@ -41,6 +41,8 @@ public abstract class BaseController {
     protected DefaultKaptcha defaultKaptcha;
     @Autowired
     protected AsyncService asyncService;
+    @Autowired
+    protected TaskService taskService;
 
     protected Logger logger = LoggerFactory.getLogger(getClass());
 

@@ -70,7 +70,7 @@ public class JsonUtil {
 
     public static Map<String, Object> parseMap(String json) {
         try {
-            return OBJECT_MAPPER.readValue(json, Map.class);
+            return OBJECT_MAPPER.readValue(json, HashMap.class);
         } catch (IOException e) {
             LOGGER.error("解析map异常：", e);
             return null;
