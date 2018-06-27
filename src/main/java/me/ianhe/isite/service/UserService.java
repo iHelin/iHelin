@@ -27,7 +27,7 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = userMapper.loadUserByUsername(s);
         if (user == null) {
-            throw new UsernameNotFoundException("用户名不对");
+            throw new UsernameNotFoundException("用户名不存在");
         }
         return user;
     }
