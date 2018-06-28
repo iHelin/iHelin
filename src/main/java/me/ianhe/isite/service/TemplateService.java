@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 
 import java.io.File;
 import java.io.StringWriter;
@@ -41,8 +40,7 @@ public class TemplateService {
         }
         Configuration config = new Configuration(Configuration.VERSION_2_3_23);
         try {
-            File dir = new File(ResourceUtils.getURL("classpath:").getPath(),
-                    tpl + File.separator + "email");
+            File dir = new File(this.getClass().getClassLoader().getResource(tpl + File.separator + "email").getFile());
             config.setDirectoryForTemplateLoading(dir);
             Template template = config.getTemplate(templateName, StandardCharsets.UTF_8.name());
             StringWriter writer = new StringWriter();
