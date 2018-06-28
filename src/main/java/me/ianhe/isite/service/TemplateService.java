@@ -36,7 +36,9 @@ public class TemplateService {
     }
 
     public String applyTemplate(String templateName, Map<String, Object> propMap) {
-        propMap.put("contextPath", RequestUtil.getRequest().getContextPath());
+        if (RequestUtil.getRequest().isPresent()) {
+            propMap.put("contextPath", RequestUtil.getRequest().get().getContextPath());
+        }
         Configuration config = new Configuration(Configuration.VERSION_2_3_23);
         try {
             File dir = new File(ResourceUtils.getURL("classpath:").getPath(),
