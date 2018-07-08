@@ -8,12 +8,15 @@ import me.ianhe.isite.service.JmsProducerService;
 import me.ianhe.isite.service.ScoreService;
 import me.ianhe.isite.service.TemplateService;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import javax.jms.Destination;
 import java.util.Map;
@@ -25,6 +28,7 @@ import java.util.Map;
  * @since 2017/5/31 16:51
  */
 @Aspect
+@Component
 public class ScoreAfterAspect {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -51,7 +55,7 @@ public class ScoreAfterAspect {
      * @author iHelin
      * @since 2017/6/1 10:35
      */
-    @AfterReturning(value = "execution(* addRecord(..))")
+    @AfterReturning("execution(* addRecord(..))")
     public void afterAddScore(JoinPoint joinPoint) {
         MyScore myScore = (MyScore) joinPoint.getArgs()[0];
         long total = scoreService.getMyTotalScore();
@@ -73,6 +77,14 @@ public class ScoreAfterAspect {
         String title = "加分提醒:今天加了" + myScore.getScore() + "分";
         MailModel email = new MailModel("ahaqhelin@163.com;1018954240@qq.com", "葫芦娃", title, mailContent);
         producerService.sendMessage(destination, email);
+    }
+
+    @Around("execution( * me.ianhe.isite.controller.TestController.*(..))")
+    public Object handleControllerMethod(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+        logger.debug("around start...");
+        Object proceed = proceedingJoinPoint.proceed();
+        logger.debug("around end...");
+        return proceed;
     }
 
 }

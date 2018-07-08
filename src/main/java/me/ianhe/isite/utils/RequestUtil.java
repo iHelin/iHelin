@@ -29,23 +29,21 @@ public class RequestUtil {
         try {
             currentRequest = Optional.of(((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest());
         } catch (IllegalStateException e) {
-            logger.warn("Can not get currentRequest,e:{}", e);
+            logger.warn("Can not get currentRequest", e);
         }
         return currentRequest;
     }
 
     public static String getDomain(HttpServletRequest request) {
-        StringBuilder sb = new StringBuilder(256);
-        sb.append(request.getServerName());
-        return sb.toString();
+        return request.getServerName();
     }
 
     public static String getCompleteRequestURL(HttpServletRequest request) {
-        return getCompleteRequestURL(request, (String) null);
+        return getCompleteRequestURL(request, null);
     }
 
     public static String getCompleteRequestURL(HttpServletRequest request, String rmParam) {
-        Assert.notNull(request, "请求不能为null");
+        Assert.notNull(request, "the request must not be null.");
         StringBuilder sb = new StringBuilder(256);
         sb.append(request.getScheme()).append("://").append(request.getServerName())
                 .append(':').append(request.getServerPort()).append(request.getContextPath())
@@ -69,7 +67,6 @@ public class RequestUtil {
         if (request == null) {
             return null;
         }
-
         String data = null;
         try {
             data = IOUtils.toString(request.getInputStream(), StandardCharsets.UTF_8);

@@ -40,12 +40,18 @@ public class TestController extends BaseController {
     }
 
     @GetMapping("/eat")
-    public Map<String, Object> login() {
+    public Map<String, Object> eat() {
         taskService.runEveryDay11();
         return success();
     }
 
-    @GetMapping("bus")
+    @GetMapping("/ttt")
+    public String test(){
+        logger.debug("hhhhhh");
+        return "hhhh";
+    }
+
+    @GetMapping("/bus")
     public Set<String> bus(String patten) {
         if (patten == null) {
             patten = "";
@@ -53,7 +59,7 @@ public class TestController extends BaseController {
         return commonRedisDao.keys(BUS_PREFIX + patten + "*");
     }
 
-    @GetMapping("bus/time")
+    @GetMapping("/bus/time")
     public List<HashMap> busTime(String busname) throws IOException {
         String id = commonRedisDao.get(BUS_PREFIX + busname);
         String text = getText(id, "17", true);
