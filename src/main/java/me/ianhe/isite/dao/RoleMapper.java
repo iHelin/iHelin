@@ -6,7 +6,8 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * Created by sang on 2018/1/1.
+ * @author iHelin
+ * @since 2017/11/27 20:42
  */
 public interface RoleMapper {
 

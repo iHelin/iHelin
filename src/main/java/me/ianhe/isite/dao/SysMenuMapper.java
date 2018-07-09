@@ -5,7 +5,8 @@ import me.ianhe.isite.entity.Menu;
 import java.util.List;
 
 /**
- * Created by sang on 2017/12/28.
+ * @author iHelin
+ * @since 2017/11/27 20:42
  */
 public interface SysMenuMapper {
 

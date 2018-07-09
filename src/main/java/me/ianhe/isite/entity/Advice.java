@@ -2,6 +2,12 @@ package me.ianhe.isite.entity;
 
 import java.util.Date;
 
+/**
+ * 建议
+ *
+ * @author linhe2
+ * @since 2018/7/9 12:37
+ */
 public class Advice {
     private Integer id;
 

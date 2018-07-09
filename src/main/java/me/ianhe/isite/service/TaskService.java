@@ -202,7 +202,8 @@ public class TaskService {
         link.setMessageURL(subjectList.get(0).getUrl());
         link.setPicURL(subjectList.get(0).getCover());
         links.add(link);
-        for (int i = 1; i < 5; i++) {
+        int maxSize = 5;
+        for (int i = 1; i < maxSize; i++) {
             link = new Link();
             link.setTitle(subjectList.get(i).getTitle());
             link.setMessageURL(subjectList.get(i).getUrl());

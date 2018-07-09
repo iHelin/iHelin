@@ -10,10 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * Created by sang on 2017/12/28.
+ * @author iHelin
+ * @since 2017/11/27 20:42
  */
 @Service
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class MenuService {
 
     @Autowired

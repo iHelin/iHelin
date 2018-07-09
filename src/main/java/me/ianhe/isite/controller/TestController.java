@@ -11,11 +11,9 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -46,8 +44,8 @@ public class TestController extends BaseController {
     }
 
     @GetMapping("/ttt")
-    public String test(){
-        logger.debug("hhhhhh");
+    public String test(@RequestHeader("User-Agent") String userAgent, HttpServletRequest request){
+        logger.debug(userAgent);
         return "hhhh";
     }
 

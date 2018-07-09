@@ -5,6 +5,12 @@ import org.apache.ibatis.session.RowBounds;
 
 import java.util.List;
 
+/**
+ * MyScoreMapper
+ *
+ * @author linhe2
+ * @since 2018/7/9 12:38
+ */
 public interface MyScoreMapper {
     int deleteByPrimaryKey(Integer id);
 

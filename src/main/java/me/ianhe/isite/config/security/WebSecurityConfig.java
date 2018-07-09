@@ -2,7 +2,7 @@ package me.ianhe.isite.config.security;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.code.kaptcha.util.Config;
-import me.ianhe.isite.service.UserService;
+import me.ianhe.isite.service.UserDetailsServiceImpl;
 import me.ianhe.isite.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -30,7 +30,7 @@ import java.util.Properties;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UserService userService;
+    private UserDetailsServiceImpl userService;
     @Autowired
     private AccessDeniedHandler accessDeniedHandler;
     @Autowired
@@ -67,7 +67,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-//                .antMatchers("/admin/**").authenticated()
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override
                     public FilterSecurityInterceptor postProcess(FilterSecurityInterceptor interceptor) {
