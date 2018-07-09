@@ -98,7 +98,7 @@
                     }).then(res => {
                         this.logining = false;
                         if (res.data.status === 'success') {
-                            const username = res.data.data.name;
+                            const username = res.data.data.principal.name;
                             this.$store.dispatch('setUsername', username);
                             if (res.data.status === 'success') {
                                 this.$router.push({
