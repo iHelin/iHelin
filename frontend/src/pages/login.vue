@@ -33,7 +33,7 @@
                                 class="el-input__inner">
                     </div>
                 </el-form-item>
-                <!--<el-form-item>
+                <el-form-item>
                     <el-row type="flex" justify="space-between">
                         <el-col :span="12">
                             <img :src="kaptchaSrc"
@@ -41,7 +41,7 @@
                                  @click="changeKaptcha">
                         </el-col>
                         <el-col :span="11">
-                            <div class="el-input el-input&#45;&#45;prefix" required="required" style="width: 100%;">
+                            <div class="el-input el-input--prefix" required="required" style="width: 100%;">
                                 <input
                                         autocomplete="off"
                                         required
@@ -59,7 +59,7 @@
                             </div>
                         </el-col>
                     </el-row>
-                </el-form-item>-->
+                </el-form-item>
                 <el-form-item>
                     <el-button
                             type="primary"
@@ -94,7 +94,8 @@
                     this.logining = true;
                     this.$resource('/ihelin/login').save({
                         username: this.loginForm.username,
-                        password: this.loginForm.password
+                        password: this.loginForm.password,
+                        captcha: this.loginForm.captcha
                     }).then(res => {
                         this.logining = false;
                         if (res.data.status === 'success') {
@@ -108,6 +109,9 @@
                         } else {
                             this.$message.error(res.data.msg);
                         }
+                    }, e => {
+                        this.logining = false;
+                        this.$message.error(e.data.msg);
                     })
                 }
             },

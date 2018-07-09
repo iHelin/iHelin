@@ -18,6 +18,7 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.Properties;
 
@@ -66,7 +67,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        CaptchaFilter captchaFilter = new CaptchaFilter();
+        captchaFilter.setAuthenticationFailureHandler(authenticationFailureHandler);
+        http.addFilterBefore(captchaFilter, UsernamePasswordAuthenticationFilter.class)
+                .authorizeRequests()
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override
                     public FilterSecurityInterceptor postProcess(FilterSecurityInterceptor interceptor) {

@@ -2,6 +2,7 @@ package me.ianhe.isite.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
+import me.ianhe.isite.exception.CaptchaException;
 import me.ianhe.isite.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -40,6 +41,9 @@ public class MyAuthenticationFailureHandler implements AuthenticationFailureHand
             res.put("msg", "用户名或密码输入错误，登录失败!");
         } else if (e instanceof DisabledException) {
             res.put("msg", "账户被禁用，登录失败，请联系管理员!");
+        } else if (e instanceof CaptchaException) {
+            httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            res.put("msg", e.getMessage());
         } else {
             res.put("msg", e.getMessage());
         }

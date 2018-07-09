@@ -26,10 +26,10 @@ public class MyAccessDeniedHandler implements AccessDeniedHandler {
     private ObjectMapper objectMapper;
 
     @Override
-    public void handle(HttpServletRequest httpServletRequest, HttpServletResponse resp, AccessDeniedException e) throws IOException, ServletException {
-        resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        resp.setContentType(Constant.CONTENT_TYPE_JSON);
-        PrintWriter out = resp.getWriter();
+    public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) throws IOException, ServletException {
+        httpServletResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        httpServletResponse.setContentType(Constant.CONTENT_TYPE_JSON);
+        PrintWriter out = httpServletResponse.getWriter();
         Map<String, String> res = Maps.newHashMap();
         res.put("status", "error");
         res.put("msg", "权限不足，请联系管理员!");
