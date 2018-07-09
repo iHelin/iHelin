@@ -36,7 +36,7 @@
                 <el-form-item>
                     <el-row type="flex" justify="space-between">
                         <el-col :span="12">
-                            <img :src="kaptchaSrc"
+                            <img :src="'/ihelin/kaptcha?t='+t"
                                  style="width: 100%;"
                                  @click="changeKaptcha">
                         </el-col>
@@ -85,7 +85,7 @@
                     captcha: ''
                 },
                 display: false,
-                kaptchaSrc: '/ihelin/kaptcha'
+                t: new Date().getTime()
             };
         },
         methods: {
@@ -116,7 +116,7 @@
                 }
             },
             changeKaptcha() {
-                this.kaptchaSrc = '/ihelin/kaptcha?t=' + Math.random();
+                this.t = new Date().getTime();
             }
         }
     }
