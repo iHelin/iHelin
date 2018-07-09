@@ -15,7 +15,7 @@
                 <el-menu-item index="/admin/mappings">Mappings</el-menu-item>
                 <el-menu-item index="/admin/props">Props</el-menu-item>
                 <el-menu-item index="/admin/files">文件管理</el-menu-item>
-                <el-menu-item style="float: right;" index="">{{$store.state.username}}</el-menu-item>
+                <el-menu-item style="float: right;" @click="handleLogout" index="">{{$store.state.username}}</el-menu-item>
             </el-menu>
         </el-header>
         <el-main>
@@ -37,6 +37,11 @@
             }
         },
         methods: {
+            handleLogout(){
+              this.$resource('/ihelin/logout').save().then(res=>{
+                  // console.log(res);
+              })
+            },
             handleSelect(key, keyPath) {
             }
         }
