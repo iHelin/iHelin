@@ -53,9 +53,9 @@ public class CommonController extends BaseController {
         response.setDateHeader("Expires", 0);
         response.setContentType("image/jpeg");
         String code = defaultKaptcha.createText();
-        logger.info("图形验证码为：{}", code);
+        logger.debug("图形验证码为：{}", code);
         BufferedImage image = defaultKaptcha.createImage(code);
-        CaptchaCode captchaCode = new CaptchaCode(image, code, 10L);
+        CaptchaCode captchaCode = new CaptchaCode(image, code, 300L);
         session.setAttribute(CAPTCHA_CODE_KEY, captchaCode);
         ImageIO.write(image, "JPEG", response.getOutputStream());
     }
