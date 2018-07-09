@@ -61,7 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/index.html", "/static/**", Constant.LOGIN_PAGE);
+//        web.ignoring().antMatchers("/index.html", "/static/**", Constant.LOGIN_PAGE);
     }
 
     @Override

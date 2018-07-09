@@ -4,6 +4,7 @@ import me.ianhe.isite.dao.SysMenuMapper;
 import me.ianhe.isite.entity.Menu;
 import me.ianhe.isite.utils.SystemUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,7 @@ public class MenuService {
     @Autowired
     private SysMenuMapper menuMapper;
 
+    @Cacheable(cacheNames="Menu")
     public List<Menu> getAllMenu() {
         return menuMapper.getAllMenu();
     }

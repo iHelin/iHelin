@@ -3,13 +3,16 @@ package me.ianhe.isite.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * @author iHelin
  * @since 2018/6/5 14:07
  */
-public class Menu {
+public class Menu implements Serializable {
+
+    private static final long serialVersionUID = -4236865976255409200L;
 
     private Long id;
     private String url;
