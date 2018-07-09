@@ -1,5 +1,6 @@
 package me.ianhe.isite.config.security;
 
+import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.code.kaptcha.util.Config;
 import me.ianhe.isite.service.UserDetailsServiceImpl;
@@ -49,7 +50,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public DefaultKaptcha defaultKaptcha() {
         DefaultKaptcha defaultKaptcha = new DefaultKaptcha();
         Properties properties = new Properties();
-        properties.setProperty("kaptcha.textproducer.char.length", "4");
+        properties.setProperty(Constants.KAPTCHA_TEXTPRODUCER_CHAR_LENGTH, "4");
+        properties.setProperty(Constants.KAPTCHA_TEXTPRODUCER_FONT_NAMES, "Times New Roma");
         Config config = new Config(properties);
         defaultKaptcha.setConfig(config);
         return defaultKaptcha;
