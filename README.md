@@ -1,15 +1,13 @@
 # [Ian He](https://www.ianhe.me)
 
-## 前言
-`iHelin`
-
 
 ## 项目简介
+`iHelin`
 
-#### 后端技术
+#### 后端
 - Spring Boot
 
-#### 前端技术
+#### 前端
 - Vue
 
 ## Copyright and license
