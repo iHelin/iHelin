@@ -16,6 +16,8 @@ import java.io.PrintWriter;
 import java.util.Map;
 
 /**
+ * MyAccessDeniedHandler
+ *
  * @author iHelin
  * @since 2018/6/6 08:39
  */

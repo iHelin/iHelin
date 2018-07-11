@@ -18,8 +18,8 @@ import java.util.Properties;
  * @author iHelin
  * @since 2017/11/10 14:58
  */
-@Intercepts({@Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class,
-        RowBounds.class, ResultHandler.class})})
+@Intercepts({@Signature(type = Executor.class, method = "query",
+        args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class})})
 public class PaginationInterceptor implements Interceptor {
 
     private static final int MAPPED_STATEMENT_INDEX = 0;

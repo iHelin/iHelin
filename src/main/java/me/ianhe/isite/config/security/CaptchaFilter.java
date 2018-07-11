@@ -17,14 +17,15 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
+ * CaptchaFilter
+ *
  * @author iHelin
  * @since 2018/7/9 21:51
  */
 public class CaptchaFilter extends OncePerRequestFilter {
 
     private AuthenticationFailureHandler authenticationFailureHandler;
-    public static final String SPRING_SECURITY_FORM_CAPTCHA_KEY = "captcha";
-    private String captchaParameter = SPRING_SECURITY_FORM_CAPTCHA_KEY;
+    private static final String SPRING_SECURITY_FORM_CAPTCHA_KEY = "captcha";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -49,7 +50,7 @@ public class CaptchaFilter extends OncePerRequestFilter {
     private void validate(HttpServletRequest request) throws ServletRequestBindingException {
         HttpSession session = request.getSession();
         CaptchaCode captchaCode = (CaptchaCode) session.getAttribute(CommonController.CAPTCHA_CODE_KEY);
-        String codeInRequest = ServletRequestUtils.getStringParameter(request, captchaParameter);
+        String codeInRequest = ServletRequestUtils.getStringParameter(request, SPRING_SECURITY_FORM_CAPTCHA_KEY);
         if (StringUtils.isBlank(codeInRequest)) {
             throw new CaptchaException("验证码的值不能为空");
         }
@@ -63,10 +64,6 @@ public class CaptchaFilter extends OncePerRequestFilter {
             throw new CaptchaException("验证码不匹配");
         }
         session.removeAttribute(CommonController.CAPTCHA_CODE_KEY);
-    }
-
-    public AuthenticationFailureHandler getAuthenticationFailureHandler() {
-        return authenticationFailureHandler;
     }
 
     public void setAuthenticationFailureHandler(AuthenticationFailureHandler authenticationFailureHandler) {
