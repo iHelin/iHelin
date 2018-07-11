@@ -1,5 +1,6 @@
 package me.ianhe.isite.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -8,7 +9,10 @@ import java.util.Date;
  * @author linhe2
  * @since 2018/7/9 12:37
  */
-public class Score {
+public class Score implements Serializable {
+
+    private static final long serialVersionUID = -7279480633434967639L;
+
     private Integer id;
 
     private Integer value;

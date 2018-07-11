@@ -21,7 +21,7 @@ public class MenuService {
     @Autowired
     private SysMenuMapper menuMapper;
 
-    @Cacheable(cacheNames="Menu")
+    @Cacheable("menu")
     public List<Menu> getAllMenu() {
         return menuMapper.getAllMenu();
     }

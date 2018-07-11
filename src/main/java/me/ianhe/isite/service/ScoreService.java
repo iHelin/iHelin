@@ -4,6 +4,7 @@ import me.ianhe.isite.dao.ScoreMapper;
 import me.ianhe.isite.entity.Score;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class ScoreService {
     @Autowired
     private ScoreMapper scoreMapper;
 
+    @Cacheable("score")
     public Score getById(Integer id) {
         return scoreMapper.selectByPrimaryKey(id);
     }
