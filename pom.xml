@@ -29,9 +29,9 @@
 
         <!--谷歌验证码-->
         <dependency>
-            <groupId>com.github.penggle</groupId>
+            <groupId>com.github.axet</groupId>
             <artifactId>kaptcha</artifactId>
-            <version>2.3.2</version>
+            <version>0.0.9</version>
         </dependency>
 
         <!--二维码相关-->

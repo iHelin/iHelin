@@ -51,7 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         DefaultKaptcha defaultKaptcha = new DefaultKaptcha();
         Properties properties = new Properties();
         properties.setProperty(Constants.KAPTCHA_TEXTPRODUCER_CHAR_LENGTH, "4");
-        properties.setProperty(Constants.KAPTCHA_TEXTPRODUCER_FONT_NAMES, "Times New Roma");
+//        properties.setProperty(Constants.KAPTCHA_TEXTPRODUCER_FONT_NAMES, "Times New Roma");
         Config config = new Config(properties);
         defaultKaptcha.setConfig(config);
         return defaultKaptcha;
