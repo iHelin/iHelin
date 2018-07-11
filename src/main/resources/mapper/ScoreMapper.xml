@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.ianhe.isite.dao.ScoreMapper">
+    <resultMap id="BaseResultMap" type="me.ianhe.isite.entity.Score">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="value" jdbcType="INTEGER" property="value"/>
+        <result column="writer" jdbcType="VARCHAR" property="writer"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="reason" jdbcType="VARCHAR" property="reason"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, value, writer, create_time, update_time, reason
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_score
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from t_score
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="me.ianhe.isite.entity.Score"
+            useGeneratedKeys="true">
+        insert into t_score (value, writer, create_time,
+                             update_time, reason)
+        values (#{value,jdbcType=INTEGER}, #{writer,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+                #{updateTime,jdbcType=TIMESTAMP}, #{reason,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="me.ianhe.isite.entity.Score"
+            useGeneratedKeys="true">
+        insert into t_score
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="value != null">
+                value,
+            </if>
+            <if test="writer != null">
+                writer,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="reason != null">
+                reason,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="value != null">
+                #{value,jdbcType=INTEGER},
+            </if>
+            <if test="writer != null">
+                #{writer,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="reason != null">
+                #{reason,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="me.ianhe.isite.entity.Score">
+        update t_score
+        <set>
+            <if test="value != null">
+                value = #{value,jdbcType=INTEGER},
+            </if>
+            <if test="writer != null">
+                writer = #{writer,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="reason != null">
+                reason = #{reason,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="me.ianhe.isite.entity.Score">
+        update t_score
+        set value       = #{value,jdbcType=INTEGER},
+            writer      = #{writer,jdbcType=VARCHAR},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            update_time = #{updateTime,jdbcType=TIMESTAMP},
+            reason      = #{reason,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="getTotalScore" resultType="Long">
+        select sum(value)
+        from t_score
+    </select>
+
+    <select id="selectByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_score
+        order by id desc
+    </select>
+</mapper>

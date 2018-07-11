@@ -1,7 +1,7 @@
 package me.ianhe.isite.service;
 
-import me.ianhe.isite.dao.MyScoreMapper;
-import me.ianhe.isite.entity.MyScore;
+import me.ianhe.isite.dao.ScoreMapper;
+import me.ianhe.isite.entity.Score;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,22 +16,22 @@ import java.util.List;
 public class ScoreService {
 
     @Autowired
-    private MyScoreMapper myScoreMapper;
+    private ScoreMapper scoreMapper;
 
-    public MyScore getById(Integer id) {
-        return myScoreMapper.selectByPrimaryKey(id);
+    public Score getById(Integer id) {
+        return scoreMapper.selectByPrimaryKey(id);
     }
 
-    public long getMyTotalScore() {
-        return myScoreMapper.getTotalScore();
+    public Long getMyTotalScore() {
+        return scoreMapper.getTotalScore();
     }
 
-    public int addRecord(MyScore ms) {
-        return myScoreMapper.insert(ms);
+    public int addRecord(Score ms) {
+        return scoreMapper.insert(ms);
     }
 
-    public List<MyScore> selectByCondition(int offset, int size) {
-        return myScoreMapper.selectByCondition(new RowBounds(offset, size));
+    public List<Score> selectByCondition(int offset, int size) {
+        return scoreMapper.selectByCondition(new RowBounds(offset, size));
     }
 
 }

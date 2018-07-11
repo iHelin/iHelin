@@ -117,9 +117,9 @@
             <th>总分</th>
         </tr>
         <tr>
-            <td><#if (score.score)??>#{score.score}</#if></td>
+            <td><#if (score.value)??>#{score.value}</#if></td>
             <td>${score.reason!'未填写'}</td>
-            <td><#if (score.addDate)??>${score.addDate?string("yyyy-MM-dd HH:mm:ss")}</#if></td>
+            <td><#if (score.createTime)??>${score.createTime?string("yyyy-MM-dd HH:mm:ss")}</#if></td>
             <td><#if (total)??>#{total}</#if></td>
         </tr>
         </tbody>

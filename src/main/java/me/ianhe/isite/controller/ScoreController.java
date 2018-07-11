@@ -1,6 +1,6 @@
 package me.ianhe.isite.controller;
 
-import me.ianhe.isite.entity.MyScore;
+import me.ianhe.isite.entity.Score;
 import me.ianhe.isite.utils.JsonUtil;
 import me.ianhe.isite.utils.WechatUtil;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,8 +47,8 @@ public class ScoreController extends BaseController {
      * @return
      */
     @PostMapping("scores")
-    public Map<String, Object> addScore(MyScore myScore) {
-        myScore.setAddDate(new Date());
+    public Map<String, Object> addScore(Score myScore) {
+        myScore.setCreateTime(new Date());
         scoreService.addRecord(myScore);
         return success();
     }
@@ -59,13 +59,13 @@ public class ScoreController extends BaseController {
     }
 
     @GetMapping("scores/{id:\\d+}")
-    public MyScore getScore(@PathVariable Integer id) {
-        Assert.notNull(id, "ID can not be null.");
+    public Score getScore(@PathVariable Integer id) {
+        Assert.notNull(id, "score id can not be null.");
         return scoreService.getById(id);
     }
 
     @GetMapping("scores")
-    public List<MyScore> getScores(@RequestParam(defaultValue = "1") Integer pageNum,
+    public List<Score> getScores(@RequestParam(defaultValue = "1") Integer pageNum,
                                    @RequestParam(defaultValue = DEFAULT_PAGE_LENGTH) Integer pageLength) {
         return scoreService.selectByCondition(pageNum, pageLength);
     }
