@@ -11,7 +11,7 @@ module.exports = {
         assetsPublicPath: '/',
         proxyTable: {
             '/ihelin/': {
-                logLevel: 'warn',
+                logLevel: 'debug',
                 target: 'http://localhost:8888/',
                 // target: 'http://112.74.203.110:8888/',
                 changeOrigin: true,
