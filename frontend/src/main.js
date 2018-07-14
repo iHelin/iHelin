@@ -8,7 +8,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import 'simplemde/dist/simplemde.min.css';
 // import 'src/styles/element-variables.scss';
 import 'src/styles/app.css';
-import {formatTime} from 'src/components/index';
+import {formatTime, parseTime} from 'src/components/index';
 
 import Vuelidate from 'vuelidate';
 
@@ -18,19 +18,20 @@ Vue.use(Vuelidate);
 
 Vue.config.productionTip = false;
 
+Vue.prototype.$parseTime = parseTime;
 Vue.use(ElementUI);
 Vue.use(VueResource);
 
 Vue.http.interceptors.push((request, next) => {
     next(response => {
-        if (200 === response.status) {
+        if (200 === response.status || 400 === response.status) {
         } else if (401 === response.status) {
             router.push({
                 path: '/login',
             });
             // store.dispatch('setFrom', router.from);
         } else if (403 === response.status) {
-            this.$message.error('权限不足');
+            ElementUI.Message.error('权限不足');
         } else {
             ElementUI.Notification.error({
                 title: response.status + ' ' + response.statusText,

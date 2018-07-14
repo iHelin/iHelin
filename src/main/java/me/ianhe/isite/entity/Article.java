@@ -2,6 +2,7 @@ package me.ianhe.isite.entity;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -10,7 +11,10 @@ import java.util.Date;
  * @author iHelin
  * @since 2017/10/17 15:27
  */
-public class Article {
+public class Article implements Serializable {
+
+    private static final long serialVersionUID = 2945012551297126221L;
+
     private Integer id;
 
     private String title;

@@ -14,11 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * Created by sang on 2017/12/28.
+ * @author iHelin
+ * @since 2017/11/27 20:42
  */
 @Service
-@Transactional
-public class UserService implements UserDetailsService {
+@Transactional(rollbackFor = Exception.class)
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private SysUserMapper userMapper;
@@ -27,7 +28,7 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = userMapper.loadUserByUsername(s);
         if (user == null) {
-            throw new UsernameNotFoundException("用户名不对");
+            throw new UsernameNotFoundException("用户名不存在");
         }
         return user;
     }

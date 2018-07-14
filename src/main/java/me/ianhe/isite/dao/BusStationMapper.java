@@ -5,6 +5,12 @@ import me.ianhe.isite.entity.BusStation;
 
 import java.util.List;
 
+/**
+ * BusStationMapper
+ *
+ * @author linhe2
+ * @since 2018/7/9 12:37
+ */
 public interface BusStationMapper {
     int deleteByPrimaryKey(Integer id);
 

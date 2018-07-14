@@ -1,13 +1,21 @@
 <template>
     <el-container>
-        <el-header>
-            <el-menu router :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+        <el-header style="padding:0">
+            <el-menu
+                    router
+                    :default-active="activeIndex"
+                    class="el-menu-demo"
+                    mode="horizontal"
+                    @select="handleSelect"
+                    background-color="#545c64"
+                    text-color="#fff"
+                    active-text-color="#ffd04b">
                 <el-menu-item index="/admin">首页</el-menu-item>
                 <el-menu-item index="/admin/articles">文章</el-menu-item>
                 <el-menu-item index="/admin/mappings">Mappings</el-menu-item>
                 <el-menu-item index="/admin/props">Props</el-menu-item>
                 <el-menu-item index="/admin/files">文件管理</el-menu-item>
-                <el-menu-item style="float: right;" index="">{{$store.state.username}}</el-menu-item>
+                <el-menu-item style="float: right;" @click="handleLogout" index="">{{$store.state.username}}</el-menu-item>
             </el-menu>
         </el-header>
         <el-main>
@@ -29,6 +37,11 @@
             }
         },
         methods: {
+            handleLogout(){
+              this.$resource('/ihelin/logout').save().then(res=>{
+                  // console.log(res);
+              })
+            },
             handleSelect(key, keyPath) {
             }
         }

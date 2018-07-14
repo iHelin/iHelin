@@ -1,10 +1,14 @@
 package me.ianhe.isite.entity;
 
+import java.io.Serializable;
+
 /**
  * @author iHelin
  * @since 2018/6/5 14:07
  */
-public class MenuMeta {
+public class MenuMeta implements Serializable {
+
+    private static final long serialVersionUID = -8333672448797281982L;
 
     private boolean keepAlive;
     private boolean requireAuth;

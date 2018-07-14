@@ -1,5 +1,11 @@
 package me.ianhe.isite.entity;
 
+/**
+ * Poem
+ *
+ * @author linhe2
+ * @since 2018/7/9 12:38
+ */
 public class Poem {
     private Integer id;
 

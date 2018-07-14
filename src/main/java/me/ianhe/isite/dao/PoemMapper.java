@@ -5,6 +5,12 @@ import me.ianhe.isite.entity.Poem;
 
 import java.util.List;
 
+/**
+ * PoemMapper
+ *
+ * @author linhe2
+ * @since 2018/7/9 12:38
+ */
 public interface PoemMapper {
     int deleteByPrimaryKey(Integer id);
 

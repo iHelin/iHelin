@@ -2,7 +2,7 @@ export function parseTime(time, cFormat) {
     if (arguments.length === 0) {
         return null
     }
-    const format = cFormat || '{y}-{m}-{d} {h}:{i}:{s}'
+    const format = cFormat || '{y}-{m}-{d} {h}:{i}:{s}';
     let date
     if (typeof time === 'object') {
         date = time
@@ -18,7 +18,7 @@ export function parseTime(time, cFormat) {
         i: date.getMinutes(),
         s: date.getSeconds(),
         a: date.getDay()
-    }
+    };
     const time_str = format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
         let value = formatObj[key]
         if (key === 'a') return ['一', '二', '三', '四', '五', '六', '日'][value - 1]
@@ -31,10 +31,10 @@ export function parseTime(time, cFormat) {
 }
 
 export function formatTime(time, option) {
-    const d = new Date(time)
-    const now = Date.now()
+    const d = new Date(time);
+    const now = Date.now();
 
-    const diff = (now - d) / 1000
+    const diff = (now - d) / 1000;
     if (diff < 30) {
         return '刚刚'
     } else if (diff < 3600) { // less 1 hour
@@ -143,7 +143,6 @@ export function scrollTo(element, to, duration) {
     const difference = to - element.scrollTop
     const perTick = difference / duration * 10
     setTimeout(() => {
-        console.log(new Date())
         element.scrollTop = element.scrollTop + perTick
         if (element.scrollTop === to) return
         scrollTo(element, to, duration - 10)
@@ -168,7 +167,7 @@ export const pickerOptions = [
     {
         text: '今天',
         onClick(picker) {
-            const end = new Date()
+            const end = new Date();
             const start = new Date(new Date().toDateString())
             end.setTime(start.getTime())
             picker.$emit('pick', [start, end])

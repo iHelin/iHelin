@@ -36,8 +36,7 @@
         },
         methods: {
             save() {
-                this.$resource('/ihelin/admin/articles/{id}').update({
-                    id: this.article.id,
+                this.$resource('/ihelin/admin/articles/{id}').update({id: this.article.id,}, {
                     title: this.article.title,
                     summary: this.article.summary,
                     content: this.article.content

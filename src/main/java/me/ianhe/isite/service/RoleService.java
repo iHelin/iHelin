@@ -9,10 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * Created by sang on 2018/1/1.
+ * @author iHelin
+ * @since 2017/11/27 20:42
  */
 @Service
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class RoleService {
 
     @Autowired
@@ -23,8 +24,9 @@ public class RoleService {
     }
 
     public int addNewRole(String role, String roleZh) {
-        if (!role.startsWith("ROLE_")) {
-            role = "ROLE_" + role;
+        String prefix = "ROLE_";
+        if (!role.startsWith(prefix)) {
+            role = prefix + role;
         }
         return roleMapper.addNewRole(role, roleZh);
     }

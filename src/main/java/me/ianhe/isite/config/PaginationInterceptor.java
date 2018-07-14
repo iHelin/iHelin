@@ -18,8 +18,8 @@ import java.util.Properties;
  * @author iHelin
  * @since 2017/11/10 14:58
  */
-@Intercepts({@Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class,
-        RowBounds.class, ResultHandler.class})})
+@Intercepts({@Signature(type = Executor.class, method = "query",
+        args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class})})
 public class PaginationInterceptor implements Interceptor {
 
     private static final int MAPPED_STATEMENT_INDEX = 0;
@@ -34,19 +34,21 @@ public class PaginationInterceptor implements Interceptor {
         RowBounds rowBounds = (RowBounds) queryArgs[ROW_BOUNDS_INDEX];
         int offset = rowBounds.getOffset();
         int limit = rowBounds.getLimit();
-        if (dialect.supportsLimit() && (offset != RowBounds.NO_ROW_OFFSET || limit != RowBounds.NO_ROW_LIMIT)) {
-            MappedStatement ms = (MappedStatement) queryArgs[MAPPED_STATEMENT_INDEX];
-            StatementType statementType = ms.getStatementType();
-            if (statementType == null || statementType == StatementType.CALLABLE) {
-                return invocation.proceed();
-            }
-            BoundSql boundSql = ms.getBoundSql(queryArgs[PARAMETER_INDEX]);
-            String sql = createOffsetLimitSql(offset, limit, statementType, boundSql);
-            if (StringUtils.isNotBlank(sql)) {
-                BoundSql newBoundSql = createBoundSql(ms, boundSql, sql, rowBounds);
-                MappedStatement newMs = createMappedStatement(ms, newBoundSql);
-                queryArgs[MAPPED_STATEMENT_INDEX] = newMs;
-                queryArgs[ROW_BOUNDS_INDEX] = new RowBounds();
+        if (dialect.supportsLimit()) {
+            if (offset != RowBounds.NO_ROW_OFFSET || limit != RowBounds.NO_ROW_LIMIT) {
+                MappedStatement ms = (MappedStatement) queryArgs[MAPPED_STATEMENT_INDEX];
+                StatementType statementType = ms.getStatementType();
+                if (statementType == null || statementType == StatementType.CALLABLE) {
+                    return invocation.proceed();
+                }
+                BoundSql boundSql = ms.getBoundSql(queryArgs[PARAMETER_INDEX]);
+                String sql = createOffsetLimitSql(offset, limit, statementType, boundSql);
+                if (StringUtils.isNotBlank(sql)) {
+                    BoundSql newBoundSql = createBoundSql(ms, boundSql, sql, rowBounds);
+                    MappedStatement newMs = createMappedStatement(ms, newBoundSql);
+                    queryArgs[MAPPED_STATEMENT_INDEX] = newMs;
+                    queryArgs[ROW_BOUNDS_INDEX] = new RowBounds();
+                }
             }
         }
         return invocation.proceed();

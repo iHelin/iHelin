@@ -16,7 +16,9 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * 微信常用工具类
- * Created by iHelin on 16/11/4.
+ *
+ * @author linhe2
+ * @since 16/11/4
  */
 public class WechatUtil {
 

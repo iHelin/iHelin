@@ -5,7 +5,7 @@
 
     <!-- 指定数据连接驱动jar地址, must config local maven repo dir -->
     <classPathEntry
-            location="/usr/local/Cellar/gradle/4.4.1/libexec/caches/modules-2/files-2.1/mysql/mysql-connector-java/5.1.37/mysql-connector-java-5.1.37.jar"/>
+            location="/Users/iHelin/.m2/repository/mysql/mysql-connector-java/5.1.46/mysql-connector-java-5.1.46.jar"/>
 
     <!-- 一个数据库一个context -->
     <context id="Tuna" targetRuntime="MyBatis3">
@@ -28,7 +28,7 @@
         </javaTypeResolver>
 
         <!-- 生成实体类地址 -->
-        <javaModelGenerator targetPackage="me.ianhe.entity"
+        <javaModelGenerator targetPackage="me.ianhe.isite.entity"
                             targetProject="src/main/java">
             <!-- 是否在当前路径下新加一层schema,eg：false路径me.ianhe.db.entity， true:me.ianhe.db.entity.[schemaName] -->
             <property name="enableSubPackages" value="true"/>
@@ -43,12 +43,12 @@
         </sqlMapGenerator>
 
         <!-- 生成mapxml对应client，也就是接口dao -->
-        <javaClientGenerator targetPackage="me.ianhe.dao"
+        <javaClientGenerator targetPackage="me.ianhe.isite.dao"
                              targetProject="src/main/java" type="XMLMAPPER">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!-- 配置表信息 -->
-        <table schema="iHelin" tableName="bus_station" domainObjectName="BusStation"
+        <table schema="iHelin" tableName="t_score" domainObjectName="Score"
                enableCountByExample="fasle" enableSelectByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false">
             <generatedKey column="id" sqlStatement="JDBC"/>

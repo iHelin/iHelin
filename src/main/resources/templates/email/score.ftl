@@ -56,42 +56,9 @@
         text-align: center;
     }
 
-    .office_write {
-        width: 100px;
-        text-align: center;
-    }
-
-    .pro_step {
-        float: left;
-        width: 136px;
-    }
-
-    .title_font_color {
-        font-weight: bolder;
-    }
-
-    .divoptitlePreview_middle {
-        font-size: 13px;
-        color: #000;
-        float: left;
-        width: 150px;
-        background-color: #eee;
-        text-align: center;
-    }
 
     .tableRegisterPreview .title_class {
         padding-left: 0px;
-    }
-
-    .titleEnglish {
-        float: left;
-        text-align: center;
-        width: 150px;
-        margin-top: -15px;
-    }
-
-    .content_left {
-        text-align: center;
     }
 
     h5 {
@@ -117,9 +84,9 @@
             <th>总分</th>
         </tr>
         <tr>
-            <td><#if (score.score)??>#{score.score}</#if></td>
+            <td><#if (score.value)??>#{score.value}</#if></td>
             <td>${score.reason!'未填写'}</td>
-            <td><#if (score.addDate)??>${score.addDate?string("yyyy-MM-dd HH:mm:ss")}</#if></td>
+            <td><#if (score.createTime)??>${score.createTime?string("yyyy-MM-dd HH:mm:ss")}</#if></td>
             <td><#if (total)??>#{total}</#if></td>
         </tr>
         </tbody>

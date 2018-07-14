@@ -4,6 +4,7 @@ import org.apache.activemq.command.ActiveMQQueue;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -19,11 +20,12 @@ import javax.jms.Queue;
  * @since 2018/5/12 16:53
  */
 @EnableJms
-@EnableAsync(proxyTargetClass = true)
+@EnableCaching
 @EnableScheduling
 @EnableWebSecurity
 @SpringBootApplication
 @MapperScan("me.ianhe.isite.dao")
+@EnableAsync(proxyTargetClass = true)
 public class MyApplication {
 
     @Bean

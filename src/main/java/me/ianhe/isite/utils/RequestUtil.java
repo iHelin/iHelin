@@ -9,10 +9,10 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
+import java.util.Optional;
 
 /**
  * request工具类
@@ -24,26 +24,26 @@ public class RequestUtil {
 
     private static Logger logger = LoggerFactory.getLogger(RequestUtil.class);
 
-    public static HttpServletRequest getRequest() {
-        return ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-    }
-
-    public static HttpSession getSession() {
-        return getRequest().getSession();
+    public static Optional<HttpServletRequest> getRequest() {
+        Optional<HttpServletRequest> currentRequest = Optional.empty();
+        try {
+            currentRequest = Optional.of(((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest());
+        } catch (IllegalStateException e) {
+            logger.warn("Can not get currentRequest", e);
+        }
+        return currentRequest;
     }
 
     public static String getDomain(HttpServletRequest request) {
-        StringBuilder sb = new StringBuilder(256);
-        sb.append(request.getServerName());
-        return sb.toString();
+        return request.getServerName();
     }
 
     public static String getCompleteRequestURL(HttpServletRequest request) {
-        return getCompleteRequestURL(request, (String) null);
+        return getCompleteRequestURL(request, null);
     }
 
     public static String getCompleteRequestURL(HttpServletRequest request, String rmParam) {
-        Assert.notNull(request, "请求不能为null");
+        Assert.notNull(request, "the request must not be null.");
         StringBuilder sb = new StringBuilder(256);
         sb.append(request.getScheme()).append("://").append(request.getServerName())
                 .append(':').append(request.getServerPort()).append(request.getContextPath())
@@ -67,7 +67,6 @@ public class RequestUtil {
         if (request == null) {
             return null;
         }
-
         String data = null;
         try {
             data = IOUtils.toString(request.getInputStream(), StandardCharsets.UTF_8);

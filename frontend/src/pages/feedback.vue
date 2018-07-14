@@ -1,6 +1,9 @@
 <template>
     <div>
         <el-form :model="ruleForm" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+            <el-form-item label="您的评分">
+                <el-rate v-model="ruleForm.grade" style="line-height:36px;" show-text></el-rate>
+            </el-form-item>
             <el-form-item label="您的邮箱" prop="email"
                           :rules="[
                   { required: true, message: '请输入您的邮箱', trigger: 'blur' },
@@ -27,7 +30,8 @@
             return {
                 ruleForm: {
                     email: '',
-                    message: ''
+                    message: '',
+                    grade: 5
                 }
             }
         },

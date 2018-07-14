@@ -3,6 +3,12 @@ package me.ianhe.isite.dao;
 
 import me.ianhe.isite.entity.Advice;
 
+/**
+ * AdviceMapper
+ *
+ * @author linhe2
+ * @since 2018/7/9 12:37
+ */
 public interface AdviceMapper {
     int deleteByPrimaryKey(Integer id);
 

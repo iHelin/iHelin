@@ -1,5 +1,7 @@
 package me.ianhe.isite.service;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -55,4 +57,13 @@ public class WebSocketService {
         }
     }
 
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder().build();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return new EqualsBuilder().build();
+    }
 }

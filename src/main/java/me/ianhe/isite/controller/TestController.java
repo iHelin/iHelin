@@ -11,11 +11,9 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +37,19 @@ public class TestController extends BaseController {
         return success();
     }
 
-    @GetMapping("bus")
+    @GetMapping("/eat")
+    public Map<String, Object> eat() {
+        taskService.runEveryDay11();
+        return success();
+    }
+
+    @GetMapping("/ttt")
+    public String test(@RequestHeader("User-Agent") String userAgent, HttpServletRequest request){
+        logger.debug(userAgent);
+        return "hhhh";
+    }
+
+    @GetMapping("/bus")
     public Set<String> bus(String patten) {
         if (patten == null) {
             patten = "";
@@ -47,7 +57,7 @@ public class TestController extends BaseController {
         return commonRedisDao.keys(BUS_PREFIX + patten + "*");
     }
 
-    @GetMapping("bus/time")
+    @GetMapping("/bus/time")
     public List<HashMap> busTime(String busname) throws IOException {
         String id = commonRedisDao.get(BUS_PREFIX + busname);
         String text = getText(id, "17", true);

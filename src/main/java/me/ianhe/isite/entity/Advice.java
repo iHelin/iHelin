@@ -2,12 +2,20 @@ package me.ianhe.isite.entity;
 
 import java.util.Date;
 
+/**
+ * 建议
+ *
+ * @author linhe2
+ * @since 2018/7/9 12:37
+ */
 public class Advice {
     private Integer id;
 
     private String name;
 
     private String phone;
+
+    private Integer grade;
 
     private String email;
 
@@ -29,6 +37,14 @@ public class Advice {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Integer grade) {
+        this.grade = grade;
     }
 
     public String getPhone() {

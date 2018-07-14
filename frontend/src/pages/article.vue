@@ -1,5 +1,5 @@
 <template>
-    <div v-loading="loading">
+    <div v-loading="loading" style="margin: 0 auto;padding-top: 20px;padding-bottom: 40px;width: 880px;">
         <div v-if="article">
             <h1 style="text-align: center">{{article.title}}</h1>
             <p style="text-align: center">
@@ -8,7 +8,7 @@
                 <small>更新时间：{{article.updateTime | formatTime('{y}-{m}-{d}')}}</small>
             </p>
             <p><code>{{article.summary}}</code></p>
-            <div v-html="html"></div>
+            <div v-html="html" class="content"></div>
         </div>
         <div v-else>文章不存在</div>
     </div>
@@ -18,7 +18,13 @@
     export default {
         data() {
             return {
-                article: null,
+                article: {
+                    title: '',
+                    author: '',
+                    readNum: 0,
+                    updateTime: Date(),
+                    summary: ''
+                },
                 loading: true,
                 html: ''
             };
@@ -37,6 +43,3 @@
         }
     }
 </script>
-<style>
-
-</style>

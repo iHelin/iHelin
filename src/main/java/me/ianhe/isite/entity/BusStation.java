@@ -1,5 +1,11 @@
 package me.ianhe.isite.entity;
 
+/**
+ * BusStation
+ *
+ * @author linhe2
+ * @since 2018/7/9 12:37
+ */
 public class BusStation {
     private Integer id;
 

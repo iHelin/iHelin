@@ -1,9 +1,7 @@
 package me.ianhe.isite.service;
 
 import com.google.common.collect.Maps;
-import me.ianhe.isite.dao.AdviceMapper;
 import me.ianhe.isite.dao.ArticleMapper;
-import me.ianhe.isite.entity.Advice;
 import me.ianhe.isite.entity.Article;
 import me.ianhe.isite.model.Pagination;
 import me.ianhe.isite.utils.JsonUtil;
@@ -11,7 +9,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -30,14 +31,13 @@ import java.util.Map;
  * @author <href mailto="mailto:ihelin@outlook.com">iHelin</href>
  */
 @Service
+@CacheConfig(cacheNames = "article")
 public class ArticleService {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Resource
     private ArticleMapper articleMapper;
-    @Autowired
-    private AdviceMapper adviceMapper;
 
     public int addArticle(Article article) {
         article.setAuthor("Ian He");
@@ -49,14 +49,40 @@ public class ArticleService {
         return articleMapper.insert(article);
     }
 
-    public int editArticle(Article article) {
-        article.setUpdateTime(new Date());
+    /**
+     * 更新文章并更新缓存
+     * key = "#article.id" 或 key = "#result.id"
+     *
+     * @param article
+     * @return
+     */
+    @CachePut(key = "#article.id")
+    public Article editArticle(Article article) {
         logger.info("update article:{}", JsonUtil.toJson(article));
-        return articleMapper.updateByPrimaryKey(article);
+        articleMapper.updateByPrimaryKey(article);
+        return article;
     }
 
+    /**
+     * 查询文章
+     *
+     * @param id
+     * @return
+     */
+    @Cacheable
     public Article selectArticleById(Integer id) {
         return articleMapper.selectByPrimaryKey(id);
+    }
+
+    /**
+     * 删除文章
+     *
+     * @param id
+     * @return
+     */
+    @CacheEvict
+    public int deleteById(Integer id) {
+        return articleMapper.deleteByPrimaryKey(id);
     }
 
     /**
@@ -75,10 +101,6 @@ public class ArticleService {
         return new Pagination(data, totalCount, currentPage, pageLength);
     }
 
-    public int deleteById(Integer id) {
-        return articleMapper.deleteByPrimaryKey(id);
-    }
-
     public List<Article> listByCondition(String title, int currentPage, int pageLength) {
         Map<String, Object> res = Maps.newHashMap();
         if (StringUtils.isNotEmpty(title)) {
@@ -87,7 +109,4 @@ public class ArticleService {
         return articleMapper.listByCondition(res, new RowBounds(currentPage, pageLength));
     }
 
-    public int addAdvice(Advice advice) {
-        return adviceMapper.insert(advice);
-    }
 }

@@ -4,21 +4,24 @@ import me.ianhe.isite.dao.SysMenuMapper;
 import me.ianhe.isite.entity.Menu;
 import me.ianhe.isite.utils.SystemUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 /**
- * Created by sang on 2017/12/28.
+ * @author iHelin
+ * @since 2017/11/27 20:42
  */
 @Service
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class MenuService {
 
     @Autowired
     private SysMenuMapper menuMapper;
 
+    @Cacheable("menu")
     public List<Menu> getAllMenu() {
         return menuMapper.getAllMenu();
     }

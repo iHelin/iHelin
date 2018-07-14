@@ -5,6 +5,12 @@ import me.ianhe.isite.entity.SysRole;
 
 import java.util.List;
 
+/**
+ * SysRoleMapper
+ *
+ * @author linhe2
+ * @since 2018/7/9 12:38
+ */
 public interface SysRoleMapper {
     int deleteByPrimaryKey(Integer id);
 
