@@ -14,18 +14,19 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 public class RedisConfig {
 
     /*@Bean
-    public RedisCacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory) {
+    public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
         //初始化一个RedisCacheWriter
         RedisCacheWriter redisCacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory);
         //设置CacheManager的值序列化方式为JdkSerializationRedisSerializer,但其实RedisCacheConfiguration默认就是使用StringRedisSerializer序列化key，JdkSerializationRedisSerializer序列化value,所以以下注释代码为默认实现
-        Jackson2JsonRedisSerializer redisSerializer = new Jackson2JsonRedisSerializer(Object.class);
-        RedisSerializationContext.SerializationPair<Object> pair = RedisSerializationContext.SerializationPair.fromSerializer(redisSerializer);
+        Jackson2JsonRedisSerializer redisSerializer = new Jackson2JsonRedisSerializer(Article.class);
+        RedisSerializationContext.SerializationPair<Article> pair = RedisSerializationContext.SerializationPair.fromSerializer(redisSerializer);
         RedisCacheConfiguration defaultCacheConfig = RedisCacheConfiguration.defaultCacheConfig().serializeValuesWith(pair);
         //设置默认超过期时间是30秒
         defaultCacheConfig.entryTtl(Duration.ofSeconds(30));
         //初始化RedisCacheManager
         return new RedisCacheManager(redisCacheWriter, defaultCacheConfig);
     }*/
+
 
     @Bean
     public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
