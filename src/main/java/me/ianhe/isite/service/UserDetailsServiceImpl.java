@@ -22,53 +22,53 @@ import java.util.List;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private SysUserMapper userMapper;
+    private SysUserMapper sysUserMapper;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user = userMapper.loadUserByUsername(s);
+        User user = sysUserMapper.loadUserByUsername(s);
         if (user == null) {
             throw new UsernameNotFoundException("用户名不存在");
         }
         return user;
     }
 
-    public int hrReg(String username, String password) {
+    public int userReg(String username, String password) {
         //如果用户名存在，返回错误
-        if (userMapper.loadUserByUsername(username) != null) {
+        if (sysUserMapper.loadUserByUsername(username) != null) {
             return -1;
         }
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String encode = encoder.encode(password);
-        return userMapper.hrReg(username, encode);
+        return sysUserMapper.userReg(username, encode);
     }
 
     public List<User> getUsersByKeywords(String keywords) {
-        return userMapper.getUsersByKeywords(keywords);
+        return sysUserMapper.getUsersByKeywords(keywords);
     }
 
     public int updateUser(User user) {
-        return userMapper.updateUser(user);
+        return sysUserMapper.updateUser(user);
     }
 
     public int updateUserRoles(Long uid, Long[] rids) {
-        int i = userMapper.deleteRoleByUserId(uid);
-        return userMapper.addRolesForUser(uid, rids);
+        int i = sysUserMapper.deleteRoleByUserId(uid);
+        return sysUserMapper.addRolesForUser(uid, rids);
     }
 
     public User getUserById(Long uid) {
-        return userMapper.getUserById(uid);
+        return sysUserMapper.getUserById(uid);
     }
 
     public int deleteUser(Long uid) {
-        return userMapper.deleteUser(uid);
+        return sysUserMapper.deleteUser(uid);
     }
 
     public List<User> getAllUserExceptAdmin() {
-        return userMapper.getAllUser(SystemUtils.getCurrentUser().getId());
+        return sysUserMapper.getAllUser(SystemUtils.getCurrentUser().getId());
     }
 
     public List<User> getAllUser() {
-        return userMapper.getAllUser(null);
+        return sysUserMapper.getAllUser(null);
     }
 }

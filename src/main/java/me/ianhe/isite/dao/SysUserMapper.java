@@ -16,11 +16,11 @@ public interface SysUserMapper {
 
     List<Role> getRolesByUserId(Long id);
 
-    int hrReg(@Param("username") String username, @Param("password") String password);
+    int userReg(@Param("username") String username, @Param("password") String password);
 
     List<User> getUsersByKeywords(@Param("keywords") String keywords);
 
-    int updateUser(User hr);
+    int updateUser(User user);
 
     int deleteRoleByUserId(Long uid);
 

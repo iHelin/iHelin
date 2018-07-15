@@ -36,7 +36,7 @@
         FROM t_user_role h, t_role r
         where h.rid = r.id AND h.uid = #{id}
     </select>
-    <insert id="hrReg">
+    <insert id="userReg">
         INSERT INTO t_user
         set username = #{username}, password = #{password}
     </insert>
