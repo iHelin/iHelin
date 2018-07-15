@@ -4,6 +4,11 @@
             <el-form :model="loginForm"
                      label-position="left" label-width="0px"
                      class="login-container">
+                <a href="https://github.com/iHelin/iHelin">
+                    <img style="position: absolute; top: 0; right: 0; border: 0;"
+                         src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"
+                         alt="Fork me on GitHub">
+                </a>
                 <h3 style="text-align: center;" class="title">系统登录</h3>
                 <el-form-item>
                     <div class="el-input">
