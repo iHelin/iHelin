@@ -1,8 +1,6 @@
 <template>
-    <div style="text-align: center;margin-top: 60px;">
-        <iframe scrolling='no' frameborder='0' src='https://yibo.iyiyun.com/Home/Distribute/ad404/key/1341657'
-                width='654' height='470' style='display:block;margin: 0 auto;'></iframe>
-    </div>
+    <iframe scrolling='no' frameborder='0' src='https://yibo.iyiyun.com/Home/Distribute/ad404/key/1341657'
+            style='display:block;margin: 0 auto;width: 654px;height: 470px'></iframe>
 </template>
 <script>
     export default {}
