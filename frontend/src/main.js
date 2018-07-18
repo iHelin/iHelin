@@ -10,11 +10,7 @@ import 'simplemde/dist/simplemde.min.css';
 import 'src/styles/app.css';
 import {formatTime, parseTime} from 'src/components/index';
 
-import Vuelidate from 'vuelidate';
-
 Vue.filter('formatTime', formatTime);
-
-Vue.use(Vuelidate);
 
 Vue.config.productionTip = false;
 
