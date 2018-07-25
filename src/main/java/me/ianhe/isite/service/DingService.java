@@ -30,13 +30,13 @@ public class DingService {
      * @author iHelin
      * @since 2017/5/17 11:16
      */
-    public String sendTextMsg(String content) {
+    public void sendTextMsg(String content) {
         Map<String, Object> contentMap = Maps.newHashMap();
         contentMap.put("content", content);
         Map<String, Object> data = Maps.newHashMap();
         data.put("msgtype", "text");
         data.put("text", contentMap);
-        return doSend(JsonUtil.toJson(data));
+        doSend(JsonUtil.toJson(data));
     }
 
     /**
@@ -45,11 +45,11 @@ public class DingService {
      * @author iHelin
      * @since 2017/12/1 15:14
      */
-    public String sendFeedCardMsg(FeedCard feedCard) {
+    public void sendFeedCardMsg(FeedCard feedCard) {
         Map<String, Object> sendData = Maps.newHashMap();
         sendData.put("msgtype", "feedCard");
         sendData.put("feedCard", JsonUtil.toJson(feedCard));
-        return doSend(JsonUtil.toJson(sendData));
+        doSend(JsonUtil.toJson(sendData));
     }
 
     public String doSend(String data) {

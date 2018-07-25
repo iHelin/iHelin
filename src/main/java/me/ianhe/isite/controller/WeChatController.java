@@ -31,12 +31,8 @@ public class WeChatController {
     public void login(HttpServletResponse response) throws IOException {
         String backUrl = "http://" + systemProperties.getDomain() + "/callback";
         String url = "https://open.weixin.qq.com/connect/oauth2/authorize" +
-                "?appid=" + systemProperties.getWxAppid() +
-                "&redirect_uri=" + URLEncoder.encode(backUrl, "UTF-8") +
-                "&response_type=code" +
-                "&scope=snsapi_userinfo" +
-                "&state=STATE" +
-                "#wechat_redirect";
+                "?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+        url = String.format(url, systemProperties.getWxAppid(), URLEncoder.encode(backUrl, "UTF-8"));
         logger.debug(url);
         response.sendRedirect(url);
     }
@@ -44,10 +40,8 @@ public class WeChatController {
     @GetMapping("/callback")
     public ResponseEntity<Object> callback(String code) throws JSONException {
         String url = "https://api.weixin.qq.com/sns/oauth2/access_token" +
-                "?appid=" + systemProperties.getWxAppid() +
-                "&secret=" + systemProperties.getWxAppSecret() +
-                "&code=" + code +
-                "&grant_type=authorization_code";
+                "?appid=%s&secret=%s&code=%s&grant_type=authorization_code";
+        url = String.format(url, systemProperties.getWxAppid(), systemProperties.getWxAppSecret(), code);
         String res = WeChatUtil.doGetStr(url);
         JSONObject resObj = new JSONObject(res);
         String openid = resObj.getString("openid");
@@ -55,9 +49,8 @@ public class WeChatController {
         String accessToken = resObj.getString("access_token");
         logger.debug("accessToken:{}", accessToken);
         String infoUrl = "https://api.weixin.qq.com/sns/userinfo" +
-                "?access_token=" + accessToken +
-                "&openid=" + openid +
-                "&lang=zh_CN";
+                "?access_token=%s&openid=%s&lang=zh_CN";
+        infoUrl = String.format(infoUrl, accessToken, openid);
         String infoStr = WeChatUtil.doGetStr(infoUrl);
         return new ResponseEntity<>(infoStr, HttpStatus.OK);
     }

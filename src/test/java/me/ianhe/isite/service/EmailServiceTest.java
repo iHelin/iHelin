@@ -33,9 +33,9 @@ public class EmailServiceTest {
     @Test
     public void sendAttachmentsMail() {
         List<Pair<String, File>> pairList = Lists.newArrayList();
-        MutablePair<String, File> pair = new MutablePair();
-        pair.setLeft("login.vue");
-        pair.setRight(new File("/Users/iHelin/Downloads/login.vue"));
+        MutablePair<String, File> pair = new MutablePair<>();
+        pair.setLeft("arithmetic.sh");
+        pair.setRight(new File("/Users/iHelin/Documents/dev/shell/arithmetic"));
         pairList.add(pair);
         emailService.sendAttachmentsMail("ahaqhelin@163.com", "带附件的邮件测试", "hello", pairList);
     }

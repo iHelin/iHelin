@@ -8,18 +8,23 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "my.system")
 public class SystemProperties {
 
-    private String domain;
-
+    /**
+     * 公众号
+     */
     private String wxAppid;
-
     private String wxAppSecret;
-
+    private String domain;
     private String dingRobot;
-
+    /**
+     * 七牛存储
+     */
     private String qnAccessKey;
     private String qnSecretKey;
     private String qnPrefix;
     private String qnBucket;
+    /**
+     * 小程序appid
+     */
     private String xcxAppid;
     private String xcxSecret;
 
