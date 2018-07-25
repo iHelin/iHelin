@@ -20,11 +20,11 @@ import java.nio.charset.StandardCharsets;
  * @author linhe2
  * @since 16/11/4
  */
-public class WechatUtil {
+public class WeChatUtil {
 
     private static final HttpClientBuilder HTTP_CLIENT_BUILDER = HttpClientBuilder.create();
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(WechatUtil.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WeChatUtil.class);
 
     /**
      * get请求，返回String
@@ -70,7 +70,7 @@ public class WechatUtil {
         }
     }
 
-    private WechatUtil() {
+    private WeChatUtil() {
         //工具类不允许实例化
     }
 

@@ -1,12 +1,13 @@
 package me.ianhe.isite.service;
 
 import com.google.common.collect.Maps;
+import me.ianhe.isite.config.SystemProperties;
 import me.ianhe.isite.model.ding.FeedCard;
 import me.ianhe.isite.utils.JsonUtil;
-import me.ianhe.isite.utils.WechatUtil;
+import me.ianhe.isite.utils.WeChatUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -20,12 +21,8 @@ public class DingService {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Value("${ding.robot}")
-    private String dingUrl;
-
-    public String getDingUrl() {
-        return dingUrl;
-    }
+    @Autowired
+    private SystemProperties systemProperties;
 
     /**
      * 发送文本消息
@@ -56,7 +53,7 @@ public class DingService {
     }
 
     public String doSend(String data) {
-        String res = WechatUtil.doPostStr(dingUrl, data);
+        String res = WeChatUtil.doPostStr(systemProperties.getDingRobot(), data);
         logger.info("Robot return {}", res);
         return res;
     }

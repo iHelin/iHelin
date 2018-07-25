@@ -1,9 +1,10 @@
 package me.ianhe.isite.controller;
 
+import me.ianhe.isite.config.SystemProperties;
 import me.ianhe.isite.entity.Score;
 import me.ianhe.isite.utils.JsonUtil;
-import me.ianhe.isite.utils.WechatUtil;
-import org.springframework.beans.factory.annotation.Value;
+import me.ianhe.isite.utils.WeChatUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,17 +22,15 @@ import java.util.concurrent.TimeUnit;
 @RestController
 public class ScoreController extends BaseController {
 
-    @Value("${seven.appid}")
-    private String appid;
-    @Value("${seven.secret}")
-    private String appSecret;
+    @Autowired
+    private SystemProperties systemProperties;
 
     @GetMapping("scores/login")
     public String login(String code) {
         String url = "https://api.weixin.qq.com/sns/jscode2session?appid="
-                + appid + "&secret=" + appSecret + "&js_code=" + code + "&grant_type=authorization_code";
+                + systemProperties.getXcxAppid() + "&secret=" + systemProperties.getXcxSecret() + "&js_code=" + code + "&grant_type=authorization_code";
         logger.info("url is : {}", url);
-        String res = WechatUtil.doGetStr(url);
+        String res = WeChatUtil.doGetStr(url);
         logger.info("res is :{}", res);
         Map<String, Object> resMap = JsonUtil.parseMap(res);
         String openid = (String) resMap.get("openid");
@@ -66,7 +65,7 @@ public class ScoreController extends BaseController {
 
     @GetMapping("scores")
     public List<Score> getScores(@RequestParam(defaultValue = "1") Integer pageNum,
-                                   @RequestParam(defaultValue = DEFAULT_PAGE_LENGTH) Integer pageLength) {
+                                 @RequestParam(defaultValue = DEFAULT_PAGE_LENGTH) Integer pageLength) {
         return scoreService.selectByCondition(pageNum, pageLength);
     }
 

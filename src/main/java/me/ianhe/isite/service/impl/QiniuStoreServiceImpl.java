@@ -9,10 +9,11 @@ import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.FileInfo;
 import com.qiniu.util.Auth;
+import me.ianhe.isite.config.SystemProperties;
 import me.ianhe.isite.service.FileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -25,26 +26,20 @@ import java.util.List;
  * @since 2018/5/12 12:50
  */
 @Service
-@ConfigurationProperties(prefix = "qiniu")
 public class QiniuStoreServiceImpl implements FileService {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
     private Configuration configuration;
     private Auth auth;
 
-    private String accessKey;
-
-    private String secretKey;
-
-    private String bucket;
-
-    private String prefix;
+    @Autowired
+    private SystemProperties systemProperties;
 
     @PostConstruct
     public void init() {
         Zone zone = Zone.autoZone();
         configuration = new Configuration(zone);
-        auth = Auth.create(accessKey, secretKey);
+        auth = Auth.create(systemProperties.getQnAccessKey(), systemProperties.getQnSecretKey());
     }
 
     /**
@@ -57,7 +52,7 @@ public class QiniuStoreServiceImpl implements FileService {
     public List<FileInfo> getFileInfoList(String prefix, String delimiter) {
         BucketManager bucketManager = new BucketManager(auth, configuration);
         BucketManager.FileListIterator fileListIterator = bucketManager
-                .createFileListIterator(bucket, prefix, 1000, delimiter);
+                .createFileListIterator(systemProperties.getQnBucket(), prefix, 1000, delimiter);
         List<FileInfo> fileInfoList = Lists.newArrayList();
         while (fileListIterator.hasNext()) {
             fileInfoList.addAll(Arrays.asList(fileListIterator.next()));
@@ -76,11 +71,11 @@ public class QiniuStoreServiceImpl implements FileService {
     @Override
     public String uploadFile(String key, InputStream inputStream) {
         UploadManager uploadManager = new UploadManager(configuration);
-        String token = auth.uploadToken(bucket);
+        String token = auth.uploadToken(systemProperties.getQnBucket());
         try {
             Response res = uploadManager.put(inputStream, key, token, null, null);
             logger.info("upload file {} to qiniu oss,result:{}", key, res.isOK());
-            return prefix + key;
+            return systemProperties.getQnPrefix() + key;
         } catch (QiniuException e) {
             logger.error("error upload file to qiniu ！", e);
             return "";
@@ -97,11 +92,11 @@ public class QiniuStoreServiceImpl implements FileService {
      */
     public String uploadFile(String key, byte[] bytes) {
         UploadManager uploadManager = new UploadManager(configuration);
-        String token = auth.uploadToken(bucket);
+        String token = auth.uploadToken(systemProperties.getQnBucket());
         try {
             Response res = uploadManager.put(bytes, key, token);
             logger.info("upload file {} to qiniu oss,result:{}", key, res.isOK());
-            return prefix + key;
+            return systemProperties.getQnPrefix() + key;
         } catch (QiniuException e) {
             logger.error("error upload file to qiniu ！", e);
             return "";
@@ -118,41 +113,10 @@ public class QiniuStoreServiceImpl implements FileService {
     public void deleteFile(String key) {
         BucketManager bucketManager = new BucketManager(auth, configuration);
         try {
-            bucketManager.delete(bucket, key);
+            bucketManager.delete(systemProperties.getQnBucket(), key);
         } catch (QiniuException e) {
             logger.error("删除失败", e);
         }
     }
 
-    public String getAccessKey() {
-        return accessKey;
-    }
-
-    public void setAccessKey(String accessKey) {
-        this.accessKey = accessKey;
-    }
-
-    public String getSecretKey() {
-        return secretKey;
-    }
-
-    public void setSecretKey(String secretKey) {
-        this.secretKey = secretKey;
-    }
-
-    public String getBucket() {
-        return bucket;
-    }
-
-    public void setBucket(String bucket) {
-        this.bucket = bucket;
-    }
-
-    public String getPrefix() {
-        return prefix;
-    }
-
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
-    }
 }

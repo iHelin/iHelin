@@ -13,7 +13,7 @@ import me.ianhe.isite.model.ding.Link;
 import me.ianhe.isite.model.douban.Movie;
 import me.ianhe.isite.model.douban.Subject;
 import me.ianhe.isite.utils.JsonUtil;
-import me.ianhe.isite.utils.WechatUtil;
+import me.ianhe.isite.utils.WeChatUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -165,7 +165,7 @@ public class TaskService {
         long betweenDays = (terminalLong - nowLong) / (1000L * 3600 * 24);
         if (betweenDays > 0) {
             Map<String, Object> contentMap = Maps.newHashMap();
-            String res = WechatUtil.doGetStr("http://open.iciba.com/dsapi");
+            String res = WeChatUtil.doGetStr("http://open.iciba.com/dsapi");
             Map<String, Object> resMap = JsonUtil.parseMap(res);
             contentMap.put("title", "葫芦娃学英语");
             String text = "## 距离2019【ky】还剩" + betweenDays + "天！\n" +
@@ -189,7 +189,7 @@ public class TaskService {
      */
     private void sendMovie() {
         String url = "https://movie.douban.com/j/search_subjects?type=movie&tag=%E7%83%AD%E9%97%A8&page_limit=50&page_start=0";
-        String res = WechatUtil.doGetStr(url);
+        String res = WeChatUtil.doGetStr(url);
         Movie movie = JsonUtil.parseObject(res, Movie.class);
         List<Subject> subjectList = movie.getSubjects();
         if (subjectList == null || subjectList.isEmpty()) {
@@ -222,7 +222,7 @@ public class TaskService {
      * @since 2018/7/8 20:05
      */
     private void sendMenu() {
-        String dataStr = WechatUtil.doGetStr("https://dev.fluttercn.com/now-eat/menu-0620.json");
+        String dataStr = WeChatUtil.doGetStr("https://dev.fluttercn.com/now-eat/menu-0620.json");
         Map<String, Object> map = JsonUtil.parseMap(dataStr);
         List<String> workDate = (List<String>) map.get("workDate");
         String currentDateStr = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
