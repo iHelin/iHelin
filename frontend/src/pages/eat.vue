@@ -15,8 +15,7 @@
                             v-loading="loading"
                             :data="a22f"
                             border
-                            stripe
-                            style="width: 100%">
+                            stripe>
                         <el-table-column
                                 prop="key"
                                 align="center"
@@ -41,8 +40,7 @@
                             v-loading="loading"
                             :data="a23f"
                             border
-                            stripe
-                            style="width: 100%">
+                            stripe>
                         <el-table-column
                                 prop="key"
                                 align="center"
@@ -67,8 +65,7 @@
                             v-loading="loading"
                             :data="a55f"
                             border
-                            stripe
-                            style="width: 100%">
+                            stripe>
                         <el-table-column
                                 prop="key"
                                 align="center"

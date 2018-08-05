@@ -98,7 +98,7 @@ public class ArticleService {
         }
         List<Article> data = articleMapper.listByCondition(res, new RowBounds(currentPage, pageLength));
         long totalCount = articleMapper.listCount(res);
-        return new Pagination(data, totalCount, currentPage, pageLength);
+        return new Pagination<>(data, totalCount, currentPage, pageLength);
     }
 
     public List<Article> listByCondition(String title, int currentPage, int pageLength) {
