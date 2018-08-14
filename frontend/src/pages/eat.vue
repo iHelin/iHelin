@@ -104,7 +104,7 @@
                         res.data.nooning.a22f.forEach(item => {
                             this.a22f.push({
                                 key: item.key.replace(/&ensp;/g, "").replace(/&emsp;/g, ""),
-                                value: item.value[i] + (item.value[i + 5] ? '+' + item.value[i + 5] : '')
+                                value: item.value[i] + (item.value[i + 7] ? '+' + item.value[i + 7] : '')
                             })
                         });
                         res.data.nooning.a23f.forEach(item => {
@@ -116,7 +116,7 @@
                         res.data.nooning.a55f.forEach(item => {
                             this.a55f.push({
                                 key: item.key.replace(/&ensp;/g, "").replace(/&emsp;/g, ""),
-                                value: item.value[i] + (item.value[i + 5] ? '+' + item.value[i + 5] : '')
+                                value: item.value[i] + (item.value[i + 7] ? '+' + item.value[i + 7] : '')
                             })
                         });
                     }
