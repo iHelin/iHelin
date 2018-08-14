@@ -51,6 +51,18 @@ public class TaskService {
     private EmailService emailService;
 
     /**
+     * 工作日11点执行
+     *
+     * @author iHelin
+     * @since 2018/1/10 09:07
+     */
+    @Scheduled(cron = "0 0 11 ? * MON-FRI")
+    public void runEveryDay11() {
+        logger.debug("runWorkDay11");
+        sendMenu();
+    }
+
+    /**
      * 工作日12点执行
      *
      * @author iHelin
@@ -96,18 +108,6 @@ public class TaskService {
     public void runEveryDay7() {
         logger.debug("runEveryDay7");
         dailyEnglish();
-    }
-
-    /**
-     * 每天11点执行
-     *
-     * @author iHelin
-     * @since 2018/1/10 09:07
-     */
-    @Scheduled(cron = "0 0 11 * * *")
-    public void runEveryDay11() {
-        logger.debug("runEveryDay11");
-        sendMenu();
     }
 
     /**
@@ -230,15 +230,6 @@ public class TaskService {
             if (currentDateStr.equals(workDate.get(currentIndex))) {
                 Map<String, Object> nooning = (Map<String, Object>) map.get("nooning");
                 nooning.put("currentIndex", currentIndex);
-                List<Map> a22f = (List<Map>) nooning.get("a22f");
-                for (Map anA22f : a22f) {
-                    String foodType = (String) anA22f.get("key");
-                    List<String> foodList = (List<String>) anA22f.get("value");
-                    String foodName = foodList.get(currentIndex);
-                    String secondFoodName = foodList.size() > 5 ? foodList.get(currentIndex + 5) : "";
-                    System.out.println(foodType.replaceAll("&ensp;", "")
-                            .replaceAll("&emsp;", "") + ":" + foodName + "/" + secondFoodName);
-                }
                 List<Map> timeplan = (List<Map>) map.get("timeplan");
                 String mealTime = "";
                 for (Map tp : timeplan) {

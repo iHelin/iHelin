@@ -66,7 +66,7 @@
              <td>${a['key']}</td>
              <td>
                 <#if a['value'][currentIndex]??>${a['value'][currentIndex]}</#if>
-                <#if a['value'][currentIndex+5]??> + ${a['value'][currentIndex+5]}</#if>
+                <#if a['value'][currentIndex+7]??> + ${a['value'][currentIndex+7]}</#if>
              </td>
          </tr>
         </#list>
@@ -102,7 +102,7 @@
             <td>${a['key']}</td>
             <td>
                 <#if a['value'][currentIndex]??>${a['value'][currentIndex]}</#if>
-                <#if a['value'][currentIndex+5]??> + ${a['value'][currentIndex+5]}</#if>
+                <#if a['value'][currentIndex+7]??> + ${a['value'][currentIndex+7]}</#if>
             </td>
         </tr>
         </#list>
