@@ -1,8 +1,8 @@
 package me.ianhe.isite.config.security;
 
-import me.ianhe.isite.controller.CommonController;
 import me.ianhe.isite.exception.CaptchaException;
 import me.ianhe.isite.model.CaptchaCode;
+import me.ianhe.isite.utils.Constant;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.web.bind.ServletRequestBindingException;
@@ -29,7 +29,7 @@ public class CaptchaFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (StringUtils.equals(request.getRequestURI(), "/login")
+        if (StringUtils.equals(request.getRequestURI(), Constant.LOGIN_PROCESSIMG_URL)
                 && StringUtils.equalsIgnoreCase(request.getMethod(), "post")) {
             try {
                 validate(request);
@@ -49,7 +49,7 @@ public class CaptchaFilter extends OncePerRequestFilter {
      */
     private void validate(HttpServletRequest request) throws ServletRequestBindingException {
         HttpSession session = request.getSession();
-        CaptchaCode captchaCode = (CaptchaCode) session.getAttribute(CommonController.CAPTCHA_CODE_KEY);
+        CaptchaCode captchaCode = (CaptchaCode) session.getAttribute(Constant.CAPTCHA_CODE_KEY);
         String codeInRequest = ServletRequestUtils.getStringParameter(request, SPRING_SECURITY_FORM_CAPTCHA_KEY);
         if (StringUtils.isBlank(codeInRequest)) {
             throw new CaptchaException("验证码的值不能为空");
@@ -63,7 +63,7 @@ public class CaptchaFilter extends OncePerRequestFilter {
         if (!StringUtils.equalsIgnoreCase(codeInRequest, captchaCode.getCode())) {
             throw new CaptchaException("验证码不匹配");
         }
-        session.removeAttribute(CommonController.CAPTCHA_CODE_KEY);
+        session.removeAttribute(Constant.CAPTCHA_CODE_KEY);
     }
 
     public void setAuthenticationFailureHandler(AuthenticationFailureHandler authenticationFailureHandler) {

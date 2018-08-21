@@ -4,6 +4,7 @@ import me.ianhe.isite.dao.AdviceMapper;
 import me.ianhe.isite.entity.Advice;
 import me.ianhe.isite.entity.Poem;
 import me.ianhe.isite.model.CaptchaCode;
+import me.ianhe.isite.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,8 +27,6 @@ public class CommonController extends BaseController {
 
     @Autowired
     private AdviceMapper adviceMapper;
-
-    public static final String CAPTCHA_CODE_KEY = "code";
 
     /**
      * 古诗接口
@@ -56,7 +55,7 @@ public class CommonController extends BaseController {
         logger.debug("图形验证码为：{}", code);
         BufferedImage image = defaultKaptcha.createImage(code);
         CaptchaCode captchaCode = new CaptchaCode(image, code, 300L);
-        session.setAttribute(CAPTCHA_CODE_KEY, captchaCode);
+        session.setAttribute(Constant.CAPTCHA_CODE_KEY, captchaCode);
         ImageIO.write(image, "JPEG", response.getOutputStream());
     }
 

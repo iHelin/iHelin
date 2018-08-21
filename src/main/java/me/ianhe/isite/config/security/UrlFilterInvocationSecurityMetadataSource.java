@@ -27,6 +27,13 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
 
     private AntPathMatcher antPathMatcher = new AntPathMatcher();
 
+    /**
+     * 根据资源获取对应角色
+     *
+     * @param o
+     * @return
+     * @throws IllegalArgumentException
+     */
     @Override
     public Collection<ConfigAttribute> getAttributes(Object o) throws IllegalArgumentException {
         String requestUrl = ((FilterInvocation) o).getRequestUrl();
