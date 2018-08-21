@@ -72,23 +72,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         CaptchaFilter captchaFilter = new CaptchaFilter();
         captchaFilter.setAuthenticationFailureHandler(authenticationFailureHandler);
         http.addFilterBefore(captchaFilter, UsernamePasswordAuthenticationFilter.class)
-                .authorizeRequests()
-                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+                .authorizeRequests().withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override
                     public FilterSecurityInterceptor postProcess(FilterSecurityInterceptor interceptor) {
                         interceptor.setSecurityMetadataSource(urlFilterInvocationSecurityMetadataSource);
                         interceptor.setAccessDecisionManager(urlAccessDecisionManager);
                         return interceptor;
                     }
-                })
-                .and().formLogin().loginPage(Constant.LOGIN_PAGE).loginProcessingUrl("/login").permitAll()
-                .failureHandler(authenticationFailureHandler)
-                .successHandler(authenticationSuccessHandler)
-                .and().logout().permitAll()
-                .and()
+                }).and()
+                .formLogin().loginPage(Constant.LOGIN_PAGE).loginProcessingUrl("/login").permitAll()
+                .failureHandler(authenticationFailureHandler).successHandler(authenticationSuccessHandler).and()
+                .logout().permitAll().and()
                 .csrf().disable()
-                .exceptionHandling()
-                .authenticationEntryPoint(myAuthenticationEntryPoint)
+                .exceptionHandling().authenticationEntryPoint(myAuthenticationEntryPoint)
                 .accessDeniedHandler(accessDeniedHandler);
     }
 

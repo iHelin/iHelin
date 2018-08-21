@@ -3,7 +3,7 @@ package me.ianhe.isite.entity;
 import java.io.Serializable;
 
 /**
- * @author linhe2
+ * @author iHelin
  * @since 2018/4/27 13:11
  */
 public class SysRole implements Serializable {

@@ -3,7 +3,7 @@ package me.ianhe.isite.entity;
 /**
  * BusStation
  *
- * @author linhe2
+ * @author iHelin
  * @since 2018/7/9 12:37
  */
 public class BusStation {

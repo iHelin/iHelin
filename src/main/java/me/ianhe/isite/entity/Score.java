@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * Score
  *
- * @author linhe2
+ * @author iHelin
  * @since 2018/7/9 12:37
  */
 public class Score implements Serializable {

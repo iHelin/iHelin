@@ -16,7 +16,7 @@ import javax.jms.Queue;
 /**
  * 启动类
  *
- * @author linhe2
+ * @author iHelin
  * @since 2018/5/12 16:53
  */
 @EnableJms

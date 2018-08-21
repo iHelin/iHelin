@@ -113,7 +113,7 @@ public class TaskService {
     /**
      * 每周五16点执行
      *
-     * @author linhe2
+     * @author iHelin
      * @since 2018/7/8 18:06
      */
     @Scheduled(cron = "0 0 16 ? * FRI")
@@ -218,7 +218,7 @@ public class TaskService {
     /**
      * 发送菜单
      *
-     * @author linhe2
+     * @author iHelin
      * @since 2018/7/8 20:05
      */
     private void sendMenu() {
@@ -238,7 +238,7 @@ public class TaskService {
                     }
                 }
                 nooning.put("mealTime", mealTime);
-                emailService.sendTemplateMail("linhe2@iflytek.com", "今日菜单", "iflytekFood.ftl", nooning);
+                emailService.sendTemplateMail("ihelin@outlook.com", "今日菜单", "iflytekFood.ftl", nooning);
             }
         }
     }
