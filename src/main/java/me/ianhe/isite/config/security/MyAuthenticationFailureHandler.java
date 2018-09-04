@@ -3,8 +3,8 @@ package me.ianhe.isite.config.security;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
 import me.ianhe.isite.exception.CaptchaException;
-import me.ianhe.isite.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.AuthenticationException;
@@ -30,7 +30,7 @@ public class MyAuthenticationFailureHandler implements AuthenticationFailureHand
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException {
-        httpServletResponse.setContentType(Constant.CONTENT_TYPE_JSON);
+        httpServletResponse.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         PrintWriter out = httpServletResponse.getWriter();
         Map<String, String> res = Maps.newHashMap();
         res.put("status", "error");

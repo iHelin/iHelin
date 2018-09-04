@@ -2,8 +2,8 @@ package me.ianhe.isite.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
-import me.ianhe.isite.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -28,7 +28,7 @@ public class MyAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.setContentType(Constant.CONTENT_TYPE_JSON);
+        response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         PrintWriter out = response.getWriter();
         Map<String, String> res = Maps.newHashMap();
         res.put("status", "error");

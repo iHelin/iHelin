@@ -2,8 +2,8 @@ package me.ianhe.isite.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
-import me.ianhe.isite.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
@@ -30,7 +30,7 @@ public class MyAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) throws IOException, ServletException {
         httpServletResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        httpServletResponse.setContentType(Constant.CONTENT_TYPE_JSON);
+        httpServletResponse.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         PrintWriter out = httpServletResponse.getWriter();
         Map<String, String> res = Maps.newHashMap();
         res.put("status", "error");

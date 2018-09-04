@@ -2,8 +2,8 @@ package me.ianhe.isite.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
-import me.ianhe.isite.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -28,7 +28,7 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest,
                                         HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
-        httpServletResponse.setContentType(Constant.CONTENT_TYPE_JSON);
+        httpServletResponse.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         PrintWriter out = httpServletResponse.getWriter();
         Map<String, Object> res = Maps.newHashMap();
         res.put("status", "success");
