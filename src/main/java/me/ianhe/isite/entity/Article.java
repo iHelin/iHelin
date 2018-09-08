@@ -2,6 +2,9 @@ package me.ianhe.isite.entity;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -17,18 +20,21 @@ public class Article implements Serializable {
 
     private Integer id;
 
+    @NotBlank
     private String title;
 
     private String author;
 
     private String summary;
 
+    @Min(1)
     private Long readNum;
 
     private Date createTime;
 
     private Date updateTime;
 
+    @Size(min = 1, max = 100)
     private String content;
 
     public Integer getId() {
