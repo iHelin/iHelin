@@ -21,6 +21,7 @@ public class Menu implements Serializable {
     private String name;
     private String iconCls;
     private Long parentId;
+    private Boolean keepAlive;
     private List<Role> roles;
     private List<Menu> children;
     private MenuMeta meta;
@@ -98,6 +99,14 @@ public class Menu implements Serializable {
 
     public void setParentId(Long parentId) {
         this.parentId = parentId;
+    }
+
+    public Boolean getKeepAlive() {
+        return keepAlive;
+    }
+
+    public void setKeepAlive(Boolean keepAlive) {
+        this.keepAlive = keepAlive;
     }
 
     @JsonIgnore

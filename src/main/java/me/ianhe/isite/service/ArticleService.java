@@ -9,10 +9,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -31,7 +27,6 @@ import java.util.Map;
  * @author <href mailto="mailto:ihelin@outlook.com">iHelin</href>
  */
 @Service
-@CacheConfig(cacheNames = "article")
 public class ArticleService {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -49,38 +44,16 @@ public class ArticleService {
         return articleMapper.insert(article);
     }
 
-    /**
-     * 更新文章并更新缓存
-     * key = "#article.id" 或 key = "#result.id"
-     *
-     * @param article
-     * @return
-     */
-    @CachePut(key = "#article.id")
     public Article editArticle(Article article) {
         logger.info("update article:{}", JsonUtil.toJson(article));
         articleMapper.updateByPrimaryKey(article);
         return article;
     }
 
-    /**
-     * 查询文章
-     *
-     * @param id
-     * @return
-     */
-    @Cacheable
     public Article selectArticleById(Integer id) {
         return articleMapper.selectByPrimaryKey(id);
     }
 
-    /**
-     * 删除文章
-     *
-     * @param id
-     * @return
-     */
-    @CacheEvict
     public int deleteById(Integer id) {
         return articleMapper.deleteByPrimaryKey(id);
     }

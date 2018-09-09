@@ -39,46 +39,46 @@
     </resultMap>
     <select id="getAllMenu" resultMap="BaseResultMap">
         select
-            t_menu.*,
-            t_role.`id`     as rid,
-            t_role.`name`   as rname,
-            t_role.`nameZh` as rnamezh
+        t_menu.*,
+        t_role.`id` as rid,
+        t_role.`name` as rname,
+        t_role.`nameZh` as rnamezh
         from t_menu
-            left join t_menu_role on t_menu.`id` = t_menu_role.`mid`
-            left join t_role on t_menu_role.`rid` = t_role.`id`
+        left join t_menu_role on t_menu.`id` = t_menu_role.`mid`
+        left join t_role on t_menu_role.`rid` = t_role.`id`
         WHERE t_menu.`enabled` = true
         order by t_menu.`id` desc
     </select>
     <select id="getMenusByUserId" parameterType="Long" resultMap="BaseResultMap">
         select
-            m1.`id`,
-            m1.`path`,
-            m1.`component`,
-            m1.`iconCls`,
-            m1.`name`,
-            m1.`requireAuth`,
-            m2.`component`   as component2,
-            m2.`iconCls`     as iconCls2,
-            m2.`keepAlive`   as keepAlive2,
-            m2.`name`        as name2,
-            m2.`path`        as path2,
-            m2.`requireAuth` as requireAuth2
+        m1.`id`,
+        m1.`path`,
+        m1.`component`,
+        m1.`iconCls`,
+        m1.`name`,
+        m1.`requireAuth`,
+        m2.`component` as component2,
+        m2.`iconCls` as iconCls2,
+        m2.`keepAlive` as keepAlive2,
+        m2.`name` as name2,
+        m2.`path` as path2,
+        m2.`requireAuth` as requireAuth2
         from t_menu m1, t_menu m2
         where m1.`id` = m2.`parentId` and m1.`id` != 1 and m2.`id` in (select mr.`mid`
-                                                                       from t_user_role, t_menu_role mr
-                                                                       where t_user_role.`rid` = mr.`rid` and
-                                                                             t_user_role.`uid` = #{uid}) and
-              m2.`enabled` = true
+        from t_user_role, t_menu_role mr
+        where t_user_role.`rid` = mr.`rid` and
+        t_user_role.`uid` = #{uid}) and
+        m2.`enabled` = true
         order by m1.`id`, m2.`id`
     </select>
     <select id="menuTree" resultMap="BaseResultMap">
         select
-            m1.`id`,
-            m1.`name`,
-            m2.`id`   as id2,
-            m2.`name` as name2,
-            m3.`id`   as id3,
-            m3.`name` as name3
+        m1.`id`,
+        m1.`name`,
+        m2.`id` as id2,
+        m2.`name` as name2,
+        m3.`id` as id3,
+        m3.`name` as name3
         from t_menu m1, t_menu m2, t_menu m3
         where m1.`id` = m2.`parentId` and m2.`id` = m3.`parentId` and m3.`enabled` = true
     </select>

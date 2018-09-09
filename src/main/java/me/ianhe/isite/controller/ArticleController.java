@@ -33,8 +33,8 @@ public class ArticleController extends BaseController {
     public Article getArticle(@PathVariable Integer id) {
         Assert.notNull(id, "Article id can not be null.");
         Article article = articleService.selectArticleById(id);
-        Long readCount = commonRedisDao.getLong(READ_COUNT_KEY + id);
         if (article != null) {
+            Long readCount = commonRedisDao.getLong(READ_COUNT_KEY + id);
             producerService.sendMessage(destination, id);
             article.setReadNum(readCount);
         }
