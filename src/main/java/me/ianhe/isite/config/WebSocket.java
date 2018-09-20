@@ -1,4 +1,4 @@
-package me.ianhe.isite.service;
+package me.ianhe.isite.config;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -12,6 +12,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.Date;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
@@ -20,13 +21,13 @@ import java.util.concurrent.CopyOnWriteArraySet;
  */
 @Component
 @ServerEndpoint("/webSocket")
-public class WebSocketService {
+public class WebSocket {
 
     private Session session;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    private static CopyOnWriteArraySet<WebSocketService> webSockets = new CopyOnWriteArraySet<>();
+    private static CopyOnWriteArraySet<WebSocket> webSockets = new CopyOnWriteArraySet<>();
 
     @OnOpen
     public void onOpen(Session session) {
@@ -44,10 +45,11 @@ public class WebSocketService {
     @OnMessage
     public void onMessage(String message) {
         logger.debug("[websocket消息]收到客户端发来的消息：{}", message);
+        sendMessage("收到消息啦，" + new Date());
     }
 
     public void sendMessage(String message) {
-        for (WebSocketService webSocket : webSockets) {
+        for (WebSocket webSocket : webSockets) {
             logger.debug("[websocket消息]广播消息,message:{}", message);
             try {
                 webSocket.session.getBasicRemote().sendText(message);

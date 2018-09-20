@@ -2,7 +2,6 @@ package me.ianhe.isite.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +18,6 @@ public class JmsProducerService {
 
     private final JmsMessagingTemplate jmsMessagingTemplate;
 
-    @Autowired
     public JmsProducerService(JmsMessagingTemplate jmsMessagingTemplate) {
         this.jmsMessagingTemplate = jmsMessagingTemplate;
     }

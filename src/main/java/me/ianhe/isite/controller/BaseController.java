@@ -30,8 +30,6 @@ public abstract class BaseController {
     @Autowired
     protected QrcodeService qrcodeService;
     @Autowired
-    protected WebSocketService webSocket;
-    @Autowired
     protected CommonRedisDao commonRedisDao;
     @Autowired
     protected ObjectMapper objectMapper;

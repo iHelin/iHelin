@@ -7,72 +7,68 @@
     <meta name="description" content="细心在任何时候都不是多余的"/>
     <meta name="author" content="Ian He"/>
     <title>WebSocket Test</title>
-    <link rel="icon" href="${request.contextPath}/favicon.ico"/>
-    <link rel="stylesheet" type="text/css" href="${request.contextPath}/plugins/element-ui/index.css">
 </head>
 <body>
-<div id="app">
-    <h1>WebSocket Test</h1>
-    <el-input
-            type="textarea"
-            :rows="2"
-            placeholder="请输入内容"
-            v-model="data">
-    </el-input>
-    <el-button @click="send">发送</el-button>
+<p>Welcome</p>
+<input id="text" type="text"/>
+<button onclick="send()">Send</button>
+<button onclick="closeWebSocket()">Close</button>
+<div id="message">
 </div>
-<script src="${request.contextPath}/plugins/vue/vue.js"></script>
-<script src="${request.contextPath}/plugins/vue/vue-resource.js"></script>
-<script src="${request.contextPath}/plugins/element-ui/index.js"></script>
 <script>
-    new Vue({
-        el: '#app',
-        data: {
-            webSocket: null,
-            data: 'test'
-        },
-        mounted: function () {
-            this.init();
-        },
-        beforeDestroy: function () {
-            this.webSocket.close();
-        },
-        methods: {
-            send: function () {
-                this.$http.post('${request.contextPath}/ws', {
-                    data: this.data
-                }).then(res => {
-//                    console.log(res);
-                });
-            },
-            init: function () {
-                var that = this;
-                if ('WebSocket' in window) {
-                    this.webSocket = new WebSocket('ws://${serverName!}${request.contextPath}/webSocket');
-                } else {
-                    alert("该浏览器不支持webSocket！");
-                }
-                this.webSocket.onopen = function (event) {
-                    console.log('建立连接！');
-                };
-                this.webSocket.onclose = function (event) {
-                    console.log('关闭连接！');
-                };
-                this.webSocket.onmessage = function (event) {
-                    that.$message({
-                        message: '收到消息：' + event.data,
-                        type: 'success'
-                    });
-                };
-                this.webSocket.onerror = function (event) {
-                    that.$message({
-                        message: 'webSocket通信发生错误！',
-                        type: 'error'
-                    });
-                };
-            }
-        }
-    });
+
+    var url = 'ws://' + window.location.host + '/webSocket';
+    var websocket = null;
+
+    //判断当前浏览器是否支持WebSocket
+    if ('WebSocket' in window) {
+        websocket = new WebSocket(url);
+    }
+    else {
+        alert('Not support websocket')
+    }
+
+    //连接发生错误的回调方法
+    websocket.onerror = function () {
+        setMessageInnerHTML("error");
+    };
+
+    //连接成功建立的回调方法
+    websocket.onopen = function (event) {
+        console.log('建立连接！');
+        setMessageInnerHTML("open");
+    }
+
+    //接收到消息的回调方法
+    websocket.onmessage = function (event) {
+        setMessageInnerHTML(event.data);
+    }
+
+    //连接关闭的回调方法
+    websocket.onclose = function () {
+        setMessageInnerHTML("close");
+    }
+
+    //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
+    window.onbeforeunload = function () {
+        websocket.close();
+    }
+
+    //将消息显示在网页上
+    function setMessageInnerHTML(innerHTML) {
+        document.getElementById('message').innerHTML = innerHTML + '<br/>';
+    }
+
+    //关闭连接
+    function closeWebSocket() {
+        websocket.close();
+    }
+
+    //发送消息
+    function send() {
+        var message = document.getElementById('text').value;
+        websocket.send(message);
+    }
 </script>
 </body>
 </html>

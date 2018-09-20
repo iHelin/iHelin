@@ -18,12 +18,6 @@ import java.util.Map;
 @RequestMapping("/test")
 public class TestController extends BaseController {
 
-    @PostMapping("ws")
-    public Map<String, Object> sendMessage(@RequestBody Map<String, String> data) {
-        webSocket.sendMessage(data.get("data"));
-        return success();
-    }
-
     @GetMapping("/eat")
     public Map<String, Object> eat() {
         taskService.runEveryDay11();
