@@ -2,8 +2,6 @@ package me.ianhe.isite.controller;
 
 import me.ianhe.isite.config.SystemProperties;
 import me.ianhe.isite.entity.Score;
-import me.ianhe.isite.utils.JsonUtil;
-import me.ianhe.isite.utils.WeChatUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 分数
@@ -24,20 +21,6 @@ public class ScoreController extends BaseController {
 
     @Autowired
     private SystemProperties systemProperties;
-
-    @GetMapping("scores/login")
-    public String login(String code) {
-        String url = "https://api.weixin.qq.com/sns/jscode2session?appid="
-                + systemProperties.getXcxAppid() + "&secret=" + systemProperties.getXcxSecret() + "&js_code=" + code + "&grant_type=authorization_code";
-        logger.info("url is : {}", url);
-        String res = WeChatUtil.doGetStr(url);
-        logger.info("res is :{}", res);
-        Map<String, Object> resMap = JsonUtil.parseMap(res);
-        String openid = (String) resMap.get("openid");
-        String sessionKey = (String) resMap.get("session_key");
-        commonRedisDao.setTimeout(sessionKey, openid + sessionKey, 7200L, TimeUnit.SECONDS);
-        return sessionKey;
-    }
 
     /**
      * 加分操作

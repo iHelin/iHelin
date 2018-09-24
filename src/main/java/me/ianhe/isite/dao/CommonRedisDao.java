@@ -144,6 +144,17 @@ public class CommonRedisDao {
     }
 
     /**
+     * 将map写入缓存
+     *
+     * @author iHelin
+     * @since 2017/9/16 17:16
+     */
+    public <T> void setMapTimeout(String key, Map<String, T> map, Long timeout, TimeUnit unit) {
+        stringRedisTemplate.opsForHash().putAll(key, map);
+        stringRedisTemplate.expire(key, timeout, unit);
+    }
+
+    /**
      * 向key对应的map中添加缓存对象
      *
      * @author iHelin

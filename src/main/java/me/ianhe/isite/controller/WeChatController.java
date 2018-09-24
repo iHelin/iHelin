@@ -1,6 +1,8 @@
 package me.ianhe.isite.controller;
 
+import com.google.common.collect.Maps;
 import me.ianhe.isite.config.SystemProperties;
+import me.ianhe.isite.utils.JsonUtil;
 import me.ianhe.isite.utils.WeChatUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,23 +11,55 @@ import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author iHelin
  * @since 2018/7/21 19:23
  */
 @RestController
-public class WeChatController {
+@RequestMapping("/wechat")
+public class WeChatController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private SystemProperties systemProperties;
+
+    @GetMapping("/login")
+    public ResponseEntity<String> login(String code) {
+        if (StringUtils.isEmpty(code)) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        String url = "https://api.weixin.qq.com/sns/jscode2session?appid="
+                + systemProperties.getXcxAppid() + "&secret=" + systemProperties.getXcxSecret() + "&js_code=" + code + "&grant_type=authorization_code";
+        logger.info("url is : {}", url);
+        String res = WeChatUtil.doGetStr(url);
+        logger.info("res is :{}", res);
+        Map<String, Object> resMap = JsonUtil.parseMap(res);
+        String openid = (String) resMap.get("openid");
+        if (StringUtils.hasText(openid)) {
+            String sessionKey = (String) resMap.get("session_key");
+            Integer expiresIn = (Integer) resMap.get("expires_in");
+            Map<String, Object> loginMap = Maps.newHashMap();
+            loginMap.put("openId", openid);
+            loginMap.put("sessionKey", sessionKey);
+            String redisLoginKey = UUID.randomUUID().toString().replaceAll("-", "");
+            commonRedisDao.setMapTimeout(redisLoginKey, loginMap, Long.valueOf(expiresIn), TimeUnit.SECONDS);
+            return new ResponseEntity<>(redisLoginKey, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     @GetMapping("/wxLogin")
     public void login(HttpServletResponse response) throws IOException {
