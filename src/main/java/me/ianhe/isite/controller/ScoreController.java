@@ -1,8 +1,6 @@
 package me.ianhe.isite.controller;
 
-import me.ianhe.isite.config.SystemProperties;
 import me.ianhe.isite.entity.Score;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,9 +16,6 @@ import java.util.Map;
  */
 @RestController
 public class ScoreController extends BaseController {
-
-    @Autowired
-    private SystemProperties systemProperties;
 
     /**
      * 加分操作
@@ -47,7 +42,7 @@ public class ScoreController extends BaseController {
     }
 
     @GetMapping("scores")
-    public List<Score> getScores(@RequestParam(defaultValue = "1") Integer pageNum,
+    public List<Score> getScores(@RequestParam(defaultValue = DEFAULT_PAGE_NUMBER) Integer pageNum,
                                  @RequestParam(defaultValue = DEFAULT_PAGE_LENGTH) Integer pageLength) {
         return scoreService.selectByCondition(pageNum, pageLength);
     }

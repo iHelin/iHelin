@@ -1,12 +1,12 @@
 package me.ianhe.isite.service;
 
+import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.PageRowBounds;
 import com.google.common.collect.Maps;
 import me.ianhe.isite.dao.ArticleMapper;
 import me.ianhe.isite.entity.Article;
-import me.ianhe.isite.model.Pagination;
 import me.ianhe.isite.utils.JsonUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -64,14 +64,13 @@ public class ArticleService {
      * @author iHelin
      * @since 2017/12/19 15:17
      */
-    public Pagination findByPage(String title, int currentPage, int pageLength) {
+    public PageInfo<Article> findByPage(String title, int currentPage, int pageLength) {
         Map<String, Object> res = Maps.newHashMap();
         if (StringUtils.isNotEmpty(title)) {
             res.put("title", title);
         }
-        List<Article> data = articleMapper.listByCondition(res, new RowBounds(currentPage, pageLength));
-        long totalCount = articleMapper.listCount(res);
-        return new Pagination<>(data, totalCount, currentPage, pageLength);
+        List<Article> data = articleMapper.listByCondition(res, new PageRowBounds(currentPage, pageLength));
+        return new PageInfo<>(data);
     }
 
     public List<Article> listByCondition(String title, int currentPage, int pageLength) {
@@ -79,7 +78,7 @@ public class ArticleService {
         if (StringUtils.isNotEmpty(title)) {
             res.put("title", title);
         }
-        return articleMapper.listByCondition(res, new RowBounds(currentPage, pageLength));
+        return articleMapper.listByCondition(res, new PageRowBounds(currentPage, pageLength));
     }
 
 }

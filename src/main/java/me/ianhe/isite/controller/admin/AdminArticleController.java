@@ -1,7 +1,7 @@
 package me.ianhe.isite.controller.admin;
 
+import com.github.pagehelper.PageInfo;
 import me.ianhe.isite.entity.Article;
-import me.ianhe.isite.model.Pagination;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
@@ -38,7 +38,8 @@ public class AdminArticleController extends BaseAdminController {
      * @since 2017/12/21 10:02
      */
     @GetMapping
-    public Pagination getArticles(@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "10") Integer pageSize) {
+    public PageInfo<Article> getArticles(@RequestParam(defaultValue = "1") Integer pageNum,
+                                         @RequestParam(defaultValue = DEFAULT_PAGE_LENGTH) Integer pageSize) {
         return articleService.findByPage(null, pageNum, pageSize);
     }
 

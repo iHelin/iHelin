@@ -30,8 +30,8 @@ public class ScoreService {
         return scoreMapper.insert(ms);
     }
 
-    public List<Score> selectByCondition(int offset, int size) {
-        return scoreMapper.selectByCondition(new RowBounds(offset, size));
+    public List<Score> selectByCondition(int pageNum, int size) {
+        return scoreMapper.selectByCondition(new RowBounds(pageNum, size));
     }
 
 }

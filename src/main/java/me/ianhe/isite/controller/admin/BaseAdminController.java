@@ -12,6 +12,5 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin")
 public abstract class BaseAdminController extends BaseController {
 
-    private static final String NAMESPACE = "admin";
 
 }

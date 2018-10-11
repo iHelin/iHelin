@@ -14,7 +14,4 @@
         <!--设置超时时间，它决定驱动等待数据库响应的秒数。-->
         <setting name="defaultStatementTimeout" value="2000"/>
     </settings>
-    <plugins>
-        <plugin interceptor="me.ianhe.isite.config.PaginationInterceptor"></plugin>
-    </plugins>
 </configuration>

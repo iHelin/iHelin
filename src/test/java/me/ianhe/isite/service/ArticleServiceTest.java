@@ -2,6 +2,7 @@ package me.ianhe.isite.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.pagehelper.PageInfo;
 import me.ianhe.isite.entity.Article;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,6 +27,12 @@ public class ArticleServiceTest {
     @Test
     public void listByCondition() throws JsonProcessingException {
         List<Article> articles = articleService.listByCondition(null, 1, 10);
+        System.out.println(objectMapper.writeValueAsString(articles));
+    }
+
+    @Test
+    public void findByPage() throws JsonProcessingException {
+        PageInfo<Article> articles = articleService.findByPage(null, 1, 10);
         System.out.println(objectMapper.writeValueAsString(articles));
     }
 }

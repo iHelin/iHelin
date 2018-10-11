@@ -1,5 +1,6 @@
 package me.ianhe.isite.controller;
 
+import com.github.pagehelper.PageInfo;
 import me.ianhe.isite.entity.Article;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -7,7 +8,6 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import javax.jms.Destination;
-import java.util.List;
 
 /**
  * @author iHelin
@@ -49,9 +49,9 @@ public class ArticleController extends BaseController {
      * @return
      */
     @GetMapping
-    public List<Article> getArticles(@RequestParam(defaultValue = "1") Integer pageNum,
-                                     @RequestParam(defaultValue = DEFAULT_PAGE_LENGTH) Integer pageLength) {
-        return articleService.listByCondition(null, pageNum, pageLength);
+    public PageInfo<Article> getArticles(@RequestParam(defaultValue = "1") Integer pageNum,
+                                         @RequestParam(defaultValue = DEFAULT_PAGE_LENGTH) Integer pageLength) {
+        return articleService.findByPage(null, pageNum, pageLength);
     }
 
 }
