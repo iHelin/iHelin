@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ul>
+        <ul v-loading="loading">
             <li v-for="article in articles">
                 <router-link :to="'/articles/'+article.id">{{article.title}}</router-link>
             </li>
@@ -19,6 +19,7 @@
             return {
                 activeNames: ['1'],
                 articles: [],
+                loading: true,
                 poem: {
                     title: '',
                     content: ''
@@ -35,6 +36,7 @@
                     pageNum: 1,
                     pageLength: 5
                 }).then(res => {
+                    this.loading = false;
                     this.articles = res.data.list;
                 }, e => {
                     console.error(e);
