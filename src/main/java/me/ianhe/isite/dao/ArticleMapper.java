@@ -45,25 +45,23 @@ public interface ArticleMapper {
      * 更新文章并更新缓存
      * key = "#article.id" 或 key = "#result.id"
      *
-     * @param record
+     * @param article
      * @return
      */
     @CachePut(key = "#article.id")
-    int updateByPrimaryKeySelective(Article record);
+    int updateByPrimaryKeySelective(Article article);
 
     /**
      * 更新文章并更新缓存
      * key = "#article.id" 或 key = "#result.id"
      *
-     * @param record
+     * @param article
      * @return
      */
     @CachePut(key = "#article.id")
-    int updateByPrimaryKey(Article record);
+    int updateByPrimaryKey(Article article);
 
     List<Article> listByCondition(Map<String, Object> res, RowBounds rowBounds);
-
-    long listCount(Map<String, Object> res);
 
     List<Integer> selectAllId();
 }

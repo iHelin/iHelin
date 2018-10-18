@@ -10,6 +10,7 @@ import org.springframework.jms.annotation.EnableJms;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.jms.Queue;
 
@@ -24,6 +25,7 @@ import javax.jms.Queue;
 @EnableScheduling
 @EnableWebSecurity
 @SpringBootApplication
+@EnableTransactionManagement
 @MapperScan("me.ianhe.isite.dao")
 @EnableAsync(proxyTargetClass = true)
 public class MyApplication {

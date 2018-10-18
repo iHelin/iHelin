@@ -89,8 +89,8 @@
                     pageSize: this.pageSize
                 }).then(res => {
                     this.loading = false;
-                    this.tableData = res.data.data;
-                    this.total = res.data.totalCount;
+                    this.tableData = res.data.list;
+                    this.total = res.data.total;
                 }, error => {
                     // console.error(error);
                 })

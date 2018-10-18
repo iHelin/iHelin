@@ -10,6 +10,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -34,6 +37,7 @@ public class ArticleService {
     @Resource
     private ArticleMapper articleMapper;
 
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
     public int addArticle(Article article) {
         article.setAuthor("Ian He");
         Date now = new Date();
@@ -64,21 +68,13 @@ public class ArticleService {
      * @author iHelin
      * @since 2017/12/19 15:17
      */
-    public PageInfo<Article> findByPage(String title, int currentPage, int pageLength) {
+    public PageInfo<Article> findByPage(String title, int pageNum, int pageSize) {
         Map<String, Object> res = Maps.newHashMap();
         if (StringUtils.isNotEmpty(title)) {
             res.put("title", title);
         }
-        List<Article> data = articleMapper.listByCondition(res, new PageRowBounds(currentPage, pageLength));
+        List<Article> data = articleMapper.listByCondition(res, new PageRowBounds(pageNum, pageSize));
         return new PageInfo<>(data);
-    }
-
-    public List<Article> listByCondition(String title, int currentPage, int pageLength) {
-        Map<String, Object> res = Maps.newHashMap();
-        if (StringUtils.isNotEmpty(title)) {
-            res.put("title", title);
-        }
-        return articleMapper.listByCondition(res, new PageRowBounds(currentPage, pageLength));
     }
 
 }

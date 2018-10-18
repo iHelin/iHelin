@@ -1,11 +1,11 @@
 package me.ianhe.isite.controller;
 
+import com.github.pagehelper.PageInfo;
 import me.ianhe.isite.entity.Score;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,8 +42,8 @@ public class ScoreController extends BaseController {
     }
 
     @GetMapping("scores")
-    public List<Score> getScores(@RequestParam(defaultValue = DEFAULT_PAGE_NUMBER) Integer pageNum,
-                                 @RequestParam(defaultValue = DEFAULT_PAGE_LENGTH) Integer pageLength) {
+    public PageInfo<Score> getScores(@RequestParam(defaultValue = DEFAULT_PAGE_NUMBER) Integer pageNum,
+                                     @RequestParam(defaultValue = DEFAULT_PAGE_LENGTH) Integer pageLength) {
         return scoreService.selectByCondition(pageNum, pageLength);
     }
 

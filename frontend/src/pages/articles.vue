@@ -18,7 +18,7 @@
                 pageNum: 1,
                 pageLength: 1000
             }).then(res => {
-                this.articles = res.data;
+                this.articles = res.data.list;
                 this.loading = false;
             }, e => {
                 console.error(e);

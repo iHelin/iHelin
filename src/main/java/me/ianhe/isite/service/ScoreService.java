@@ -1,12 +1,11 @@
 package me.ianhe.isite.service;
 
+import com.github.pagehelper.PageInfo;
 import me.ianhe.isite.dao.ScoreMapper;
 import me.ianhe.isite.entity.Score;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * @author iHelin
@@ -30,8 +29,8 @@ public class ScoreService {
         return scoreMapper.insert(ms);
     }
 
-    public List<Score> selectByCondition(int pageNum, int size) {
-        return scoreMapper.selectByCondition(new RowBounds(pageNum, size));
+    public PageInfo<Score> selectByCondition(int pageNum, int pageSize) {
+        return new PageInfo<>(scoreMapper.selectByCondition(new RowBounds(pageNum, pageSize)));
     }
 
 }

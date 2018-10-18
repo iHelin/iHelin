@@ -35,7 +35,7 @@
                     pageNum: 1,
                     pageLength: 5
                 }).then(res => {
-                    this.articles = res.data;
+                    this.articles = res.data.list;
                 }, e => {
                     console.error(e);
                 });
