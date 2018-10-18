@@ -136,7 +136,7 @@ const routes = [
 
 const router = new Router({
     routes: routes,
-    // mode: 'history',
+  mode: 'history',
     scrollBehavior(to, from, savedPosition) {
         if (savedPosition) {
             return savedPosition
