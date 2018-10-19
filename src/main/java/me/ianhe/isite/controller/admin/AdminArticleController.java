@@ -38,7 +38,7 @@ public class AdminArticleController extends BaseAdminController {
      * @since 2017/12/21 10:02
      */
     @GetMapping
-    public PageInfo<Article> getArticles(@RequestParam(defaultValue = "1") Integer pageNum,
+    public PageInfo<Article> getArticles(@RequestParam(defaultValue = DEFAULT_PAGE_NUMBER) Integer pageNum,
                                          @RequestParam(defaultValue = DEFAULT_PAGE_LENGTH) Integer pageSize) {
         return articleService.findByPage(null, pageNum, pageSize);
     }

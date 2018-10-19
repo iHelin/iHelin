@@ -42,7 +42,7 @@ public abstract class BaseController {
     @Autowired
     protected TaskService taskService;
 
-    protected Logger logger = LoggerFactory.getLogger(getClass());
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * 默认分页大小

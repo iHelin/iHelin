@@ -14,7 +14,7 @@ import javax.jms.Destination;
 @Service
 public class JmsProducerService {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private final JmsMessagingTemplate jmsMessagingTemplate;
 

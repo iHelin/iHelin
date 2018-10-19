@@ -23,25 +23,25 @@ public class ScoreController extends BaseController {
      * @param myScore
      * @return
      */
-    @PostMapping("scores")
+    @PostMapping("/scores")
     public Map<String, Object> addScore(Score myScore) {
         myScore.setCreateTime(new Date());
         scoreService.addRecord(myScore);
         return success();
     }
 
-    @GetMapping("scores/total")
+    @GetMapping("/scores/total")
     public Long getTotalScore() {
         return scoreService.getMyTotalScore();
     }
 
-    @GetMapping("scores/{id:\\d+}")
+    @GetMapping("/scores/{id:\\d+}")
     public Score getScore(@PathVariable Integer id) {
         Assert.notNull(id, "score id can not be null.");
         return scoreService.getById(id);
     }
 
-    @GetMapping("scores")
+    @GetMapping("/scores")
     public PageInfo<Score> getScores(@RequestParam(defaultValue = DEFAULT_PAGE_NUMBER) Integer pageNum,
                                      @RequestParam(defaultValue = DEFAULT_PAGE_LENGTH) Integer pageLength) {
         return scoreService.selectByCondition(pageNum, pageLength);

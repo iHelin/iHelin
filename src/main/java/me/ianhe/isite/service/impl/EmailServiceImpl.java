@@ -26,7 +26,7 @@ import java.util.Map;
 @Service
 public class EmailServiceImpl implements EmailService {
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private JavaMailSender mailSender;

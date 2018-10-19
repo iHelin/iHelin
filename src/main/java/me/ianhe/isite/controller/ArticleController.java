@@ -2,6 +2,7 @@ package me.ianhe.isite.controller;
 
 import com.github.pagehelper.PageInfo;
 import me.ianhe.isite.entity.Article;
+import me.ianhe.isite.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.util.Assert;
@@ -16,8 +17,6 @@ import javax.jms.Destination;
 @RestController
 @RequestMapping("/articles")
 public class ArticleController extends BaseController {
-
-    public static final String READ_COUNT_KEY = "article:readCount:";
 
     @Autowired
     @Qualifier("article")
@@ -34,7 +33,7 @@ public class ArticleController extends BaseController {
         Assert.notNull(id, "Article id can not be null.");
         Article article = articleService.selectArticleById(id);
         if (article != null) {
-            Long readCount = commonRedisDao.getLong(READ_COUNT_KEY + id);
+            Long readCount = commonRedisDao.getLong(Constant.READ_COUNT_KEY + id);
             producerService.sendMessage(destination, id);
             article.setReadNum(readCount);
         }
@@ -49,7 +48,7 @@ public class ArticleController extends BaseController {
      * @return
      */
     @GetMapping
-    public PageInfo<Article> getArticles(@RequestParam(defaultValue = "1") Integer pageNum,
+    public PageInfo<Article> getArticles(@RequestParam(defaultValue = DEFAULT_PAGE_NUMBER) Integer pageNum,
                                          @RequestParam(defaultValue = DEFAULT_PAGE_LENGTH) Integer pageLength) {
         return articleService.findByPage(null, pageNum, pageLength);
     }

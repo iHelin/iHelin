@@ -79,7 +79,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         return interceptor;
                     }
                 }).and()
-                .formLogin().loginPage(Constant.LOGIN_PAGE).loginProcessingUrl(Constant.LOGIN_PROCESSIMG_URL).permitAll()
+                .formLogin().loginPage(Constant.LOGIN_PAGE).loginProcessingUrl(Constant.LOGIN_PROCESSING_URL).permitAll()
                 .failureHandler(authenticationFailureHandler).successHandler(authenticationSuccessHandler).and()
                 .logout().permitAll().and()
                 .csrf().disable()

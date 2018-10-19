@@ -40,7 +40,7 @@ public class WeChatUtil {
             HttpEntity entity = httpResponse.getEntity();
             return EntityUtils.toString(entity, StandardCharsets.UTF_8.name());
         } catch (Exception e) {
-            LOGGER.warn("error while doGet url:{}", url, e);
+            LOGGER.warn("error while doGet url:" + url, e);
             return null;
         } finally {
             httpGet.releaseConnection();
@@ -63,7 +63,7 @@ public class WeChatUtil {
             HttpEntity respEntity = response.getEntity();
             return EntityUtils.toString(respEntity, StandardCharsets.UTF_8.name());
         } catch (Exception e) {
-            LOGGER.warn("error while doPost url:{}", url, e);
+            LOGGER.warn("error while doPost url:" + url, e);
             return null;
         } finally {
             httpPost.releaseConnection();
@@ -71,7 +71,7 @@ public class WeChatUtil {
     }
 
     private WeChatUtil() {
-        //工具类不允许实例化
+        throw new UnsupportedOperationException("工具类不允许实例化");
     }
 
 }

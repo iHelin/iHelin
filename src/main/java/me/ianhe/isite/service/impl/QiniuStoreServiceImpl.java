@@ -28,7 +28,7 @@ import java.util.List;
 @Service
 public class QiniuStoreServiceImpl implements FileService {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     private Configuration configuration;
     private Auth auth;
 

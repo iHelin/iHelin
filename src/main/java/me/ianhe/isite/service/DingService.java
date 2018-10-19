@@ -19,7 +19,7 @@ import java.util.Map;
 @Service
 public class DingService {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private SystemProperties systemProperties;

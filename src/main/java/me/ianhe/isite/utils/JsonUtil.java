@@ -87,6 +87,6 @@ public class JsonUtil {
     }
 
     private JsonUtil() {
-        //工具类不允许实例化
+        throw new UnsupportedOperationException("工具类不允许实例化");
     }
 }

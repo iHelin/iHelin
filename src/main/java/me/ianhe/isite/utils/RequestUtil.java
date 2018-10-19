@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
+import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -27,7 +28,11 @@ public class RequestUtil {
     public static Optional<HttpServletRequest> getRequest() {
         Optional<HttpServletRequest> currentRequest = Optional.empty();
         try {
-            currentRequest = Optional.of(((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest());
+            RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+            if (requestAttributes != null) {
+                HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
+                currentRequest = Optional.of(request);
+            }
         } catch (IllegalStateException e) {
             logger.warn("Can not get currentRequest", e);
         }
@@ -42,7 +47,7 @@ public class RequestUtil {
         return getCompleteRequestURL(request, null);
     }
 
-    public static String getCompleteRequestURL(HttpServletRequest request, String rmParam) {
+    public static String getCompleteRequestURL(HttpServletRequest request, String skipParam) {
         Assert.notNull(request, "the request must not be null.");
         StringBuilder sb = new StringBuilder(256);
         sb.append(request.getScheme()).append("://").append(request.getServerName())
@@ -54,7 +59,7 @@ public class RequestUtil {
             while (names.hasMoreElements()) {
                 String name = names.nextElement();
                 String value = request.getParameter(name);
-                if (value == null || name.equals(rmParam)) {
+                if (value == null || name.equals(skipParam)) {
                     continue;
                 }
                 sb.append(i++ == 0 ? '?' : '&').append(name).append('=').append(value);
@@ -113,6 +118,6 @@ public class RequestUtil {
     }
 
     private RequestUtil() {
-        //工具类不允许实例化
+        throw new UnsupportedOperationException("工具类不允许实例化");
     }
 }

@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 @Repository
 public class CommonRedisDao {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;

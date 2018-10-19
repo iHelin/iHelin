@@ -32,7 +32,7 @@ import java.util.Map;
 @Service
 public class ArticleService {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Resource
     private ArticleMapper articleMapper;

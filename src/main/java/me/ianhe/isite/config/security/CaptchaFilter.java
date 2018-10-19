@@ -29,7 +29,7 @@ public class CaptchaFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (StringUtils.equals(request.getRequestURI(), Constant.LOGIN_PROCESSIMG_URL)
+        if (StringUtils.equals(request.getRequestURI(), Constant.LOGIN_PROCESSING_URL)
                 && StringUtils.equalsIgnoreCase(request.getMethod(), "post")) {
             try {
                 validate(request);

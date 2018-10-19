@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -31,10 +32,16 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("/wechat")
 public class WeChatController extends BaseController {
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private SystemProperties systemProperties;
 
+    /**
+     * 小程序登录
+     *
+     * @param code
+     * @return
+     */
     @GetMapping("/login")
     public ResponseEntity<String> login(String code) {
         if (StringUtils.isEmpty(code)) {
@@ -62,8 +69,8 @@ public class WeChatController extends BaseController {
     }
 
     @GetMapping("/wxLogin")
-    public void login(HttpServletResponse response) throws IOException {
-        String backUrl = "http://" + systemProperties.getDomain() + "/callback";
+    public void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String backUrl = request.getScheme() + "://" + systemProperties.getDomain() + "/callback";
         String url = "https://open.weixin.qq.com/connect/oauth2/authorize" +
                 "?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
         url = String.format(url, systemProperties.getWxAppid(), URLEncoder.encode(backUrl, "UTF-8"));

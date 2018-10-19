@@ -31,7 +31,7 @@ import java.util.Map;
 @Component
 public class ScoreAfterAspect {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private ScoreService scoreService;

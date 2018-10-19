@@ -25,7 +25,7 @@ public class TemplateService {
     @Autowired
     private FreeMarkerConfigurer configurer;
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public String applyTemplate(String templateName) {
         Map<String, Object> res = Maps.newHashMap();

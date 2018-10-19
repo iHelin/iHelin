@@ -2,7 +2,6 @@ package me.ianhe.isite.service;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import me.ianhe.isite.controller.ArticleController;
 import me.ianhe.isite.dao.ArticleMapper;
 import me.ianhe.isite.dao.CommonRedisDao;
 import me.ianhe.isite.dao.PoemMapper;
@@ -12,6 +11,7 @@ import me.ianhe.isite.model.ding.FeedCard;
 import me.ianhe.isite.model.ding.Link;
 import me.ianhe.isite.model.douban.Movie;
 import me.ianhe.isite.model.douban.Subject;
+import me.ianhe.isite.utils.Constant;
 import me.ianhe.isite.utils.JsonUtil;
 import me.ianhe.isite.utils.WeChatUtil;
 import org.slf4j.Logger;
@@ -33,7 +33,7 @@ import java.util.Map;
 @Service
 public class TaskService {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private DingService dingService;
@@ -131,7 +131,7 @@ public class TaskService {
     private void syncReadCount() {
         List<Integer> ids = articleMapper.selectAllId();
         for (Integer id : ids) {
-            Long readCount = commonRedisDao.getLong(ArticleController.READ_COUNT_KEY + id);
+            Long readCount = commonRedisDao.getLong(Constant.READ_COUNT_KEY + id);
             Article article = new Article();
             article.setId(id);
             article.setReadNum(readCount);

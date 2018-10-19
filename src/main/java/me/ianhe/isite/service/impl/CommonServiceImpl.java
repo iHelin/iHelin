@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CommonServiceImpl implements CommonService {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private PoemMapper poemMapper;

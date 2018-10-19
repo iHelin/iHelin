@@ -16,7 +16,7 @@ import java.io.OutputStream;
  * @author <href mailto="mailto:ihelin@outlook.com">iHelin</href>
  */
 @RestController
-@RequestMapping("admin/qrcode")
+@RequestMapping("/admin/qrcode")
 public class AdminCodeController extends BaseAdminController {
 
     /**
