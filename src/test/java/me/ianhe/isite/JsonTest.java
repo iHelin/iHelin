@@ -3,6 +3,7 @@ package me.ianhe.isite;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.MoreObjects;
 
 import java.io.IOException;
 
@@ -23,7 +24,6 @@ public class JsonTest {
 //            mapper.enable(new SerializationConfig());
             jsonString = mapper.writeValueAsString(student);
             System.out.println(jsonString);
-
         } catch (JsonParseException e) {
             e.printStackTrace();
         } catch (JsonMappingException e) {
@@ -53,8 +53,12 @@ public class JsonTest {
             this.age = age;
         }
 
+        @Override
         public String toString() {
-            return "Student [ name: " + name + ", age: " + age + " ]";
+            return MoreObjects.toStringHelper(this)
+                    .add("name", name)
+                    .add("age", age)
+                    .toString();
         }
     }
 }

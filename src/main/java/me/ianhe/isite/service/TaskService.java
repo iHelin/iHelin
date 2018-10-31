@@ -14,17 +14,16 @@ import me.ianhe.isite.model.douban.Subject;
 import me.ianhe.isite.utils.Constant;
 import me.ianhe.isite.utils.JsonUtil;
 import me.ianhe.isite.utils.WeChatUtil;
+import org.apache.commons.io.input.BOMInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author iHelin
@@ -222,8 +221,9 @@ public class TaskService {
      * @since 2018/7/8 20:05
      */
     private void sendMenu() {
-        String dataStr = WeChatUtil.doGetStr("https://dev.fluttercn.com/now-eat/menu-0620.json");
-        Map<String, Object> map = JsonUtil.parseMap(dataStr);
+        InputStream inputStream = WeChatUtil.doGetInputStream("https://dev.fluttercn.com/now-eat/menu-0620.json");
+        BOMInputStream bomInputStream = new BOMInputStream(inputStream); //仅能检测到UTF8的bom，且在流中exclude掉bom
+        HashMap map = JsonUtil.parseMap(bomInputStream);
         List<String> workDate = (List<String>) map.get("workDate");
         String currentDateStr = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
         for (int currentIndex = 0; currentIndex < workDate.size(); currentIndex++) {

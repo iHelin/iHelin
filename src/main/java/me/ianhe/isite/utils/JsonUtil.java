@@ -7,9 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * JsonUtil
@@ -68,11 +68,20 @@ public class JsonUtil {
         return parseArray(json, jsonTypeReference);
     }
 
-    public static Map<String, Object> parseMap(String json) {
+    public static HashMap parseMap(String json) {
         try {
             return OBJECT_MAPPER.readValue(json, HashMap.class);
         } catch (IOException e) {
-            LOGGER.error("解析map异常：", e);
+            LOGGER.error("解析map异常,json:" + json, e);
+            return null;
+        }
+    }
+
+    public static HashMap parseMap(InputStream inputStream) {
+        try {
+            return OBJECT_MAPPER.readValue(inputStream, HashMap.class);
+        } catch (IOException e) {
+            LOGGER.error("解析inputStream异常", e);
             return null;
         }
     }

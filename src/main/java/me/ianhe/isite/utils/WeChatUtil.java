@@ -12,6 +12,7 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -39,6 +40,27 @@ public class WeChatUtil {
             HttpResponse httpResponse = httpClient.execute(httpGet);
             HttpEntity entity = httpResponse.getEntity();
             return EntityUtils.toString(entity, StandardCharsets.UTF_8.name());
+        } catch (Exception e) {
+            LOGGER.warn("error while doGet url:" + url, e);
+            return null;
+        } finally {
+            httpGet.releaseConnection();
+        }
+    }
+
+    /**
+     * get请求，返回InputStream
+     *
+     * @author iHelin
+     * @since 2017-05-10 16:54
+     */
+    public static InputStream doGetInputStream(String url) {
+        HttpGet httpGet = new HttpGet(url);
+        CloseableHttpClient httpClient = HTTP_CLIENT_BUILDER.build();
+        try {
+            HttpResponse httpResponse = httpClient.execute(httpGet);
+            HttpEntity entity = httpResponse.getEntity();
+            return entity.getContent();
         } catch (Exception e) {
             LOGGER.warn("error while doGet url:" + url, e);
             return null;

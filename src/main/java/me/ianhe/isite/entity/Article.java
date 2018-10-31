@@ -1,6 +1,7 @@
 package me.ianhe.isite.entity;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -102,8 +103,28 @@ public class Article implements Serializable {
     }
 
     @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Article article = (Article) o;
+        return Objects.equal(id, article.id);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("title", title)
+                .add("author", author)
+                .add("summary", summary)
+                .add("readNum", readNum)
+                .add("createTime", createTime)
+                .add("updateTime", updateTime)
+                .toString();
+    }
 }

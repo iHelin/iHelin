@@ -1,6 +1,8 @@
 package me.ianhe.isite.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -149,4 +151,33 @@ public class User implements UserDetails {
         this.remark = remark;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equal(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("name", name)
+                .add("phone", phone)
+                .add("telephone", telephone)
+                .add("address", address)
+                .add("enabled", enabled)
+                .add("username", username)
+                .add("password", password)
+                .add("remark", remark)
+                .add("roles", roles)
+                .add("userface", userface)
+                .toString();
+    }
 }

@@ -1,5 +1,8 @@
 package me.ianhe.isite.entity;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
+
 /**
  * Poem
  *
@@ -35,5 +38,27 @@ public class Poem {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Poem poem = (Poem) o;
+        return Objects.equal(id, poem.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("title", title)
+                .add("content", content)
+                .toString();
     }
 }

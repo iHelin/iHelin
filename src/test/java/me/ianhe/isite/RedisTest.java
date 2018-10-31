@@ -18,14 +18,18 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class RedisTest {
 
     @Autowired
-    private RedisTemplate redisTemplate;
+    private RedisTemplate<Object, Object> redisTemplate;
+
     @Autowired
     private ArticleMapper articleMapper;
 
     @Test
     public void test() {
-        Article article = articleMapper.selectByPrimaryKey(11);
-        redisTemplate.opsForValue().set("aaa", article);
+        Article article1 = articleMapper.selectByPrimaryKey(11);
+        Article article2 = articleMapper.selectByPrimaryKey(11);
+        System.out.println(article1);
+        System.out.println(article2);
+        redisTemplate.opsForValue().set("aaa", article1);
     }
 
 }

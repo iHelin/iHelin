@@ -2,6 +2,8 @@ package me.ianhe.isite.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 
 import java.io.Serializable;
 import java.util.List;
@@ -118,4 +120,33 @@ public class Menu implements Serializable {
         this.roles = roles;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Menu menu = (Menu) o;
+        return Objects.equal(id, menu.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("url", url)
+                .add("path", path)
+                .add("component", component)
+                .add("name", name)
+                .add("iconCls", iconCls)
+                .add("parentId", parentId)
+                .add("keepAlive", keepAlive)
+                .add("roles", roles)
+                .add("children", children)
+                .add("meta", meta)
+                .toString();
+    }
 }

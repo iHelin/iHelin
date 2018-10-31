@@ -1,5 +1,8 @@
 package me.ianhe.isite.entity;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -71,5 +74,30 @@ public class Score implements Serializable {
 
     public void setReason(String reason) {
         this.reason = reason;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Score score = (Score) o;
+        return Objects.equal(id, score.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("value", value)
+                .add("writer", writer)
+                .add("createTime", createTime)
+                .add("updateTime", updateTime)
+                .add("reason", reason)
+                .toString();
     }
 }

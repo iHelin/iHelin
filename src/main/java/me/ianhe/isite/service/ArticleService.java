@@ -5,7 +5,6 @@ import com.github.pagehelper.PageRowBounds;
 import com.google.common.collect.Maps;
 import me.ianhe.isite.dao.ArticleMapper;
 import me.ianhe.isite.entity.Article;
-import me.ianhe.isite.utils.JsonUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +48,7 @@ public class ArticleService {
     }
 
     public Article editArticle(Article article) {
-        logger.info("update article:{}", JsonUtil.toJson(article));
+        logger.info("update article:{}", article);
         articleMapper.updateByPrimaryKey(article);
         return article;
     }

@@ -48,7 +48,6 @@ public interface ArticleMapper {
      * @param article
      * @return
      */
-    @CachePut(key = "#article.id")
     int updateByPrimaryKeySelective(Article article);
 
     /**
