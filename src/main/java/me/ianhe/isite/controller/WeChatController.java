@@ -21,7 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -60,7 +59,7 @@ public class WeChatController extends BaseController {
             Map<String, Object> loginMap = Maps.newHashMap();
             loginMap.put("openId", openid);
             loginMap.put("sessionKey", sessionKey);
-            String redisLoginKey = UUID.randomUUID().toString().replaceAll("-", "");
+            String redisLoginKey = "wechat:session:" + openid;
             commonRedisDao.setMapTimeout(redisLoginKey, loginMap, Long.valueOf(expiresIn), TimeUnit.SECONDS);
             return new ResponseEntity<>(redisLoginKey, HttpStatus.OK);
         } else {
