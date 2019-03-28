@@ -1,5 +1,6 @@
 package me.ianhe.isite.config.security;
 
+import com.google.code.kaptcha.Constants;
 import me.ianhe.isite.exception.CaptchaException;
 import me.ianhe.isite.model.CaptchaCode;
 import me.ianhe.isite.utils.Constant;
@@ -49,7 +50,7 @@ public class CaptchaFilter extends OncePerRequestFilter {
      */
     private void validate(HttpServletRequest request) throws ServletRequestBindingException {
         HttpSession session = request.getSession();
-        CaptchaCode captchaCode = (CaptchaCode) session.getAttribute(Constant.CAPTCHA_CODE_KEY);
+        CaptchaCode captchaCode = (CaptchaCode) session.getAttribute(Constants.KAPTCHA_SESSION_KEY);
         String codeInRequest = ServletRequestUtils.getStringParameter(request, SPRING_SECURITY_FORM_CAPTCHA_KEY);
         if (StringUtils.isBlank(codeInRequest)) {
             throw new CaptchaException("验证码的值不能为空");
@@ -57,13 +58,13 @@ public class CaptchaFilter extends OncePerRequestFilter {
         if (captchaCode == null) {
             throw new CaptchaException("验证码不存在");
         }
-        if (captchaCode.isExpried()) {
+        if (captchaCode.isExpired()) {
             throw new CaptchaException("验证码已过期");
         }
         if (!StringUtils.equalsIgnoreCase(codeInRequest, captchaCode.getCode())) {
             throw new CaptchaException("验证码不匹配");
         }
-        session.removeAttribute(Constant.CAPTCHA_CODE_KEY);
+        session.removeAttribute(Constants.KAPTCHA_SESSION_KEY);
     }
 
     public void setAuthenticationFailureHandler(AuthenticationFailureHandler authenticationFailureHandler) {

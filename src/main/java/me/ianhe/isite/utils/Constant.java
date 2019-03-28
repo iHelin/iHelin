@@ -10,7 +10,5 @@ public interface Constant {
 
     String LOGIN_PROCESSING_URL = "/login";
 
-    String CAPTCHA_CODE_KEY = "code";
-
     String READ_COUNT_KEY = "article:readCount:";
 }
