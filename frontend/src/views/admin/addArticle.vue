@@ -21,9 +21,9 @@
 </template>
 
 <script>
-  import SimpleMDE from 'simplemde';
+    import SimpleMDE from 'simplemde';
 
-  export default {
+    export default {
         name: 'markdown-editor',
         data() {
             return {

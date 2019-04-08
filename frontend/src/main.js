@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+
 import VueResource from 'vue-resource';
 import store from './store';
 import ElementUI from 'element-ui';
@@ -40,9 +41,7 @@ Vue.http.interceptors.push((request, next) => {
 Vue.http.options.emulateJSON = true;
 
 new Vue({
-    el: '#app',
     router,
     store,
-    components: {App},
-    template: '<App/>'
-});
+    render: h => h(App)
+}).$mount('#app');

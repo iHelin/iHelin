@@ -1,15 +1,17 @@
 <template>
-    <div v-loading="loading" style="margin: 0 auto;padding-top: 20px;padding-bottom: 40px;width: 880px;">
-        <div v-if="article">
-            <h1 style="text-align: center">{{article.title}}</h1>
-            <p style="text-align: center">
-                <small>作者：{{article.author}}</small>
-                <small>阅读数：{{article.readNum}}</small>
-                <small>更新时间：{{article.updateTime | formatTime('{y}-{m}-{d}')}}</small>
-            </p>
-            <p><code>{{article.summary}}</code></p>
+    <div v-loading="loading" class="post">
+        <template v-if="article">
+            <h1 class="post-title">{{article.title}}</h1>
+            <span class="post-date">
+                {{article.updateTime | formatTime('{y}-{m}-{d}')}}
+                ·
+                {{article.author}}
+                ·
+                {{article.readNum}}
+            </span>
+            <blockquote>{{article.summary}}</blockquote>
             <div v-html="html" class="content"></div>
-        </div>
+        </template>
         <div v-else>文章不存在</div>
     </div>
 </template>
