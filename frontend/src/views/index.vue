@@ -6,7 +6,7 @@
                     <router-link :to="'/articles/'+article.id">{{article.title}}</router-link>
                 </h1>
                 <span class="post-date">
-                {{article.updateTime | formatTime('{y}-{m}-{d}')}}
+                {{article.createTime | formatTime('{y}-{m}-{d}')}}
                 ·
                 {{article.author}}
                 ·

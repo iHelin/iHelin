@@ -129,7 +129,7 @@
         <where>
             <if test="title!=null">title like "%"#{title,jdbcType=VARCHAR}"%"</if>
         </where>
-        ORDER BY update_time DESC, create_time DESC
+        ORDER BY create_time DESC,update_time DESC
     </select>
 
     <select id="selectAllId" resultType="java.lang.Integer">

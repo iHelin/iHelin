@@ -3,7 +3,7 @@
         <template v-if="article">
             <h1 class="post-title">{{article.title}}</h1>
             <span class="post-date">
-                {{article.updateTime | formatTime('{y}-{m}-{d}')}}
+                {{article.createTime | formatTime('{y}-{m}-{d}')}}
                 ·
                 {{article.author}}
                 ·
@@ -24,7 +24,7 @@
                     title: '',
                     author: '',
                     readNum: 0,
-                    updateTime: Date(),
+                    createTime: Date(),
                     summary: ''
                 },
                 loading: true,

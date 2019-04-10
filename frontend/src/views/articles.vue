@@ -4,7 +4,7 @@
         <ul>
             <li v-for="article in articles">
                 <p>
-                    {{article.updateTime | formatTime('{y}-{m}-{d}')}} »
+                    {{article.createTime | formatTime('{y}-{m}-{d}')}} »
                     <router-link :to="'/articles/'+article.id">{{article.title}}</router-link>
                 </p>
             </li>

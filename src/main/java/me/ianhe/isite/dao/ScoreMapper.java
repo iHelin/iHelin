@@ -2,6 +2,7 @@ package me.ianhe.isite.dao;
 
 import me.ianhe.isite.entity.Score;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public interface ScoreMapper {
 
     int updateByPrimaryKeySelective(Score record);
 
+    @CacheEvict("score")
     int updateByPrimaryKey(Score record);
 
     Long getTotalScore();

@@ -4,7 +4,6 @@ import me.ianhe.isite.entity.Article;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
@@ -57,7 +56,8 @@ public interface ArticleMapper {
      * @param article
      * @return
      */
-    @CachePut(key = "#article.id")
+//    @CachePut(key = "#article.id")
+    @CacheEvict
     int updateByPrimaryKey(Article article);
 
     List<Article> listByCondition(Map<String, Object> res, RowBounds rowBounds);
