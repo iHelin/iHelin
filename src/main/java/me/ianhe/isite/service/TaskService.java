@@ -221,7 +221,7 @@ public class TaskService {
      * @since 2018/7/8 20:05
      */
     private void sendMenu() {
-        InputStream inputStream = WeChatUtil.doGetInputStream("https://dev.fluttercn.com/now-eat/menu-0620.json");
+        InputStream inputStream = WeChatUtil.doGetInputStream("https://dev.fluttercn.com/now-eat/menu-190310.json");
         BOMInputStream bomInputStream = new BOMInputStream(inputStream); //仅能检测到UTF8的bom，且在流中exclude掉bom
         HashMap map = JsonUtil.parseMap(bomInputStream);
         List<String> workDate = (List<String>) map.get("workDate");
