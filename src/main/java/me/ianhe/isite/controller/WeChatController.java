@@ -1,8 +1,10 @@
 package me.ianhe.isite.controller;
 
 import com.google.common.collect.Maps;
+import io.jsonwebtoken.ExpiredJwtException;
 import me.ianhe.isite.config.SystemProperties;
 import me.ianhe.isite.utils.JsonUtil;
+import me.ianhe.isite.utils.JwtUtil;
 import me.ianhe.isite.utils.WeChatUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,16 +14,13 @@ import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author iHelin
@@ -38,11 +37,12 @@ public class WeChatController extends BaseController {
     /**
      * 小程序登录
      *
-     * @param code
+     * @param body
      * @return
      */
-    @GetMapping("/login")
-    public ResponseEntity<String> login(String code) {
+    @PostMapping("/login")
+    public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, String> body) {
+        String code = body.get("code");
         if (StringUtils.isEmpty(code)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -53,18 +53,41 @@ public class WeChatController extends BaseController {
         logger.info("res is :{}", res);
         Map<String, Object> resMap = JsonUtil.parseMap(res);
         String openid = (String) resMap.get("openid");
+        String sessionKey = (String) resMap.get("session_key");
+        logger.debug("openid : {},sessionKey:{}", openid, sessionKey);
         if (StringUtils.hasText(openid)) {
-            String sessionKey = (String) resMap.get("session_key");
-            Integer expiresIn = (Integer) resMap.get("expires_in");
-            Map<String, Object> loginMap = Maps.newHashMap();
-            loginMap.put("openId", openid);
-            loginMap.put("sessionKey", sessionKey);
-            String redisLoginKey = "wechat:session:" + openid;
-            commonRedisDao.setMapTimeout(redisLoginKey, loginMap, Long.valueOf(expiresIn), TimeUnit.SECONDS);
-            return new ResponseEntity<>(redisLoginKey, HttpStatus.OK);
+            Map<String, Object> resultMap = Maps.newHashMap();
+            String token = JwtUtil.createJWT(60L * 60 * 24 * 7, openid);
+            resultMap.put("token", token);
+            return new ResponseEntity<>(resultMap, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PostMapping("/auth")
+    public ResponseEntity<Map<String, Object>> auth(@RequestBody Map<String, String> body) {
+        String token = body.get("token");
+        if (StringUtils.isEmpty(token)) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        Map<String, Object> resultMap = Maps.newHashMap();
+        try {
+            JwtUtil.parseJWT(token);
+            logger.debug("auth success");
+            resultMap.put("status", "success");
+            return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        } catch (ExpiredJwtException e) {
+            logger.warn("token 过期", e);
+            resultMap.put("status", "error");
+            resultMap.put("msg", "token 已过期");
+            return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.warn("token 不合法", e);
+            resultMap.put("status", "error");
+            return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        }
+
     }
 
     @GetMapping("/wxLogin")

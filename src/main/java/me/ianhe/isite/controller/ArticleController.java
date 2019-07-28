@@ -3,12 +3,8 @@ package me.ianhe.isite.controller;
 import com.github.pagehelper.PageInfo;
 import me.ianhe.isite.entity.Article;
 import me.ianhe.isite.utils.Constant;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
-
-import javax.jms.Destination;
 
 /**
  * @author iHelin
@@ -18,9 +14,9 @@ import javax.jms.Destination;
 @RequestMapping("/articles")
 public class ArticleController extends BaseController {
 
-    @Autowired
-    @Qualifier("article")
-    private Destination destination;
+//    @Autowired
+//    @Qualifier("article")
+//    private Destination destination;
 
     /**
      * 按id获取文章
@@ -34,7 +30,7 @@ public class ArticleController extends BaseController {
         Article article = articleService.selectArticleById(id);
         if (article != null) {
             Long readCount = commonRedisDao.getLong(Constant.READ_COUNT_KEY + id);
-            producerService.sendMessage(destination, id);
+//            producerService.sendMessage(destination, id);
             article.setReadNum(readCount);
         }
         return article;

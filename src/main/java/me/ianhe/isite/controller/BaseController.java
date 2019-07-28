@@ -25,8 +25,8 @@ public abstract class BaseController {
     protected ScoreService scoreService;
     @Autowired
     protected FileService fileService;
-    @Autowired
-    protected JmsProducerService producerService;
+    //    @Autowired
+//    protected JmsProducerService producerService;
     @Autowired
     protected QrcodeService qrcodeService;
     @Autowired
