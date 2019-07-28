@@ -57,7 +57,7 @@ public class WeChatController extends BaseController {
         logger.debug("openid : {},sessionKey:{}", openid, sessionKey);
         if (StringUtils.hasText(openid)) {
             Map<String, Object> resultMap = Maps.newHashMap();
-            String token = JwtUtil.createJWT(60L * 60 * 24 * 7, openid);
+            String token = JwtUtil.createJWT(1000L * 60 * 60 * 24 * 7, openid, sessionKey);
             resultMap.put("token", token);
             return new ResponseEntity<>(resultMap, HttpStatus.OK);
         } else {
