@@ -2,7 +2,6 @@ package me.ianhe.isite.controller;
 
 import com.github.pagehelper.PageInfo;
 import me.ianhe.isite.entity.Article;
-import me.ianhe.isite.utils.Constant;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,11 +27,11 @@ public class ArticleController extends BaseController {
     public Article getArticle(@PathVariable Integer id) {
         Assert.notNull(id, "Article id can not be null.");
         Article article = articleService.selectArticleById(id);
-        if (article != null) {
-            Long readCount = commonRedisDao.getLong(Constant.READ_COUNT_KEY + id);
+//        if (article != null) {
+//            Long readCount = commonRedisDao.getLong(Constant.READ_COUNT_KEY + id);
 //            producerService.sendMessage(destination, id);
-            article.setReadNum(readCount);
-        }
+//            article.setReadNum(readCount);
+//        }
         return article;
     }
 

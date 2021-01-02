@@ -3,7 +3,6 @@ package me.ianhe.isite.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.common.collect.Maps;
-import me.ianhe.isite.dao.CommonRedisDao;
 import me.ianhe.isite.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,8 +28,8 @@ public abstract class BaseController {
 //    protected JmsProducerService producerService;
     @Autowired
     protected QrcodeService qrcodeService;
-    @Autowired
-    protected CommonRedisDao commonRedisDao;
+    //    @Autowired
+//    protected CommonRedisDao commonRedisDao;
     @Autowired
     protected ObjectMapper objectMapper;
     @Autowired

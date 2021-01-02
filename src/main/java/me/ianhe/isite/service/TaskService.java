@@ -3,15 +3,12 @@ package me.ianhe.isite.service;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import me.ianhe.isite.dao.ArticleMapper;
-import me.ianhe.isite.dao.CommonRedisDao;
 import me.ianhe.isite.dao.PoemMapper;
-import me.ianhe.isite.entity.Article;
 import me.ianhe.isite.entity.Poem;
 import me.ianhe.isite.model.ding.FeedCard;
 import me.ianhe.isite.model.ding.Link;
 import me.ianhe.isite.model.douban.Movie;
 import me.ianhe.isite.model.douban.Subject;
-import me.ianhe.isite.utils.Constant;
 import me.ianhe.isite.utils.JsonUtil;
 import me.ianhe.isite.utils.WeChatUtil;
 import org.apache.commons.io.input.BOMInputStream;
@@ -43,8 +40,8 @@ public class TaskService {
     @Autowired
     private PoemMapper poemMapper;
 
-    @Autowired
-    private CommonRedisDao commonRedisDao;
+//    @Autowired
+//    private CommonRedisDao commonRedisDao;
 
     @Autowired
     private EmailService emailService;
@@ -94,7 +91,7 @@ public class TaskService {
     @Scheduled(cron = "0 0 0 * * ?")
     public void runEveryDay0() {
         logger.debug("runEveryDay0");
-        syncReadCount();
+//        syncReadCount();
     }
 
     /**
@@ -127,16 +124,16 @@ public class TaskService {
      * @author iHelin
      * @since 2017/12/21 10:17
      */
-    private void syncReadCount() {
-        List<Integer> ids = articleMapper.selectAllId();
-        for (Integer id : ids) {
-            Long readCount = commonRedisDao.getLong(Constant.READ_COUNT_KEY + id);
-            Article article = new Article();
-            article.setId(id);
-            article.setReadNum(readCount);
-            articleMapper.updateByPrimaryKeySelective(article);
-        }
-    }
+//    private void syncReadCount() {
+//        List<Integer> ids = articleMapper.selectAllId();
+//        for (Integer id : ids) {
+//            Long readCount = commonRedisDao.getLong(Constant.READ_COUNT_KEY + id);
+//            Article article = new Article();
+//            article.setId(id);
+//            article.setReadNum(readCount);
+//            articleMapper.updateByPrimaryKeySelective(article);
+//        }
+//    }
 
     /**
      * 古诗

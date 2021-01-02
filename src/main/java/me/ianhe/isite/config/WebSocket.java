@@ -27,7 +27,7 @@ public class WebSocket {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private static CopyOnWriteArraySet<WebSocket> webSockets = new CopyOnWriteArraySet<>();
+    private static final CopyOnWriteArraySet<WebSocket> webSockets = new CopyOnWriteArraySet<>();
 
     @OnOpen
     public void onOpen(Session session) {
