@@ -24,7 +24,7 @@ public class ScoreController extends BaseController {
      * @return
      */
     @PostMapping("/scores")
-    public Map<String, Object> addScore(Score myScore) {
+    public Map<String, Object> addScore(@RequestBody Score myScore) {
         myScore.setCreateTime(new Date());
         scoreService.addRecord(myScore);
         return success();

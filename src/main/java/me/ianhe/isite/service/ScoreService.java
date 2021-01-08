@@ -22,7 +22,7 @@ public class ScoreService {
     }
 
     public Long getMyTotalScore() {
-        return scoreMapper.getTotalScore();
+        return scoreMapper.getTotalScore() == null ? 0 : scoreMapper.getTotalScore();
     }
 
     public int addRecord(Score ms) {

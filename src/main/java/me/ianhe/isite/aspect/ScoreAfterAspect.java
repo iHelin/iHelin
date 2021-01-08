@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import me.ianhe.isite.entity.Score;
 import me.ianhe.isite.model.MailModel;
 import me.ianhe.isite.service.DingService;
+import me.ianhe.isite.service.EmailService;
 import me.ianhe.isite.service.ScoreService;
 import me.ianhe.isite.service.TemplateService;
 import org.aspectj.lang.JoinPoint;
@@ -33,12 +34,8 @@ public class ScoreAfterAspect {
     @Autowired
     private ScoreService scoreService;
 
-//    @Autowired
-//    private JmsProducerService producerService;
-
-//    @Autowired
-//    @Qualifier("email")
-//    private Destination destination;
+    @Autowired
+    private EmailService emailService;
 
     @Autowired
     private DingService dingService;
@@ -72,8 +69,9 @@ public class ScoreAfterAspect {
         res.put("total", total);
         String mailContent = templateService.applyTemplate("score.ftl", res);
         String title = "加分提醒:今天加了" + score.getValue() + "分";
-        MailModel email = new MailModel("ahaqhelin@163.com;1018954240@qq.com", "葫芦娃", title, mailContent);
-//        producerService.sendMessage(destination, email);
+        MailModel email = new MailModel("ahaqhelin@163.com;1018954240@qq.com",
+            "葫芦娃", title, mailContent);
+        emailService.sendSimpleMail(email.getToAddress(), email.getSubject(), email.getContent());
     }
 
     @Around("execution( * me.ianhe.isite.controller.TestController.*(..))")
