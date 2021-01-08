@@ -61,8 +61,8 @@ public class ScoreAfterAspect {
         if (total >= goal) {
             msg = "恭喜你们达标啦！！！";
         } else {
-            msg = String.format("今天又加了%d分，理由是：%s，现在一共有%d分，加油，你们要继续努力呦！", score.getValue(),
-                    score.getReason(), total);
+            msg = String.format("今天加了%d分，理由是：%s，现在一共有%d分，还没达到目标，继续努力呦！", score.getValue(),
+                score.getReason(), total);
         }
         logger.debug(msg);
         dingService.sendTextMsg(msg);

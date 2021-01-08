@@ -4,12 +4,21 @@ import com.google.common.collect.Maps;
 import me.ianhe.isite.config.SystemProperties;
 import me.ianhe.isite.model.ding.FeedCard;
 import me.ianhe.isite.utils.JsonUtil;
-import me.ianhe.isite.utils.WeChatUtil;
+import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -24,20 +33,8 @@ public class DingService {
     @Autowired
     private SystemProperties systemProperties;
 
-    /**
-     * 发送文本消息
-     *
-     * @author iHelin
-     * @since 2017/5/17 11:16
-     */
-    public void sendTextMsg(String content) {
-        Map<String, Object> contentMap = Maps.newHashMap();
-        contentMap.put("content", content);
-        Map<String, Object> data = Maps.newHashMap();
-        data.put("msgtype", "text");
-        data.put("text", contentMap);
-        doSend(JsonUtil.toJson(data));
-    }
+    @Autowired
+    private RestTemplate restTemplate;
 
     /**
      * 发送FeedCard消息
@@ -52,10 +49,53 @@ public class DingService {
         doSend(JsonUtil.toJson(sendData));
     }
 
-    public String doSend(String data) {
-        String res = WeChatUtil.doPostStr(systemProperties.getDingRobot(), data);
-        logger.info("Robot return {}", res);
-        return res;
+    /**
+     * 发送文本消息
+     *
+     * @author iHelin
+     * @since 2017/5/17 11:16
+     */
+    public String sendTextMsg(String content) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("msgtype", "text");
+        Map<String, Object> contentMap = new HashMap<>();
+        contentMap.put("content", content);
+        body.put("text", contentMap);
+        return doSend(body);
+    }
+
+    public String doSend(Object data) {
+        String token = systemProperties.getDingToken();
+        Long timestamp = System.currentTimeMillis();
+        String sign = sign(timestamp);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+
+        HttpEntity<Object> request = new HttpEntity<>(data, headers);
+
+        String result = restTemplate.postForObject(systemProperties.getDingUrl(),
+            request,
+            String.class,
+            token, sign, timestamp);
+
+        logger.info("Robot return {}", result);
+        return result;
+    }
+
+    private String sign(Long timestamp) {
+        String stringToSign = timestamp + "\n" + systemProperties.getDingSign();
+        byte[] bytesToSign = stringToSign.getBytes(StandardCharsets.UTF_8);
+        String sign = "";
+        try {
+            Mac mac = Mac.getInstance("HmacSHA256");
+            mac.init(new SecretKeySpec(systemProperties.getDingSign().getBytes(StandardCharsets.UTF_8), "HmacSHA256"));
+            byte[] signData = mac.doFinal(bytesToSign);
+            sign = URLEncoder.encode(new String(Base64.encodeBase64(signData)), "UTF-8");
+        } catch (Exception e) {
+            logger.error("签名失败", e);
+        }
+        return sign;
     }
 
 }

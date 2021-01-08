@@ -2,7 +2,6 @@ package me.ianhe.isite.service;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import me.ianhe.isite.dao.ArticleMapper;
 import me.ianhe.isite.dao.PoemMapper;
 import me.ianhe.isite.entity.Poem;
 import me.ianhe.isite.model.ding.FeedCard;
@@ -35,13 +34,7 @@ public class TaskService {
     private DingService dingService;
 
     @Autowired
-    private ArticleMapper articleMapper;
-
-    @Autowired
     private PoemMapper poemMapper;
-
-//    @Autowired
-//    private CommonRedisDao commonRedisDao;
 
     @Autowired
     private EmailService emailService;
@@ -172,8 +165,7 @@ public class TaskService {
             Map<String, Object> data = Maps.newHashMap();
             data.put("msgtype", "markdown");
             data.put("markdown", contentMap);
-            String jsonData = JsonUtil.toJson(data);
-            dingService.doSend(jsonData);
+            dingService.doSend(data);
         }
     }
 

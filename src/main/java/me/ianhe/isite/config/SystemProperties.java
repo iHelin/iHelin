@@ -14,7 +14,13 @@ public class SystemProperties {
     private String wxAppid;
     private String wxAppSecret;
     private String domain;
-    private String dingRobot;
+
+    /**
+     * 钉钉
+     */
+    private String dingUrl;
+    private String dingSign;
+    private String dingToken;
     /**
      * 七牛存储
      */
@@ -52,12 +58,28 @@ public class SystemProperties {
         this.wxAppSecret = wxAppSecret;
     }
 
-    public String getDingRobot() {
-        return dingRobot;
+    public String getDingUrl() {
+        return dingUrl;
     }
 
-    public void setDingRobot(String dingRobot) {
-        this.dingRobot = dingRobot;
+    public void setDingUrl(String dingUrl) {
+        this.dingUrl = dingUrl;
+    }
+
+    public String getDingSign() {
+        return dingSign;
+    }
+
+    public void setDingSign(String dingSign) {
+        this.dingSign = dingSign;
+    }
+
+    public String getDingToken() {
+        return dingToken;
+    }
+
+    public void setDingToken(String dingToken) {
+        this.dingToken = dingToken;
     }
 
     public String getQnAccessKey() {
