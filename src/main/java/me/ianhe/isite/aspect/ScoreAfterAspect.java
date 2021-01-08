@@ -52,7 +52,7 @@ public class ScoreAfterAspect {
      * @author iHelin
      * @since 2017/6/1 10:35
      */
-    @AfterReturning("execution(* addRecord(..))")
+    @AfterReturning("execution(* me.ianhe.isite.service.ScoreService.addRecord(..))")
     public void afterAddScore(JoinPoint joinPoint) {
         Score score = (Score) joinPoint.getArgs()[0];
         Long total = scoreService.getMyTotalScore();
