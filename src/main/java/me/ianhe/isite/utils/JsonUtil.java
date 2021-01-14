@@ -48,8 +48,8 @@ public class JsonUtil {
     /**
      * json反序列化
      *
-     * @param json
-     * @param clazz
+     * @param json  字符串
+     * @param clazz clazz
      * @param <T>
      * @return
      */
@@ -88,7 +88,7 @@ public class JsonUtil {
 
     private static <T> T parseArray(String json, TypeReference<T> jsonTypeReference) {
         try {
-            return (T) OBJECT_MAPPER.readValue(json, jsonTypeReference);
+            return OBJECT_MAPPER.readValue(json, jsonTypeReference);
         } catch (IOException e) {
             LOGGER.error("decode(String, JsonTypeReference<T>)", e);
         }

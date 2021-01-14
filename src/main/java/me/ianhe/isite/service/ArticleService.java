@@ -3,6 +3,7 @@ package me.ianhe.isite.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import me.ianhe.isite.dao.ArticleMapper;
 import me.ianhe.isite.entity.Article;
 import org.apache.commons.lang3.StringUtils;
@@ -27,7 +28,7 @@ import java.util.Date;
  * @author <href mailto="mailto:ihelin@outlook.com">iHelin</href>
  */
 @Service
-public class ArticleService {
+public class ArticleService extends ServiceImpl<ArticleMapper, Article> {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 

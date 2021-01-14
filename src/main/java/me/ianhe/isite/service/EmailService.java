@@ -1,7 +1,18 @@
 package me.ianhe.isite.service;
 
+import me.ianhe.isite.exception.SystemException;
 import org.apache.commons.lang3.tuple.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
 
+import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
@@ -12,45 +23,66 @@ import java.util.Map;
  * @author iHelin
  * @since 2018/5/12 13:13
  */
-public interface EmailService {
+@Service
+public class EmailService {
 
-    /**
-     * 发送简单邮件
-     *
-     * @param sendTo  收件人地址
-     * @param title   邮件标题
-     * @param content 邮件内容
-     */
-    void sendSimpleMail(String sendTo, String title, String content);
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    /**
-     * 发送带附件的邮件
-     *
-     * @param sendTo              收件人地址
-     * @param title               邮件标题
-     * @param content             邮件内容
-     * @param attachments <文件名，附件> 附件列表
-     */
-    void sendAttachmentsMail(String sendTo, String title, String content, List<Pair<String, File>> attachments);
+    @Autowired
+    private JavaMailSender mailSender;
+    @Autowired
+    private TemplateService templateService;
+    @Value("${spring.mail.username}")
+    private String emailFrom;
 
-    /**
-     * 发送模板邮件
-     *
-     * @param sendTo
-     * @param title
-     * @param templateName
-     * @param content
-     * @param attachments
-     */
-    void sendTemplateMail(String sendTo, String title, String templateName, Map<String, Object> content, List<Pair<String, File>> attachments);
+    public void sendSimpleMail(String sendTo, String title, String content) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(emailFrom);
+        message.setTo(sendTo);
+        message.setSubject(title);
+        message.setText(content);
+        mailSender.send(message);
+        logger.debug("success send mail.");
+    }
 
-    /**
-     * 发送模板邮件
-     *
-     * @param sendTo
-     * @param title
-     * @param templateName
-     * @param content
-     */
-    void sendTemplateMail(String sendTo, String title, String templateName, Map<String, Object> content);
+    public void sendAttachmentsMail(String sendTo, String title, String content, List<Pair<String, File>> attachments) {
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+            helper.setFrom(emailFrom);
+            helper.setTo(sendTo);
+            helper.setSubject(title);
+            helper.setText(content);
+            for (Pair<String, File> pair : attachments) {
+                helper.addAttachment(pair.getLeft(), new FileSystemResource(pair.getRight()));
+            }
+        } catch (Exception e) {
+            throw new SystemException(e);
+        }
+        mailSender.send(mimeMessage);
+    }
+
+    public void sendTemplateMail(String sendTo, String title, String templateName, Map<String, Object> content, List<Pair<String, File>> attachments) {
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+            helper.setFrom(emailFrom);
+            helper.setTo(sendTo);
+            helper.setSubject(title);
+            String text = templateService.applyTemplate(templateName, content);
+            helper.setText(text, true);
+            if (attachments != null) {
+                for (Pair<String, File> pair : attachments) {
+                    helper.addAttachment(pair.getLeft(), new FileSystemResource(pair.getRight()));
+                }
+            }
+        } catch (Exception e) {
+            throw new SystemException(e);
+        }
+        mailSender.send(mimeMessage);
+    }
+
+    public void sendTemplateMail(String sendTo, String title, String templateName, Map<String, Object> content) {
+        sendTemplateMail(sendTo, title, templateName, content, null);
+    }
 }

@@ -29,23 +29,13 @@ import org.springframework.web.client.RestTemplate;
 @EnableAsync(proxyTargetClass = true)
 public class MyApplication {
 
-//    @Bean
-//    public Queue article() {
-//        return new ActiveMQQueue("article");
-//    }
-//
-//    @Bean
-//    public Queue email() {
-//        return new ActiveMQQueue("email");
-//    }
+    public static void main(String[] args) {
+        SpringApplication.run(MyApplication.class, args);
+    }
 
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
-    }
-
-    public static void main(String[] args) {
-        SpringApplication.run(MyApplication.class, args);
     }
 
     @Bean

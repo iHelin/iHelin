@@ -10,5 +10,4 @@ public interface Constant {
 
     String LOGIN_PROCESSING_URL = "/login";
 
-    String READ_COUNT_KEY = "article:readCount:";
 }
