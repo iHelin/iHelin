@@ -1,5 +1,6 @@
 package me.ianhe.isite.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import me.ianhe.isite.entity.Score;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
@@ -13,7 +14,8 @@ import java.util.List;
  * @author iHelin
  * @since 2018/7/9 12:38
  */
-public interface ScoreMapper {
+public interface ScoreMapper extends BaseMapper<Score> {
+
     int deleteByPrimaryKey(Integer id);
 
     int insert(Score record);

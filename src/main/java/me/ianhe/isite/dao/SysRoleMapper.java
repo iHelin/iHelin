@@ -1,6 +1,7 @@
 package me.ianhe.isite.dao;
 
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import me.ianhe.isite.entity.SysRole;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
  * @author iHelin
  * @since 2018/7/9 12:38
  */
-public interface SysRoleMapper {
+public interface SysRoleMapper extends BaseMapper<SysRole> {
     int deleteByPrimaryKey(Integer id);
 
     int insert(SysRole record);

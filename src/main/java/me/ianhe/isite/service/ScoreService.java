@@ -1,9 +1,9 @@
 package me.ianhe.isite.service;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import me.ianhe.isite.dao.ScoreMapper;
 import me.ianhe.isite.entity.Score;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +29,8 @@ public class ScoreService {
         return scoreMapper.insert(ms);
     }
 
-    public PageInfo<Score> selectByCondition(int pageNum, int pageSize) {
-        return new PageInfo<>(scoreMapper.selectByCondition(new RowBounds(pageNum, pageSize)));
+    public IPage<Score> selectByCondition(int pageNum, int pageSize) {
+        return scoreMapper.selectPage(new Page<>(pageNum, pageSize), null);
     }
 
 }

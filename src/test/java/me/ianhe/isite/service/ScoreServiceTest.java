@@ -1,8 +1,8 @@
 package me.ianhe.isite.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.pagehelper.PageInfo;
 import me.ianhe.isite.entity.Score;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +26,7 @@ public class ScoreServiceTest {
 
     @Test
     public void selectByCondition() throws JsonProcessingException {
-        PageInfo<Score> scores = scoreService.selectByCondition(1, 10);
+        IPage<Score> scores = scoreService.selectByCondition(1, 10);
         System.out.println(objectMapper.writeValueAsString(scores));
     }
 }

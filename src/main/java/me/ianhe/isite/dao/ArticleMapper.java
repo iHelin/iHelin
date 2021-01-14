@@ -1,5 +1,6 @@
 package me.ianhe.isite.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import me.ianhe.isite.entity.Article;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheConfig;
@@ -16,7 +17,7 @@ import java.util.Map;
  * @since 2017/10/17 15:27
  */
 @CacheConfig(cacheNames = "article")
-public interface ArticleMapper {
+public interface ArticleMapper extends BaseMapper<Article> {
 
     /**
      * 删除文章

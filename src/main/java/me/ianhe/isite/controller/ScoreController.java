@@ -1,6 +1,6 @@
 package me.ianhe.isite.controller;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import me.ianhe.isite.entity.Score;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
@@ -42,8 +42,8 @@ public class ScoreController extends BaseController {
     }
 
     @GetMapping("/scores")
-    public PageInfo<Score> getScores(@RequestParam(defaultValue = DEFAULT_PAGE_NUMBER) Integer pageNum,
-                                     @RequestParam(defaultValue = DEFAULT_PAGE_LENGTH) Integer pageLength) {
+    public IPage<Score> getScores(@RequestParam(defaultValue = DEFAULT_PAGE_NUMBER) Integer pageNum,
+                                  @RequestParam(defaultValue = DEFAULT_PAGE_LENGTH) Integer pageLength) {
         return scoreService.selectByCondition(pageNum, pageLength);
     }
 

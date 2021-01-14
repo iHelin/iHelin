@@ -1,8 +1,8 @@
 package me.ianhe.isite.service;
 
-import com.github.pagehelper.PageInfo;
-import com.github.pagehelper.PageRowBounds;
-import com.google.common.collect.Maps;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import me.ianhe.isite.dao.ArticleMapper;
 import me.ianhe.isite.entity.Article;
 import org.apache.commons.lang3.StringUtils;
@@ -15,8 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 文章管理
@@ -67,13 +65,13 @@ public class ArticleService {
      * @author iHelin
      * @since 2017/12/19 15:17
      */
-    public PageInfo<Article> findByPage(String title, int pageNum, int pageSize) {
-        Map<String, Object> res = Maps.newHashMap();
+    public IPage<Article> findByPage(String title, int pageNum, int pageSize) {
+
+        QueryWrapper<Article> queryWrapper = new QueryWrapper<>();
         if (StringUtils.isNotEmpty(title)) {
-            res.put("title", title);
+            queryWrapper.like("title", title);
         }
-        List<Article> data = articleMapper.listByCondition(res, new PageRowBounds(pageNum, pageSize));
-        return new PageInfo<>(data);
+        return articleMapper.selectPage(new Page<>(pageNum, pageSize), queryWrapper);
     }
 
 }

@@ -1,6 +1,6 @@
 package me.ianhe.isite.controller;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import me.ianhe.isite.entity.Article;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
@@ -12,10 +12,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/articles")
 public class ArticleController extends BaseController {
-
-//    @Autowired
-//    @Qualifier("article")
-//    private Destination destination;
 
     /**
      * 按id获取文章
@@ -43,8 +39,8 @@ public class ArticleController extends BaseController {
      * @return
      */
     @GetMapping
-    public PageInfo<Article> getArticles(@RequestParam(defaultValue = DEFAULT_PAGE_NUMBER) Integer pageNum,
-                                         @RequestParam(defaultValue = DEFAULT_PAGE_LENGTH) Integer pageLength) {
+    public IPage<Article> getArticles(@RequestParam(defaultValue = DEFAULT_PAGE_NUMBER) Integer pageNum,
+                                      @RequestParam(defaultValue = DEFAULT_PAGE_LENGTH) Integer pageLength) {
         return articleService.findByPage(null, pageNum, pageLength);
     }
 

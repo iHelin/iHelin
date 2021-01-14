@@ -1,6 +1,7 @@
 package me.ianhe.isite.dao;
 
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import me.ianhe.isite.entity.Poem;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
  * @author iHelin
  * @since 2018/7/9 12:38
  */
-public interface PoemMapper {
+public interface PoemMapper extends BaseMapper<Poem> {
     int deleteByPrimaryKey(Integer id);
 
     int insert(Poem record);
