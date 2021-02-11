@@ -19,7 +19,7 @@ public class Article implements Serializable {
 
     private static final long serialVersionUID = 2945012551297126221L;
 
-    private Integer id;
+    private Long id;
 
     @NotBlank
     private String title;
@@ -38,11 +38,11 @@ public class Article implements Serializable {
     @Size(min = 1, max = 100)
     private String content;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

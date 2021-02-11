@@ -4,19 +4,17 @@ import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.code.kaptcha.util.Config;
 import me.ianhe.isite.service.UserDetailsServiceImpl;
-import me.ianhe.isite.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -45,6 +43,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private UrlAccessDecisionManager urlAccessDecisionManager;
     @Autowired
     private MyAuthenticationEntryPoint myAuthenticationEntryPoint;
+    @Autowired
+    private JwtFilter jwtFilter;
 
     @Bean
     public DefaultKaptcha defaultKaptcha() {
@@ -68,23 +68,32 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        CaptchaFilter captchaFilter = new CaptchaFilter();
-        captchaFilter.setAuthenticationFailureHandler(authenticationFailureHandler);
-        http.addFilterBefore(captchaFilter, UsernamePasswordAuthenticationFilter.class)
-                .authorizeRequests().withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
-                    @Override
-                    public FilterSecurityInterceptor postProcess(FilterSecurityInterceptor interceptor) {
-                        interceptor.setSecurityMetadataSource(urlFilterInvocationSecurityMetadataSource);
-                        interceptor.setAccessDecisionManager(urlAccessDecisionManager);
-                        return interceptor;
-                    }
-                }).and()
-                .formLogin().loginPage(Constant.LOGIN_PAGE).loginProcessingUrl(Constant.LOGIN_PROCESSING_URL).permitAll()
-                .failureHandler(authenticationFailureHandler).successHandler(authenticationSuccessHandler).and()
-                .logout().permitAll().and()
-                .csrf().disable()
-                .exceptionHandling().authenticationEntryPoint(myAuthenticationEntryPoint)
-                .accessDeniedHandler(accessDeniedHandler);
+//        CaptchaFilter captchaFilter = new CaptchaFilter();
+//        captchaFilter.setAuthenticationFailureHandler(authenticationFailureHandler);
+//        http.addFilterBefore(captchaFilter, UsernamePasswordAuthenticationFilter.class)
+//                .authorizeRequests().withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+//                    @Override
+//                    public FilterSecurityInterceptor postProcess(FilterSecurityInterceptor interceptor) {
+//                        interceptor.setSecurityMetadataSource(urlFilterInvocationSecurityMetadataSource);
+//                        interceptor.setAccessDecisionManager(urlAccessDecisionManager);
+//                        return interceptor;
+//                    }
+//                }).and()
+//                .formLogin().loginPage(Constant.LOGIN_PAGE).loginProcessingUrl(Constant.LOGIN_PROCESSING_URL).permitAll()
+//                .failureHandler(authenticationFailureHandler).successHandler(authenticationSuccessHandler).and()
+//                .logout().permitAll().and()
+//                .csrf().disable()
+//                .exceptionHandling().authenticationEntryPoint(myAuthenticationEntryPoint)
+//                .accessDeniedHandler(accessDeniedHandler);
+        http.csrf().disable()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+            .authorizeRequests()
+            .antMatchers("/login", "/logout", "/test/**").permitAll()
+            .anyRequest().authenticated();
+        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+        http.exceptionHandling()
+            .accessDeniedHandler(accessDeniedHandler)
+            .authenticationEntryPoint(myAuthenticationEntryPoint);
     }
 
 }

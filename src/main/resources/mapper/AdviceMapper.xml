@@ -20,16 +20,17 @@
         where id = #{id,jdbcType=INTEGER}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-        delete from advice
+        delete
+        from advice
         where id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="me.ianhe.isite.entity.Advice"
-            useGeneratedKeys="true">
-        insert into advice (name, phone,grade, email,
-                            message, create_time)
-        values (#{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},#{grade,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR},
-                #{message,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
-    </insert>
+    <!--    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="me.ianhe.isite.entity.Advice"-->
+    <!--            useGeneratedKeys="true">-->
+    <!--        insert into advice (name, phone,grade, email,-->
+    <!--                            message, create_time)-->
+    <!--        values (#{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},#{grade,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR},-->
+    <!--                #{message,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})-->
+    <!--    </insert>-->
     <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="me.ianhe.isite.entity.Advice"
             useGeneratedKeys="true">
         insert into advice

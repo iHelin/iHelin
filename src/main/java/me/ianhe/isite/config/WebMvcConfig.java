@@ -16,4 +16,21 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addViewController("/ws").setViewName("webSocket");
     }
 
+//    @Override
+//    public void addFormatters(FormatterRegistry registry) {
+//        registry.addConverter(new Converter<String, Date>() {
+//            @Override
+//            public Date convert(String source) {
+//                if (!StringUtils.isEmpty(source)) {
+//                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//                    try {
+//                        return sdf.parse(source);
+//                    } catch (ParseException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//                return null;
+//            }
+//        });
+//    }
 }

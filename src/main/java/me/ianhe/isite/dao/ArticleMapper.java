@@ -3,9 +3,6 @@ package me.ianhe.isite.dao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import me.ianhe.isite.entity.Article;
 import org.apache.ibatis.session.RowBounds;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 import java.util.Map;
@@ -16,7 +13,7 @@ import java.util.Map;
  * @author iHelin
  * @since 2017/10/17 15:27
  */
-@CacheConfig(cacheNames = "article")
+//@CacheConfig(cacheNames = "article")
 public interface ArticleMapper extends BaseMapper<Article> {
 
     /**
@@ -25,12 +22,12 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * @param id
      * @return
      */
-    @CacheEvict
-    int deleteByPrimaryKey(Integer id);
+//    @CacheEvict
+//    int deleteByPrimaryKey(Integer id);
 
-    int insert(Article record);
+//    int insert(Article record);
 
-    int insertSelective(Article record);
+//    int insertSelective(Article record);
 
     /**
      * 查询文章
@@ -38,8 +35,8 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * @param id
      * @return
      */
-    @Cacheable
-    Article selectByPrimaryKey(Integer id);
+//    @Cacheable
+//    Article selectByPrimaryKey(Integer id);
 
     /**
      * 更新文章并更新缓存
@@ -48,7 +45,7 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * @param article
      * @return
      */
-    int updateByPrimaryKeySelective(Article article);
+//    int updateByPrimaryKeySelective(Article article);
 
     /**
      * 更新文章并更新缓存
@@ -58,8 +55,8 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * @return
      */
 //    @CachePut(key = "#article.id")
-    @CacheEvict
-    int updateByPrimaryKey(Article article);
+//    @CacheEvict
+//    int updateByPrimaryKey(Article article);
 
     List<Article> listByCondition(Map<String, Object> res, RowBounds rowBounds);
 

@@ -48,16 +48,16 @@ public class ArticleService extends ServiceImpl<ArticleMapper, Article> {
 
     public Article editArticle(Article article) {
         logger.info("update article:{}", article);
-        articleMapper.updateByPrimaryKey(article);
+        articleMapper.updateById(article);
         return article;
     }
 
     public Article selectArticleById(Integer id) {
-        return articleMapper.selectByPrimaryKey(id);
+        return articleMapper.selectById(id);
     }
 
     public int deleteById(Integer id) {
-        return articleMapper.deleteByPrimaryKey(id);
+        return articleMapper.deleteById(id);
     }
 
     /**

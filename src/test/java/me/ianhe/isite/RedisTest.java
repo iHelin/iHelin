@@ -24,8 +24,8 @@ public class RedisTest {
 
     @Test
     public void test() {
-        Article article1 = articleMapper.selectByPrimaryKey(11);
-        Article article2 = articleMapper.selectByPrimaryKey(11);
+        Article article1 = articleMapper.selectById(11);
+        Article article2 = articleMapper.selectById(11);
         System.out.println(article1);
         System.out.println(article2);
 //        redisTemplate.opsForValue().set("aaa", article1);
