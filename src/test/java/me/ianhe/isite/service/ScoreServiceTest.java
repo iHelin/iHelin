@@ -4,18 +4,15 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.ianhe.isite.entity.Score;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * @author iHelin
  * @since 2018/10/11 10:53
  */
 @SpringBootTest
-@RunWith(SpringRunner.class)
 public class ScoreServiceTest {
 
     @Autowired
