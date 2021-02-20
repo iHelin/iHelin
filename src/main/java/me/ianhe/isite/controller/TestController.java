@@ -36,10 +36,11 @@ public class TestController extends BaseController {
     @GetMapping("/gen-token")
     public R genToken() {
         Map<String, Object> claims = Maps.newHashMap();
-        claims.put("id", 10);
+        String id = "10";
+        claims.put("id", id);
         claims.put("nickname", "seven");
         claims.put("avatarUrl", "https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoJDxnFicPEe49VEklCjAKxHIyibFnhJzLNP3pWBOowqtnibJqE01TV25Qz9cbdY19T4PMg4brD4BMqg/132");
-        return R.ok().putData(JwtUtil.createJWT(claims, "seven"));
+        return R.ok().putData(JwtUtil.createJWT(claims, "seven", id));
     }
 
     @CheckLogin

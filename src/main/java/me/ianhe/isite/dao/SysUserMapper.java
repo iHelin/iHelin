@@ -21,8 +21,6 @@ public interface SysUserMapper extends BaseMapper<User> {
 
     List<User> getUsersByKeywords(@Param("keywords") String keywords);
 
-    int updateUser(User user);
-
     int deleteRoleByUserId(Long uid);
 
     int addRolesForUser(@Param("uid") Long uid, @Param("rids") Long[] rids);

@@ -62,39 +62,6 @@
                 on ((`t_user_role`.`rid` = t_role.`id`)))
         where t_user.`id` = #{uid}
     </select>
-    <update id="updateUser" parameterType="me.ianhe.isite.entity.User">
-        update t_user
-        <set>
-            <if test="name != null">
-                name = #{name,jdbcType=VARCHAR},
-            </if>
-            <if test="phone != null">
-                phone = #{phone,jdbcType=CHAR},
-            </if>
-            <if test="telephone != null">
-                telephone = #{telephone,jdbcType=VARCHAR},
-            </if>
-            <if test="address != null">
-                address = #{address,jdbcType=VARCHAR},
-            </if>
-            <if test="enabled != null">
-                enabled = #{enabled,jdbcType=BIT},
-            </if>
-            <if test="username != null">
-                username = #{username,jdbcType=VARCHAR},
-            </if>
-            <if test="password != null">
-                `password` = #{password,jdbcType=VARCHAR},
-            </if>
-            <if test="userface != null">
-                userface = #{userface,jdbcType=VARCHAR},
-            </if>
-            <if test="remark != null">
-                remark = #{remark,jdbcType=VARCHAR},
-            </if>
-        </set>
-        where id = #{id}
-    </update>
     <delete id="deleteRoleByUserId" parameterType="Long">
         DELETE FROM t_user_role
         where uid = #{uid}

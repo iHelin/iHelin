@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 import java.time.LocalDateTime;
@@ -24,7 +23,7 @@ public class User {
     private String nickname;
     private String telephone;
     private String address;
-    private boolean enabled;
+    private Boolean enabled;
     private String username;
     private String password;
     private String remark;
@@ -127,11 +126,11 @@ public class User {
     }
 
     //    @Override
-    public boolean isEnabled() {
+    public Boolean isEnabled() {
         return enabled;
     }
 
-    public void setEnabled(boolean enabled) {
+    public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
 
@@ -203,19 +202,4 @@ public class User {
         return Objects.hashCode(id);
     }
 
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-            .add("id", id)
-            .add("name", nickname)
-            .add("telephone", telephone)
-            .add("address", address)
-            .add("enabled", enabled)
-            .add("username", username)
-            .add("password", password)
-            .add("remark", remark)
-            .add("roles", roles)
-            .add("wxOpenId", wxOpenId)
-            .toString();
-    }
 }

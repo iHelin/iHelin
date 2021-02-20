@@ -29,6 +29,7 @@ public class CheckLoginAspect {
                 String authorization = request.getHeader("Authorization");
                 if (StringUtils.isNotEmpty(authorization)) {
                     String token = authorization.substring("Bearer".length());
+                    request.setAttribute("token", token);
                     Claims claims = JwtUtil.parseJWT(token);
                     String username = claims.getSubject();
                     Date expiration = claims.getExpiration();

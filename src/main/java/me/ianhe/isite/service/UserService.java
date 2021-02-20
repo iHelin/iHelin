@@ -43,10 +43,6 @@ public class UserService extends ServiceImpl<SysUserMapper, User> {
         return baseMapper.getUsersByKeywords(keywords);
     }
 
-    public int updateUser(User user) {
-        return baseMapper.updateUser(user);
-    }
-
     public int updateUserRoles(Long uid, Long[] rids) {
         int i = baseMapper.deleteRoleByUserId(uid);
         return baseMapper.addRolesForUser(uid, rids);
