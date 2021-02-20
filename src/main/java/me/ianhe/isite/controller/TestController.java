@@ -1,6 +1,7 @@
 package me.ianhe.isite.controller;
 
 import me.ianhe.isite.entity.Article;
+import me.ianhe.isite.model.R;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class TestController extends BaseController {
     @GetMapping("/eat")
     public Map<String, Object> eat() {
         taskService.runEveryDay11();
-        return success();
+        return R.ok();
     }
 
     @PostMapping("/validate")

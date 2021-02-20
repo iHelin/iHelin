@@ -1,6 +1,7 @@
 package me.ianhe.isite.controller.admin;
 
 import com.qiniu.storage.model.FileInfo;
+import me.ianhe.isite.model.R;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,7 +30,7 @@ public class AdminFileController extends BaseAdminController {
     @PostMapping("/upload")
     public Map<String, Object> handleUpload(MultipartFile file) {
         if (file.isEmpty()) {
-            return error("请选择文件...");
+            return R.error("请选择文件...");
         }
         InputStream inputStream = null;
         try {
@@ -37,7 +38,7 @@ public class AdminFileController extends BaseAdminController {
         } catch (IOException e) {
             logger.error("文件上传失败", e);
         }
-        return success(fileService.uploadFile("admin/image/" + UUID.randomUUID().toString(), inputStream));
+        return R.ok(fileService.uploadFile("admin/image/" + UUID.randomUUID().toString(), inputStream));
     }
 
     @GetMapping
@@ -54,7 +55,7 @@ public class AdminFileController extends BaseAdminController {
     @DeleteMapping
     public Map<String, Object> deleteFile(String key) {
         fileService.deleteFile(key);
-        return success();
+        return R.ok();
     }
 
 }

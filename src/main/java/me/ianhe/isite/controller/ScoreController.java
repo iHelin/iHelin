@@ -2,6 +2,7 @@ package me.ianhe.isite.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import me.ianhe.isite.entity.Score;
+import me.ianhe.isite.model.R;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +13,7 @@ import java.util.Map;
  * 分数
  *
  * @author iHelin
- * @create 2017-02-15 19:18
+ * @since 2017-02-15 19:18
  */
 @RestController
 public class ScoreController extends BaseController {
@@ -27,7 +28,7 @@ public class ScoreController extends BaseController {
     public Map<String, Object> addScore(@RequestBody Score myScore) {
         myScore.setCreateTime(new Date());
         scoreService.addRecord(myScore);
-        return success();
+        return R.ok();
     }
 
     @GetMapping("/scores/total")

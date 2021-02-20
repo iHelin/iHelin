@@ -1,14 +1,11 @@
 package me.ianhe.isite.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -17,26 +14,73 @@ import java.util.List;
  * @author iHelin
  * @since 2017/11/9 19:44
  */
-public class User implements UserDetails {
+//public class User implements UserDetails {
+public class User {
 
     private Long id;
-    private String name;
-    private String phone;
+    private String nickname;
     private String telephone;
     private String address;
     private boolean enabled;
     private String username;
     private String password;
     private String remark;
+    private String wxOpenId;
+    private String avatarUrl;
+    private String idCard;
+    private String sessionKey;
+    private LocalDateTime createTime;
+    private LocalDateTime updateTime;
+    @TableField(exist = false)
     private List<Role> roles;
-    private String userface;
 
-    public String getUserface() {
-        return userface;
+
+    public String getSessionKey() {
+        return sessionKey;
     }
 
-    public void setUserface(String userface) {
-        this.userface = userface;
+    public void setSessionKey(String sessionKey) {
+        this.sessionKey = sessionKey;
+    }
+
+    public String getIdCard() {
+        return idCard;
+    }
+
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public LocalDateTime getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(LocalDateTime updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
+    public String getWxOpenId() {
+        return wxOpenId;
+    }
+
+    public void setWxOpenId(String wxOpenId) {
+        this.wxOpenId = wxOpenId;
     }
 
     public List<Role> getRoles() {
@@ -55,20 +99,12 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public String getTelephone() {
@@ -87,7 +123,7 @@ public class User implements UserDetails {
         this.address = address;
     }
 
-    @Override
+    //    @Override
     public boolean isEnabled() {
         return enabled;
     }
@@ -96,25 +132,25 @@ public class User implements UserDetails {
         this.enabled = enabled;
     }
 
-    @Override
+    //    @Override
     public String getUsername() {
         return username;
     }
 
     @JsonIgnore
-    @Override
+//    @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @JsonIgnore
-    @Override
+//    @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @JsonIgnore
-    @Override
+//    @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
@@ -123,18 +159,18 @@ public class User implements UserDetails {
         this.username = username;
     }
 
-    @JsonIgnore
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        for (Role role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
-        }
-        return authorities;
-    }
+//    @JsonIgnore
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        List<GrantedAuthority> authorities = new ArrayList<>();
+//        for (Role role : roles) {
+//            authorities.add(new SimpleGrantedAuthority(role.getName()));
+//        }
+//        return authorities;
+//    }
 
     @JsonIgnore
-    @Override
+//    @Override
     public String getPassword() {
         return password;
     }
@@ -167,17 +203,16 @@ public class User implements UserDetails {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("id", id)
-                .add("name", name)
-                .add("phone", phone)
-                .add("telephone", telephone)
-                .add("address", address)
-                .add("enabled", enabled)
-                .add("username", username)
-                .add("password", password)
-                .add("remark", remark)
-                .add("roles", roles)
-                .add("userface", userface)
-                .toString();
+            .add("id", id)
+            .add("name", nickname)
+            .add("telephone", telephone)
+            .add("address", address)
+            .add("enabled", enabled)
+            .add("username", username)
+            .add("password", password)
+            .add("remark", remark)
+            .add("roles", roles)
+            .add("wxOpenId", wxOpenId)
+            .toString();
     }
 }

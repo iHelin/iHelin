@@ -2,6 +2,7 @@ package me.ianhe.isite.controller.admin;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import me.ianhe.isite.entity.Article;
+import me.ianhe.isite.model.R;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
@@ -28,7 +29,7 @@ public class AdminArticleController extends BaseAdminController {
     @PostMapping
     public Map<String, Object> addArticle(Article article) {
         articleService.addArticle(article);
-        return success();
+        return R.ok();
     }
 
     /**
@@ -64,14 +65,14 @@ public class AdminArticleController extends BaseAdminController {
     @PutMapping(value = "/{id:\\d+}")
     public Map<String, Object> editArticle(@PathVariable Integer id, Article article) {
         if (article == null || id == null) {
-            return error("文章不存在");
+            return R.error("文章不存在");
         }
         Article newArticle = articleService.selectArticleById(id);
         newArticle.setTitle(HtmlUtils.htmlEscape(article.getTitle(), StandardCharsets.UTF_8.name()));
         newArticle.setSummary(HtmlUtils.htmlEscape(article.getSummary(), StandardCharsets.UTF_8.name()));
         newArticle.setContent(article.getContent());
         articleService.editArticle(newArticle);
-        return success();
+        return R.ok();
     }
 
     /**
@@ -83,7 +84,7 @@ public class AdminArticleController extends BaseAdminController {
     @DeleteMapping("/{id:\\d+}")
     public Map<String, Object> deleteProduct(@PathVariable Integer id) {
         articleService.deleteById(id);
-        return success();
+        return R.ok();
     }
 
 }

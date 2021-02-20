@@ -1,8 +1,6 @@
 package me.ianhe.isite.utils;
 
-import me.ianhe.isite.entity.User;
 import org.apache.commons.lang3.SerializationUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.io.Serializable;
 
@@ -27,9 +25,9 @@ public class SystemUtils {
         return true;
     }
 
-    public static User getCurrentUser() {
-        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    }
+//    public static User getCurrentUser() {
+//        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//    }
 
     public static byte[] write(Serializable obj) {
         return SerializationUtils.serialize(obj);
