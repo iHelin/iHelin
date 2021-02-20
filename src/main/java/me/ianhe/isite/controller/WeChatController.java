@@ -65,7 +65,7 @@ public class WeChatController extends BaseController {
         userInfo.put("username", user.getUsername());
         userInfo.put("idCard", user.getIdCard());
         userInfo.put("avatarUrl", user.getAvatarUrl());
-        String token = JwtUtil.createJWT(userInfo);
+        String token = JwtUtil.createJWT(userInfo, user.getNickname());
         Map<String, Object> resp = Maps.newHashMap();
         resp.put("user", userInfo);
         resp.put("token", token);

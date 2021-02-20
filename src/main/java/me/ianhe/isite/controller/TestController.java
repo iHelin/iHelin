@@ -1,7 +1,10 @@
 package me.ianhe.isite.controller;
 
+import com.google.common.collect.Maps;
+import me.ianhe.isite.aspect.CheckLogin;
 import me.ianhe.isite.entity.Article;
 import me.ianhe.isite.model.R;
+import me.ianhe.isite.utils.JwtUtil;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -19,12 +22,6 @@ import java.util.*;
 @RequestMapping("/test")
 public class TestController extends BaseController {
 
-    @GetMapping("/eat")
-    public Map<String, Object> eat() {
-        taskService.runEveryDay11();
-        return R.ok();
-    }
-
     @PostMapping("/validate")
     public Object validate(@Valid Article article, Errors errors) {
         if (errors.hasErrors()) {
@@ -36,6 +33,16 @@ public class TestController extends BaseController {
         return "ok";
     }
 
+    @GetMapping("/gen-token")
+    public R genToken() {
+        Map<String, Object> claims = Maps.newHashMap();
+        claims.put("id", 10);
+        claims.put("nickname", "seven");
+        claims.put("avatarUrl", "https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoJDxnFicPEe49VEklCjAKxHIyibFnhJzLNP3pWBOowqtnibJqE01TV25Qz9cbdY19T4PMg4brD4BMqg/132");
+        return R.ok().putData(JwtUtil.createJWT(claims, "seven"));
+    }
+
+    @CheckLogin
     @GetMapping("/ttt")
     public String test(@RequestHeader("User-Agent") String userAgent, HttpServletRequest request) {
         logger.debug(userAgent);

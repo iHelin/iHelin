@@ -62,13 +62,13 @@ public class JsonUtil {
         }
     }
 
-    public static List<HashMap> parseArrayMap(String json) {
-        TypeReference<List<HashMap>> jsonTypeReference = new TypeReference<List<HashMap>>() {
+    public static List<HashMap<String, Object>> parseArrayMap(String json) {
+        TypeReference<List<HashMap<String, Object>>> jsonTypeReference = new TypeReference<List<HashMap<String, Object>>>() {
         };
         return parseArray(json, jsonTypeReference);
     }
 
-    public static HashMap parseMap(String json) {
+    public static HashMap<String, Object> parseMap(String json) {
         try {
             return OBJECT_MAPPER.readValue(json, HashMap.class);
         } catch (IOException e) {
@@ -77,7 +77,7 @@ public class JsonUtil {
         }
     }
 
-    public static HashMap parseMap(InputStream inputStream) {
+    public static HashMap<String, Object> parseMap(InputStream inputStream) {
         try {
             return OBJECT_MAPPER.readValue(inputStream, HashMap.class);
         } catch (IOException e) {

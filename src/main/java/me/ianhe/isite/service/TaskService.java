@@ -10,16 +10,15 @@ import me.ianhe.isite.model.douban.Movie;
 import me.ianhe.isite.model.douban.Subject;
 import me.ianhe.isite.utils.JsonUtil;
 import me.ianhe.isite.utils.WeChatUtil;
-import org.apache.commons.io.input.BOMInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author iHelin
@@ -48,7 +47,6 @@ public class TaskService {
     @Scheduled(cron = "0 0 11 ? * MON-FRI")
     public void runEveryDay11() {
         logger.debug("runWorkDay11");
-        sendMenu();
     }
 
     /**
@@ -112,23 +110,6 @@ public class TaskService {
     }
 
     /**
-     * 每天同步文章阅读数
-     *
-     * @author iHelin
-     * @since 2017/12/21 10:17
-     */
-//    private void syncReadCount() {
-//        List<Integer> ids = articleMapper.selectAllId();
-//        for (Integer id : ids) {
-//            Long readCount = commonRedisDao.getLong(Constant.READ_COUNT_KEY + id);
-//            Article article = new Article();
-//            article.setId(id);
-//            article.setReadNum(readCount);
-//            articleMapper.updateByPrimaryKeySelective(article);
-//        }
-//    }
-
-    /**
      * 古诗
      *
      * @author iHelin
@@ -148,7 +129,7 @@ public class TaskService {
      */
     private void dailyEnglish() {
         Calendar terminalDate = new Calendar.Builder().setDate(2018, Calendar.DECEMBER, 23)
-                .build();
+            .build();
         long terminalLong = terminalDate.getTimeInMillis();
         long nowLong = System.currentTimeMillis();
         long betweenDays = (terminalLong - nowLong) / (1000L * 3600 * 24);
@@ -158,9 +139,9 @@ public class TaskService {
             Map<String, Object> resMap = JsonUtil.parseMap(res);
             contentMap.put("title", "葫芦娃学英语");
             String text = "## 距离2019【ky】还剩" + betweenDays + "天！\n" +
-                    "![葫芦娃学英语](" + resMap.get("picture") + ")\n" +
-                    "##### " + resMap.get("content") + " \n" +
-                    "> " + resMap.get("note") + " \n";
+                "![葫芦娃学英语](" + resMap.get("picture") + ")\n" +
+                "##### " + resMap.get("content") + " \n" +
+                "> " + resMap.get("note") + " \n";
             contentMap.put("text", text);
             Map<String, Object> data = Maps.newHashMap();
             data.put("msgtype", "markdown");
@@ -201,35 +182,6 @@ public class TaskService {
         FeedCard feedCard = new FeedCard();
         feedCard.setLinks(links);
         dingService.sendFeedCardMsg(feedCard);
-    }
-
-    /**
-     * 发送菜单
-     *
-     * @author iHelin
-     * @since 2018/7/8 20:05
-     */
-    private void sendMenu() {
-        InputStream inputStream = WeChatUtil.doGetInputStream("https://dev.fluttercn.com/now-eat/menu-190310.json");
-        BOMInputStream bomInputStream = new BOMInputStream(inputStream); //仅能检测到UTF8的bom，且在流中exclude掉bom
-        HashMap map = JsonUtil.parseMap(bomInputStream);
-        List<String> workDate = (List<String>) map.get("workDate");
-        String currentDateStr = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
-        for (int currentIndex = 0; currentIndex < workDate.size(); currentIndex++) {
-            if (currentDateStr.equals(workDate.get(currentIndex))) {
-                Map<String, Object> nooning = (Map<String, Object>) map.get("nooning");
-                nooning.put("currentIndex", currentIndex);
-                List<Map> timeplan = (List<Map>) map.get("timeplan");
-                String mealTime = "";
-                for (Map tp : timeplan) {
-                    if (((String) tp.get("key")).contains("B")) {
-                        mealTime = (String) tp.get("value");
-                    }
-                }
-                nooning.put("mealTime", mealTime);
-                emailService.sendTemplateMail("ihelin@outlook.com", "今日菜单", "iflytekFood.ftl", nooning);
-            }
-        }
     }
 
 }

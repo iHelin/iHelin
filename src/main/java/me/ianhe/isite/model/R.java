@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 返回数据
@@ -41,12 +40,6 @@ public class R extends HashMap<String, Object> {
     public static R ok(String msg) {
         R r = new R();
         r.put("msg", msg);
-        return r;
-    }
-
-    public static R ok(Map<String, Object> map) {
-        R r = new R();
-        r.putAll(map);
         return r;
     }
 
