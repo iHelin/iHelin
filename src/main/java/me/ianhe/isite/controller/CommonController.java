@@ -1,7 +1,5 @@
 package me.ianhe.isite.controller;
 
-import me.ianhe.isite.entity.Poem;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -10,17 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class CommonController extends BaseController {
-
-    /**
-     * 古诗接口
-     *
-     * @author iHelin
-     * @since 2017/11/10 17:26
-     */
-    @GetMapping("poem")
-    public Poem getPoemByRandom() {
-        return commonService.getPoemByRandom();
-    }
 
     /**
      * 创建验证码

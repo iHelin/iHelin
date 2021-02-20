@@ -39,6 +39,6 @@ public abstract class BaseController {
      * 默认分页大小
      */
     protected static final String DEFAULT_PAGE_NUMBER = "1";
-    protected static final String DEFAULT_PAGE_LENGTH = "10";
+    protected static final String DEFAULT_PAGE_SIZE = "10";
 
 }

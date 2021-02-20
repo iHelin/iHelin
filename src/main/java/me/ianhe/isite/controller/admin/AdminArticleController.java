@@ -40,7 +40,7 @@ public class AdminArticleController extends BaseAdminController {
      */
     @GetMapping
     public IPage<Article> getArticles(@RequestParam(defaultValue = DEFAULT_PAGE_NUMBER) Integer pageNum,
-                                      @RequestParam(defaultValue = DEFAULT_PAGE_LENGTH) Integer pageSize) {
+                                      @RequestParam(defaultValue = DEFAULT_PAGE_SIZE) Integer pageSize) {
         return articleService.findByPage(null, pageNum, pageSize);
     }
 

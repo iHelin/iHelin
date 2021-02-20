@@ -1,9 +1,10 @@
 package me.ianhe.isite.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -12,21 +13,22 @@ import java.util.Date;
  * @author iHelin
  * @since 2018/7/9 12:37
  */
-public class Score implements Serializable {
+@TableName("t_score")
+public class Score {
 
-    private static final long serialVersionUID = -7279480633434967639L;
-
+    @TableId
     private Integer id;
 
     private Integer value;
 
     private String writer;
 
+    private String reason;
+
     private Date createTime;
 
     private Date updateTime;
 
-    private String reason;
 
     public Integer getId() {
         return id;

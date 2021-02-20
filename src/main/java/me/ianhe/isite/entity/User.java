@@ -1,6 +1,8 @@
 package me.ianhe.isite.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
@@ -14,9 +16,10 @@ import java.util.List;
  * @author iHelin
  * @since 2017/11/9 19:44
  */
-//public class User implements UserDetails {
+@TableName("user")
 public class User {
 
+    @TableId
     private Long id;
     private String nickname;
     private String telephone;

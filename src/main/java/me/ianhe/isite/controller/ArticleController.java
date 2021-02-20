@@ -40,7 +40,7 @@ public class ArticleController extends BaseController {
      */
     @GetMapping
     public IPage<Article> getArticles(@RequestParam(defaultValue = DEFAULT_PAGE_NUMBER) Integer pageNum,
-                                      @RequestParam(defaultValue = DEFAULT_PAGE_LENGTH) Integer pageLength) {
+                                      @RequestParam(defaultValue = DEFAULT_PAGE_SIZE) Integer pageLength) {
         return articleService.findByPage(null, pageNum, pageLength);
     }
 

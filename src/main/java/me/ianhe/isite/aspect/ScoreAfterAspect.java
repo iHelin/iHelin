@@ -2,7 +2,6 @@ package me.ianhe.isite.aspect;
 
 import com.google.common.collect.Maps;
 import me.ianhe.isite.entity.Score;
-import me.ianhe.isite.model.MailModel;
 import me.ianhe.isite.service.DingService;
 import me.ianhe.isite.service.EmailService;
 import me.ianhe.isite.service.ScoreService;
@@ -49,7 +48,7 @@ public class ScoreAfterAspect {
      * @author iHelin
      * @since 2017/6/1 10:35
      */
-    @AfterReturning("execution(* me.ianhe.isite.service.ScoreService.addRecord(..))")
+    @AfterReturning("execution(* me.ianhe.isite.controller.ScoreController.addScore(..))")
     public void afterAddScore(JoinPoint joinPoint) {
         Score score = (Score) joinPoint.getArgs()[0];
         Long total = scoreService.getMyTotalScore();
@@ -69,9 +68,8 @@ public class ScoreAfterAspect {
         res.put("total", total);
         String mailContent = templateService.applyTemplate("score.ftl", res);
         String title = "加分提醒:今天加了" + score.getValue() + "分";
-        MailModel email = new MailModel("ahaqhelin@163.com;1018954240@qq.com",
-            "葫芦娃", title, mailContent);
-        emailService.sendSimpleMail(email.getToAddress(), email.getSubject(), email.getContent());
+        String sendTo = "ahaqhelin@163.com";
+        emailService.sendSimpleMail(sendTo, title, mailContent);
     }
 
     @Around("execution( * me.ianhe.isite.controller.TestController.*(..))")

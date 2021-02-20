@@ -2,11 +2,6 @@ package me.ianhe.isite.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import me.ianhe.isite.entity.Score;
-import org.apache.ibatis.session.RowBounds;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-
-import java.util.List;
 
 /**
  * MyScoreMapper
@@ -16,21 +11,6 @@ import java.util.List;
  */
 public interface ScoreMapper extends BaseMapper<Score> {
 
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(Score record);
-
-    int insertSelective(Score record);
-
-    @Cacheable("score")
-    Score selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(Score record);
-
-    @CacheEvict("score")
-    int updateByPrimaryKey(Score record);
-
     Long getTotalScore();
 
-    List<Score> selectByCondition(RowBounds rowBounds);
 }
