@@ -6,6 +6,7 @@ import com.google.common.collect.Maps;
 import io.jsonwebtoken.Claims;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.ianhe.isite.aspect.CheckLogin;
+import me.ianhe.isite.aspect.CheckLoginAspect;
 import me.ianhe.isite.config.SystemProperties;
 import me.ianhe.isite.entity.User;
 import me.ianhe.isite.model.R;
@@ -78,8 +79,7 @@ public class WeChatController extends BaseController {
     @CheckLogin
     @GetMapping("/me")
     public R auth(HttpServletRequest request) {
-        String token = (String) request.getAttribute("token");
-        Claims claims = JwtUtil.parseJWT(token);
+        Claims claims = CheckLoginAspect.CLAIMS.get();
         String id = claims.getId();
         User user = userService.getById(Integer.valueOf(id));
         return R.ok(user);
@@ -88,13 +88,10 @@ public class WeChatController extends BaseController {
     @CheckLogin
     @PostMapping("/binding")
     public R bindUser(HttpServletRequest request, @RequestBody Map<String, String> payload) {
-        String token = (String) request.getAttribute("token");
-        Claims claims = JwtUtil.parseJWT(token);
+//        Claims claims = (Claims) request.getAttribute("claims");
+        Claims claims = CheckLoginAspect.CLAIMS.get();
         String id = claims.getId();
         User user = userService.getById(Integer.valueOf(id));
-//        if (user.isEnabled()) {
-//            throw new SystemException("已经绑定过了");
-//        }
         user.setEnabled(true);
         user.setUsername(payload.get("username"));
         user.setIdCard(payload.get("idCard"));

@@ -17,6 +17,7 @@ import java.util.Date;
 @Aspect
 @Component
 public class CheckLoginAspect {
+    public static final ThreadLocal<Claims> CLAIMS = new ThreadLocal<>();
 
     @Around("@annotation(me.ianhe.isite.aspect.CheckLogin)")
     public Object checkLogin(ProceedingJoinPoint joinPoint) throws Throwable {
@@ -29,8 +30,9 @@ public class CheckLoginAspect {
                 String authorization = request.getHeader("Authorization");
                 if (StringUtils.isNotEmpty(authorization)) {
                     String token = authorization.substring("Bearer".length());
-                    request.setAttribute("token", token);
                     Claims claims = JwtUtil.parseJWT(token);
+//                    request.setAttribute("claims", claims);
+                    CLAIMS.set(claims);
                     String username = claims.getSubject();
                     Date expiration = claims.getExpiration();
                     if (expiration.before(new Date())) {
@@ -47,6 +49,8 @@ public class CheckLoginAspect {
         } catch (Exception e) {
             throw new SecurityException("Token 不合法");
         }
-        return joinPoint.proceed();
+        Object proceed = joinPoint.proceed();
+        CLAIMS.remove();
+        return proceed;
     }
 }
