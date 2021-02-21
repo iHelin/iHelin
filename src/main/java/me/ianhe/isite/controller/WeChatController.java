@@ -57,10 +57,11 @@ public class WeChatController extends BaseController {
         Map<String, Object> userInfo = new HashMap<>();
         userInfo.put("id", user.getId());
         userInfo.put("nickname", user.getNickname());
-        userInfo.put("username", user.getUsername());
-        userInfo.put("idCard", user.getIdCard());
         userInfo.put("avatarUrl", user.getAvatarUrl());
         userInfo.put("enabled", user.isEnabled());
+        userInfo.put("username", user.getUsername());
+        userInfo.put("idCard", user.getIdCard());
+        userInfo.put("telephone", user.getTelephone());
         String token = JwtUtil.createJWT(userInfo, user.getNickname(), user.getId().toString());
         Map<String, Object> resp = Maps.newHashMap();
         resp.putAll(userInfo);
