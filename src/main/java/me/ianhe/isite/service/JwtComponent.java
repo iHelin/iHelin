@@ -1,8 +1,11 @@
-package me.ianhe.isite.utils;
+package me.ianhe.isite.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import me.ianhe.isite.config.SystemProperties;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.Map;
@@ -11,9 +14,11 @@ import java.util.Map;
  * @author iHelin
  * @since 2019-07-27 21:16
  */
-public class JwtUtil {
+@Component
+public class JwtComponent {
 
-    private static final String JWT_KEY = "iHelin-Seven-PP";
+    @Autowired
+    private SystemProperties systemProperties;
 
     /**
      * 用户登录成功后生成Jwt
@@ -21,12 +26,12 @@ public class JwtUtil {
      *
      * @return
      */
-    public static String createJWT(Map<String, Object> claims, String subject, String id) {
+    public String createJWT(Map<String, Object> claims, String subject, String id) {
         //指定签名的时候使用的签名算法，也就是header那部分，jjwt已经将这部分内容封装好了。
         //生成JWT的时间
         long currentTimeMillis = System.currentTimeMillis();
         Date now = new Date(currentTimeMillis);
-        long expMillis = currentTimeMillis + 1000L * 60 * 60 * 24 * 7;
+        long expMillis = currentTimeMillis + systemProperties.getJwtExp();
         Date expiration = new Date(expMillis);
         //创建payload的私有声明（根据特定的业务需要添加，如果要拿这个做验证，一般是需要和jwt的接收方提前沟通好验证方式的）
         //这里其实就是new一个JwtBuilder，设置jwt的body
@@ -40,7 +45,7 @@ public class JwtUtil {
             //代表这个JWT的主体，即它的所有人，这个是一个json格式的字符串，可以存放什么userid，roldid之类的，作为什么用户的唯一标志。
             .setSubject(subject)
             //设置签名使用的签名算法和签名使用的秘钥
-            .signWith(SignatureAlgorithm.HS256, JWT_KEY)
+            .signWith(SignatureAlgorithm.HS256, systemProperties.getJwtSecret())
             //设置过期时间
             .setExpiration(expiration).compact();
     }
@@ -50,13 +55,13 @@ public class JwtUtil {
      * Token的解密
      *
      * @param token 加密后的token
-     * @return
+     * @return Claims
      */
-    public static Claims parseJWT(String token) {
+    public Claims parseJWT(String token) {
         //得到DefaultJwtParser
         return Jwts.parser()
             //设置签名的秘钥
-            .setSigningKey(JWT_KEY)
+            .setSigningKey(systemProperties.getJwtSecret())
             //设置需要解析的jwt
             .parseClaimsJws(token).getBody();
     }

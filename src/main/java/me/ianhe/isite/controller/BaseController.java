@@ -26,8 +26,8 @@ public abstract class BaseController {
     protected ObjectMapper objectMapper;
     @Autowired
     protected CommonService commonService;
-    //    @Autowired
-//    protected DefaultKaptcha defaultKaptcha;
+    @Autowired
+    protected JwtComponent jwtComponent;
     @Autowired
     protected AsyncService asyncService;
     @Autowired

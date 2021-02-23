@@ -7,11 +7,9 @@ import io.jsonwebtoken.Claims;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.ianhe.isite.aspect.CheckLogin;
 import me.ianhe.isite.aspect.CheckLoginAspect;
-import me.ianhe.isite.config.SystemProperties;
 import me.ianhe.isite.entity.User;
 import me.ianhe.isite.model.R;
 import me.ianhe.isite.service.UserService;
-import me.ianhe.isite.utils.JwtUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +30,7 @@ import java.util.Map;
 public class WeChatController extends BaseController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    @Autowired
-    private SystemProperties systemProperties;
+
     @Autowired
     private WxMaService wxMaService;
     @Autowired
@@ -62,7 +59,7 @@ public class WeChatController extends BaseController {
         userInfo.put("username", user.getUsername());
         userInfo.put("idCard", user.getIdCard());
         userInfo.put("telephone", user.getTelephone());
-        String token = JwtUtil.createJWT(userInfo, user.getNickname(), user.getId().toString());
+        String token = jwtComponent.createJWT(userInfo, user.getNickname(), user.getId().toString());
         Map<String, Object> resp = Maps.newHashMap();
         resp.putAll(userInfo);
         resp.put("token", token);

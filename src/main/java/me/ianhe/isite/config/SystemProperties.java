@@ -34,6 +34,9 @@ public class SystemProperties {
     private String xcxAppid;
     private String xcxSecret;
 
+    private String jwtSecret = "iHelin";
+    private Long jwtExp = 1000L * 60 * 60 * 24 * 7;
+
     public String getDomain() {
         return domain;
     }
@@ -128,5 +131,21 @@ public class SystemProperties {
 
     public void setXcxSecret(String xcxSecret) {
         this.xcxSecret = xcxSecret;
+    }
+
+    public String getJwtSecret() {
+        return jwtSecret;
+    }
+
+    public void setJwtSecret(String jwtSecret) {
+        this.jwtSecret = jwtSecret;
+    }
+
+    public Long getJwtExp() {
+        return jwtExp;
+    }
+
+    public void setJwtExp(Long jwtExp) {
+        this.jwtExp = jwtExp;
     }
 }

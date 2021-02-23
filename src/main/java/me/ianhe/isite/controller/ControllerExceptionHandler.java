@@ -19,10 +19,10 @@ public class ControllerExceptionHandler {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @ExceptionHandler(SystemException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public R handleSystemException(SystemException e) {
         logger.warn("SystemException", e);
-        return R.error(e.getMessage());
+        return R.error(e.getCode(), e.getMessage());
     }
 
     /**
