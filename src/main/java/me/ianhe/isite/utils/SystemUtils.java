@@ -1,5 +1,7 @@
 package me.ianhe.isite.utils;
 
+import me.ianhe.isite.config.security.JwtFilter;
+import me.ianhe.isite.entity.User;
 import org.apache.commons.lang3.SerializationUtils;
 
 import java.io.Serializable;
@@ -25,9 +27,9 @@ public class SystemUtils {
         return true;
     }
 
-//    public static User getCurrentUser() {
-//        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//    }
+    public static User getCurrentUser() {
+        return JwtFilter.LOGIN_USER.get();
+    }
 
     public static byte[] write(Serializable obj) {
         return SerializationUtils.serialize(obj);

@@ -7,6 +7,7 @@ import me.chanjar.weixin.common.error.WxErrorException;
 import me.ianhe.isite.entity.User;
 import me.ianhe.isite.model.R;
 import me.ianhe.isite.service.UserService;
+import me.ianhe.isite.utils.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -67,24 +67,9 @@ public class WeChatController extends BaseController {
         return R.ok(resp);
     }
 
-//    /**
-//     * 小程序获取登录用户信息
-//     *
-//     * @return
-//     */
-//    @GetMapping("/me")
-//    public R auth(Principal principal) {
-////        Claims claims = CheckLoginAspect.CLAIMS.get();
-////        String id = claims.getId();
-//        String id = principal.getName();
-//        User user = userService.loadUserByUsername(id);
-//        return R.ok(user);
-//    }
-
     @PostMapping("/binding")
-    public R bindUser(@RequestBody Map<String, String> payload, Principal principal) {
-        String id = principal.getName();
-        User user = userService.getById(id);
+    public R bindUser(@RequestBody Map<String, String> payload) {
+        User user = SystemUtils.getCurrentUser();
         user.setEnabled(true);
         user.setUsername(payload.get("username"));
         user.setIdCard(payload.get("idCard"));
