@@ -83,8 +83,8 @@ public class WeChatController extends BaseController {
 
     @PostMapping("/binding")
     public R bindUser(@RequestBody Map<String, String> payload, Principal principal) {
-        String username = principal.getName();
-        User user = userService.loadUserByUsername(username);
+        String id = principal.getName();
+        User user = userService.getById(id);
         user.setEnabled(true);
         user.setUsername(payload.get("username"));
         user.setIdCard(payload.get("idCard"));

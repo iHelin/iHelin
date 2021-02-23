@@ -22,7 +22,7 @@ public class UserService extends ServiceImpl<SysUserMapper, User> implements Use
 
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = baseMapper.selectById(username);
+        User user = baseMapper.loadUserByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("用户名不存在");
         }

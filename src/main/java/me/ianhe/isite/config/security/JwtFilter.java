@@ -43,10 +43,10 @@ public class JwtFilter extends OncePerRequestFilter {
         }
         if (StringUtils.hasText(token)) {
             Claims claims = jwtComponent.parseJWT(token);
-            String username = claims.getSubject();
+            String id = claims.getSubject();
             //token 存在但未登录
             if (SecurityContextHolder.getContext().getAuthentication() == null) {
-                User user = userService.loadUserByUsername(username);
+                User user = userService.getById(id);
                 request.setAttribute("loginUser", user);
                 LOGIN_USER.set(user);
                 UsernamePasswordAuthenticationToken authenticationToken
