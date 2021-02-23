@@ -19,7 +19,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -73,12 +72,11 @@ public class WeChatController extends BaseController {
     /**
      * 小程序获取登录用户信息
      *
-     * @param request HttpServletRequest
      * @return
      */
     @CheckLogin
     @GetMapping("/me")
-    public R auth(HttpServletRequest request) {
+    public R auth() {
         Claims claims = CheckLoginAspect.CLAIMS.get();
         String id = claims.getId();
         User user = userService.getById(Integer.valueOf(id));
@@ -87,8 +85,7 @@ public class WeChatController extends BaseController {
 
     @CheckLogin
     @PostMapping("/binding")
-    public R bindUser(HttpServletRequest request, @RequestBody Map<String, String> payload) {
-//        Claims claims = (Claims) request.getAttribute("claims");
+    public R bindUser(@RequestBody Map<String, String> payload) {
         Claims claims = CheckLoginAspect.CLAIMS.get();
         String id = claims.getId();
         User user = userService.getById(Integer.valueOf(id));
