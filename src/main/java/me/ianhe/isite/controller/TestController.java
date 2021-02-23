@@ -1,7 +1,6 @@
 package me.ianhe.isite.controller;
 
 import com.google.common.collect.Maps;
-import me.ianhe.isite.aspect.CheckLogin;
 import me.ianhe.isite.entity.Article;
 import me.ianhe.isite.model.R;
 import org.springframework.validation.Errors;
@@ -39,10 +38,9 @@ public class TestController extends BaseController {
         claims.put("id", id);
         claims.put("nickname", "seven");
         claims.put("avatarUrl", "https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoJDxnFicPEe49VEklCjAKxHIyibFnhJzLNP3pWBOowqtnibJqE01TV25Qz9cbdY19T4PMg4brD4BMqg/132");
-        return R.ok().putData(jwtComponent.createJWT(claims, "seven", id));
+        return R.ok().putData(jwtComponent.createJWT(claims, "seven"));
     }
 
-    @CheckLogin
     @GetMapping("/ttt")
     public String test(@RequestHeader("User-Agent") String userAgent, HttpServletRequest request) {
         logger.debug(userAgent);

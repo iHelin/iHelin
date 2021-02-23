@@ -5,8 +5,11 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Objects;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -15,8 +18,8 @@ import java.util.List;
  * @author iHelin
  * @since 2017/11/9 19:44
  */
-@TableName("user")
-public class User {
+@TableName("t_user")
+public class User implements UserDetails {
 
     @TableId
     private Long id;
@@ -125,8 +128,8 @@ public class User {
         this.address = address;
     }
 
-    //    @Override
-    public Boolean isEnabled() {
+    @Override
+    public boolean isEnabled() {
         return enabled;
     }
 
@@ -134,25 +137,25 @@ public class User {
         this.enabled = enabled;
     }
 
-    //    @Override
+    @Override
     public String getUsername() {
         return username;
     }
 
     @JsonIgnore
-//    @Override
+    @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @JsonIgnore
-//    @Override
+    @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @JsonIgnore
-//    @Override
+    @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
@@ -161,18 +164,13 @@ public class User {
         this.username = username;
     }
 
-//    @JsonIgnore
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        List<GrantedAuthority> authorities = new ArrayList<>();
-//        for (Role role : roles) {
-//            authorities.add(new SimpleGrantedAuthority(role.getName()));
-//        }
-//        return authorities;
-//    }
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
 
     @JsonIgnore
-//    @Override
+    @Override
     public String getPassword() {
         return password;
     }

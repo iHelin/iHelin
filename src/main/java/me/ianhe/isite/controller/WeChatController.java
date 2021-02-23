@@ -3,10 +3,7 @@ package me.ianhe.isite.controller;
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import com.google.common.collect.Maps;
-import io.jsonwebtoken.Claims;
 import me.chanjar.weixin.common.error.WxErrorException;
-import me.ianhe.isite.aspect.CheckLogin;
-import me.ianhe.isite.aspect.CheckLoginAspect;
 import me.ianhe.isite.entity.User;
 import me.ianhe.isite.model.R;
 import me.ianhe.isite.service.UserService;
@@ -15,8 +12,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -59,33 +60,31 @@ public class WeChatController extends BaseController {
         userInfo.put("username", user.getUsername());
         userInfo.put("idCard", user.getIdCard());
         userInfo.put("telephone", user.getTelephone());
-        String token = jwtComponent.createJWT(userInfo, user.getNickname(), user.getId().toString());
+        String token = jwtComponent.createJWT(userInfo, user.getId().toString());
         Map<String, Object> resp = Maps.newHashMap();
         resp.putAll(userInfo);
         resp.put("token", token);
         return R.ok(resp);
     }
 
-    /**
-     * 小程序获取登录用户信息
-     *
-     * @return
-     */
-    @CheckLogin
-    @GetMapping("/me")
-    public R auth() {
-        Claims claims = CheckLoginAspect.CLAIMS.get();
-        String id = claims.getId();
-        User user = userService.getById(Integer.valueOf(id));
-        return R.ok(user);
-    }
+//    /**
+//     * 小程序获取登录用户信息
+//     *
+//     * @return
+//     */
+//    @GetMapping("/me")
+//    public R auth(Principal principal) {
+////        Claims claims = CheckLoginAspect.CLAIMS.get();
+////        String id = claims.getId();
+//        String id = principal.getName();
+//        User user = userService.loadUserByUsername(id);
+//        return R.ok(user);
+//    }
 
-    @CheckLogin
     @PostMapping("/binding")
-    public R bindUser(@RequestBody Map<String, String> payload) {
-        Claims claims = CheckLoginAspect.CLAIMS.get();
-        String id = claims.getId();
-        User user = userService.getById(Integer.valueOf(id));
+    public R bindUser(@RequestBody Map<String, String> payload, Principal principal) {
+        String username = principal.getName();
+        User user = userService.loadUserByUsername(username);
         user.setEnabled(true);
         user.setUsername(payload.get("username"));
         user.setIdCard(payload.get("idCard"));

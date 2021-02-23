@@ -4,11 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import me.ianhe.isite.dao.SysUserMapper;
 import me.ianhe.isite.entity.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,17 +18,16 @@ import java.util.Map;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
-//public class UserService extends ServiceImpl<SysUserMapper, User> implements UserDetailsService {
-public class UserService extends ServiceImpl<SysUserMapper, User> {
+public class UserService extends ServiceImpl<SysUserMapper, User> implements UserDetailsService {
 
-//    @Override
-//    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-//        User user = baseMapper.loadUserByUsername(s);
-//        if (user == null) {
-//            throw new UsernameNotFoundException("用户名不存在");
-//        }
-//        return user;
-//    }
+    @Override
+    public User loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = baseMapper.selectById(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("用户名不存在");
+        }
+        return user;
+    }
 
 //    public int userReg(String username, String password) {
 //        //如果用户名存在，返回错误
@@ -38,19 +38,6 @@ public class UserService extends ServiceImpl<SysUserMapper, User> {
 //        String encode = encoder.encode(password);
 //        return baseMapper.userReg(username, encode);
 //    }
-
-    public List<User> getUsersByKeywords(String keywords) {
-        return baseMapper.getUsersByKeywords(keywords);
-    }
-
-    public int updateUserRoles(Long uid, Long[] rids) {
-        int i = baseMapper.deleteRoleByUserId(uid);
-        return baseMapper.addRolesForUser(uid, rids);
-    }
-
-    public List<User> getAllUser() {
-        return baseMapper.getAllUser(null);
-    }
 
     public User login(Map<String, String> body, String openId, String sessionKey) {
         String avatarUrl = body.get("avatarUrl");
@@ -69,4 +56,5 @@ public class UserService extends ServiceImpl<SysUserMapper, User> {
         }
         return user;
     }
+
 }

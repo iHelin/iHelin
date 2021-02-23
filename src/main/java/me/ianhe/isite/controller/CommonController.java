@@ -1,6 +1,18 @@
 package me.ianhe.isite.controller;
 
+import me.ianhe.isite.config.security.JwtFilter;
+import me.ianhe.isite.entity.User;
+import me.ianhe.isite.model.R;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 /**
  * @author iHelin
@@ -8,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class CommonController extends BaseController {
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     /**
      * 创建验证码
@@ -28,6 +42,33 @@ public class CommonController extends BaseController {
 //        session.setAttribute(Constants.KAPTCHA_SESSION_KEY, captchaCode);
 //        ImageIO.write(image, "JPEG", response.getOutputStream());
 //    }
+    @PostMapping("/login")
+    public R login(@RequestBody Map<String, Object> body) {
+        String username = (String) body.get("username");
+        String password = (String) body.get("password");
+        User user = userService.loadUserByUsername(username);
+        if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
+            return R.error("用户名或密码不正确");
+        }
+        //enabled
 
+        UsernamePasswordAuthenticationToken authenticationToken =
+            new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+
+        String token = jwtComponent.createJWT(body, user.getId().toString());
+        return R.ok().putData(token);
+    }
+
+    @GetMapping("/me")
+    public R loginInfo() {
+        User user = JwtFilter.LOGIN_USER.get();
+        return R.ok(user);
+    }
+
+    @PostMapping("/logout")
+    public R logout() {
+        return R.ok("注销成功！");
+    }
 
 }

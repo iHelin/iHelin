@@ -3,15 +3,19 @@
 <mapper namespace="me.ianhe.isite.dao.SysUserMapper">
     <resultMap id="BaseResultMap" type="me.ianhe.isite.entity.User">
         <id column="id" property="id"/>
-        <result column="name" property="name"/>
-        <result column="phone" property="phone"/>
-        <result column="telephone" property="telephone"/>
-        <result column="address" property="address"/>
-        <result column="enabled" property="enabled"/>
         <result column="username" property="username"/>
         <result column="password" property="password"/>
-        <result column="userface" property="userface"/>
+        <result column="nickname" property="nickname"/>
+        <result column="wx_open_id" property="wxOpenId"/>
+        <result column="avatar_url" property="avatarUrl"/>
+        <result column="id_card" property="idCard"/>
+        <result column="telephone" property="telephone"/>
         <result column="remark" property="remark"/>
+        <result column="session_key" property="sessionKey"/>
+        <result column="enabled" property="enabled"/>
+        <result column="address" property="address"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
     </resultMap>
     <resultMap id="lazyLoadRoles" type="me.ianhe.isite.entity.User" extends="BaseResultMap">
         <collection property="roles" ofType="me.ianhe.isite.entity.Role"
@@ -26,60 +30,14 @@
             <result property="nameZh" column="rnameZh"/>
         </collection>
     </resultMap>
-    <select id="loadUserByUsername" resultMap="lazyLoadRoles">
+    <select id="loadUserByUsername" resultMap="BaseResultMap">
         select *
         from t_user
         WHERE username = #{username}
     </select>
-    <select id="getRolesByUserId" resultType="me.ianhe.isite.entity.Role">
-        SELECT r.*
-        FROM t_user_role h, t_role r
-        where h.rid = r.id AND h.uid = #{id}
-    </select>
-    <insert id="userReg">
-        INSERT INTO t_user
-        set username = #{username}, password = #{password}
-    </insert>
-    <select id="getUsersByKeywords" resultMap="eagerLoadRoles">
-        select h.*,`r`.`id` AS `rid`,`r`.`name` AS `rname`,`r`.`nameZh` AS `rnameZh` from ((`t_user` `h` left join
-        `t_user_role` on ((`h`.`id` = `t_user_role`.`uid`))) left join `t_role` `r` on ((`t_user_role`.`rid` =
-        `r`.`id`))) where h.`id` not
-        in(select t_user_role.`uid` from t_user_role t_user_role,t_role r where t_user_role.`rid`=r.`id` and
-        r.`nameZh`='系统管理员')
-        <if test="keywords!='all' and keywords!=''">
-            and h.`name` like concat('%',#{keywords},'%')
-        </if>
-        order by h.`id` limit 10
-    </select>
-    <select id="getUserById" resultMap="eagerLoadRoles">
-        select
-            t_user.*,
-            t_role.`id`     AS `rid`,
-            t_role.`name`   AS `rname`,
-            t_role.`nameZh` AS `rnameZh`
-        from ((`t_user`
-            left join `t_user_role` on ((t_user.`id` = `t_user_role`.`uid`))) left join `t_role`
-                on ((`t_user_role`.`rid` = t_role.`id`)))
-        where t_user.`id` = #{uid}
-    </select>
-    <delete id="deleteRoleByUserId" parameterType="Long">
-        DELETE FROM t_user_role
-        where uid = #{uid}
-    </delete>
-    <insert id="addRolesForUser">
-        INSERT INTO t_user_role(uid,rid) VALUES
-        <foreach collection="rids" separator="," item="rid">
-            (#{uid},#{rid})
-        </foreach>
-    </insert>
-    <delete id="deleteUser" parameterType="Long">
-        DELETE FROM t_user
-        WHERE id = #{uid}
-    </delete>
-    <select id="getAllUser" resultType="me.ianhe.isite.entity.User">
-        select * from t_user
-        <if test="currentId!=null">
-            WHERE id !=#{currentId}
-        </if>
-    </select>
+    <!--    </select>dUserByUsername" resultMap="lazyLoadRoles">-->
+    <!--    # select *-->
+    <!--    # from t_user-->
+    <!--    # WHERE username = #{username}-->
+    <!--    </select>-->
 </mapper>

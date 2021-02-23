@@ -32,6 +32,8 @@ public abstract class BaseController {
     protected AsyncService asyncService;
     @Autowired
     protected TaskService taskService;
+    @Autowired
+    protected UserService userService;
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
