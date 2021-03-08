@@ -8,47 +8,6 @@
     <sql id="Base_Column_List">
         id, name
     </sql>
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        select
-        <include refid="Base_Column_List"/>
-        from sys_role
-        where id = #{id,jdbcType=INTEGER}
-    </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-        delete from sys_role
-        where id = #{id,jdbcType=INTEGER}
-    </delete>
-    <insert id="insert" parameterType="me.ianhe.isite.entity.SysRole" useGeneratedKeys="true" keyProperty="id">
-        insert into sys_role (name)
-        values (#{name,jdbcType=VARCHAR})
-    </insert>
-    <insert id="insertSelective" parameterType="me.ianhe.isite.entity.SysRole" useGeneratedKeys="true" keyProperty="id">
-        insert into sys_role
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="name != null">
-                name,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="name != null">
-                #{name,jdbcType=VARCHAR},
-            </if>
-        </trim>
-    </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="me.ianhe.isite.entity.SysRole">
-        update sys_role
-        <set>
-            <if test="name != null">
-                name = #{name,jdbcType=VARCHAR},
-            </if>
-        </set>
-        where id = #{id,jdbcType=INTEGER}
-    </update>
-    <update id="updateByPrimaryKey" parameterType="me.ianhe.isite.entity.SysRole">
-        update sys_role
-        set name = #{name,jdbcType=VARCHAR}
-        where id = #{id,jdbcType=INTEGER}
-    </update>
 
     <select id="getUserRoles" resultMap="BaseResultMap">
         select

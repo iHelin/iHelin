@@ -21,6 +21,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -125,7 +126,12 @@ public class WeChatController extends BaseController {
         headers.put("Referer", "http://new.sdfyy.cn/OrderReg/reportQuery.html");
         headers.put("Accept-Language", "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7");
         headers.put("Cookie", "PHPSESSID=86e10i7665catll5eif6rdh7j7");
-        Document document = Jsoup.connect(url).headers(headers).get();
+        Document document;
+        try {
+            document = Jsoup.connect(url).headers(headers).timeout(5000).get();
+        } catch (SocketTimeoutException e) {
+            document = Jsoup.connect(url).headers(headers).timeout(5000).get();
+        }
         Elements eles = document.select(".weui_panel");
         List<Map<String, String>> results = Lists.newArrayList();
         for (Element ele : eles) {

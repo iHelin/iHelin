@@ -13,17 +13,6 @@ import java.util.List;
  * @since 2018/7/9 12:38
  */
 public interface SysRoleMapper extends BaseMapper<SysRole> {
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(SysRole record);
-
-    int insertSelective(SysRole record);
-
-    SysRole selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(SysRole record);
-
-    int updateByPrimaryKey(SysRole record);
 
     List<SysRole> getUserRoles(Integer userID);
 
