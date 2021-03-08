@@ -2,8 +2,6 @@ package me.ianhe.isite.service;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import me.ianhe.isite.dao.PoemMapper;
-import me.ianhe.isite.entity.Poem;
 import me.ianhe.isite.model.ding.FeedCard;
 import me.ianhe.isite.model.ding.Link;
 import me.ianhe.isite.model.douban.Movie;
@@ -31,9 +29,6 @@ public class TaskService {
 
     @Autowired
     private DingService dingService;
-
-    @Autowired
-    private PoemMapper poemMapper;
 
     @Autowired
     private EmailService emailService;
@@ -70,7 +65,6 @@ public class TaskService {
     @Scheduled(cron = "0 0 18 ? * MON-FRI")
     public void runWorkDay18() {
         logger.debug("runWorkDay18");
-        poemRun();
     }
 
     /**
@@ -107,18 +101,6 @@ public class TaskService {
     public void runFriday16() {
         logger.debug("runFriday16");
         sendMovie();
-    }
-
-    /**
-     * 古诗
-     *
-     * @author iHelin
-     * @since 2017/11/13 17:17
-     */
-    private void poemRun() {
-        Poem poem = poemMapper.getByRandom();
-        String msg = poem.getContent() + "      --" + poem.getTitle();
-        dingService.sendTextMsg(msg);
     }
 
     /**
