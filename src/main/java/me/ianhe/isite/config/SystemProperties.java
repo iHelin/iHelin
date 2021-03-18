@@ -21,18 +21,6 @@ public class SystemProperties {
     private String dingUrl;
     private String dingSign;
     private String dingToken;
-    /**
-     * 七牛存储
-     */
-    private String qnAccessKey;
-    private String qnSecretKey;
-    private String qnPrefix;
-    private String qnBucket;
-    /**
-     * 小程序appid
-     */
-    private String xcxAppid;
-    private String xcxSecret;
 
     private String jwtSecret = "iHelin";
     private Long jwtExp = 1000L * 60 * 60 * 24 * 7;
@@ -83,54 +71,6 @@ public class SystemProperties {
 
     public void setDingToken(String dingToken) {
         this.dingToken = dingToken;
-    }
-
-    public String getQnAccessKey() {
-        return qnAccessKey;
-    }
-
-    public void setQnAccessKey(String qnAccessKey) {
-        this.qnAccessKey = qnAccessKey;
-    }
-
-    public String getQnSecretKey() {
-        return qnSecretKey;
-    }
-
-    public void setQnSecretKey(String qnSecretKey) {
-        this.qnSecretKey = qnSecretKey;
-    }
-
-    public String getQnPrefix() {
-        return qnPrefix;
-    }
-
-    public void setQnPrefix(String qnPrefix) {
-        this.qnPrefix = qnPrefix;
-    }
-
-    public String getQnBucket() {
-        return qnBucket;
-    }
-
-    public void setQnBucket(String qnBucket) {
-        this.qnBucket = qnBucket;
-    }
-
-    public String getXcxAppid() {
-        return xcxAppid;
-    }
-
-    public void setXcxAppid(String xcxAppid) {
-        this.xcxAppid = xcxAppid;
-    }
-
-    public String getXcxSecret() {
-        return xcxSecret;
-    }
-
-    public void setXcxSecret(String xcxSecret) {
-        this.xcxSecret = xcxSecret;
     }
 
     public String getJwtSecret() {

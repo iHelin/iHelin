@@ -19,8 +19,6 @@ public abstract class BaseController {
     @Autowired
     protected ScoreService scoreService;
     @Autowired
-    protected FileService fileService;
-    @Autowired
     protected QrcodeService qrcodeService;
     @Autowired
     protected ObjectMapper objectMapper;
