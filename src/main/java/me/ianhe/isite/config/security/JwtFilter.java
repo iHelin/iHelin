@@ -25,8 +25,6 @@ import java.io.IOException;
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
-    public static final ThreadLocal<User> LOGIN_USER = new ThreadLocal<>();
-
     @Autowired
     private UserService userService;
     @Autowired
@@ -48,7 +46,6 @@ public class JwtFilter extends OncePerRequestFilter {
             if (SecurityContextHolder.getContext().getAuthentication() == null) {
                 User user = userService.getById(id);
                 request.setAttribute("loginUser", user);
-                LOGIN_USER.set(user);
                 UsernamePasswordAuthenticationToken authenticationToken
                     = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
@@ -56,6 +53,5 @@ public class JwtFilter extends OncePerRequestFilter {
             }
         }
         filterChain.doFilter(request, response);
-        LOGIN_USER.remove();
     }
 }

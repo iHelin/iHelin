@@ -26,7 +26,7 @@ public class User implements UserDetails {
     private String nickname;
     private String telephone;
     private String address;
-    private Boolean enabled;
+    private Boolean binding;
     private String username;
     private String password;
     private String remark;
@@ -130,11 +130,20 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return enabled;
+        return true;
+    }
+//
+//    public void setEnabled(Boolean enabled) {
+//        this.enabled = enabled;
+//    }
+
+
+    public Boolean getBinding() {
+        return binding;
     }
 
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
+    public void setBinding(Boolean binding) {
+        this.binding = binding;
     }
 
     @Override

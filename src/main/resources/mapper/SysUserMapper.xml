@@ -12,7 +12,7 @@
         <result column="telephone" property="telephone"/>
         <result column="remark" property="remark"/>
         <result column="session_key" property="sessionKey"/>
-        <result column="enabled" property="enabled"/>
+        <result column="binding" property="binding"/>
         <result column="address" property="address"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>

@@ -2,7 +2,6 @@ package me.ianhe.isite.controller;
 
 import me.ianhe.isite.entity.User;
 import me.ianhe.isite.model.R;
-import me.ianhe.isite.utils.SystemUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -50,20 +49,18 @@ public class CommonController extends BaseController {
         if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
             return R.error("用户名或密码不正确");
         }
-        //enabled
-
         UsernamePasswordAuthenticationToken authenticationToken =
             new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
-        String token = jwtComponent.createJWT(body, user.getId().toString());
+        String token = jwtComponent.createJWT(user.getId().toString());
         return R.ok().putData(token);
     }
 
     @GetMapping("/me")
-    public R loginInfo() {
-        User user = SystemUtils.getCurrentUser();
-        return R.ok(user);
+    public R loginInfo(UsernamePasswordAuthenticationToken token) {
+//        User user = SystemUtils.getCurrentUser();
+        return R.ok(token.getPrincipal());
     }
 
     @PostMapping("/logout")

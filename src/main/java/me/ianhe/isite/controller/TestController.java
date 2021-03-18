@@ -1,6 +1,5 @@
 package me.ianhe.isite.controller;
 
-import com.google.common.collect.Maps;
 import me.ianhe.isite.entity.Article;
 import me.ianhe.isite.model.R;
 import org.springframework.validation.Errors;
@@ -33,12 +32,8 @@ public class TestController extends BaseController {
 
     @GetMapping("/gen-token")
     public R genToken() {
-        Map<String, Object> claims = Maps.newHashMap();
         String id = "1";
-        claims.put("id", id);
-        claims.put("nickname", "seven");
-        claims.put("avatarUrl", "https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoJDxnFicPEe49VEklCjAKxHIyibFnhJzLNP3pWBOowqtnibJqE01TV25Qz9cbdY19T4PMg4brD4BMqg/132");
-        return R.ok().putData(jwtComponent.createJWT(claims, "seven"));
+        return R.ok().putData(jwtComponent.createJWT(id));
     }
 
     @GetMapping("/ttt")
