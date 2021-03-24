@@ -1,7 +1,7 @@
 package me.ianhe.isite.controller;
 
 import me.ianhe.isite.exception.SystemException;
-import me.ianhe.isite.model.R;
+import me.ianhe.isite.utils.R;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

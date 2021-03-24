@@ -1,18 +1,15 @@
 package me.ianhe.isite.service;
 
+import cn.hutool.http.HttpRequest;
+import cn.hutool.json.JSONUtil;
 import com.google.common.collect.Maps;
 import me.ianhe.isite.config.SystemProperties;
-import me.ianhe.isite.model.ding.FeedCard;
-import me.ianhe.isite.utils.JsonUtil;
+import me.ianhe.isite.pojo.ding.FeedCard;
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -33,9 +30,6 @@ public class DingService {
     @Autowired
     private SystemProperties systemProperties;
 
-    @Autowired
-    private RestTemplate restTemplate;
-
     /**
      * 发送FeedCard消息
      *
@@ -45,8 +39,8 @@ public class DingService {
     public void sendFeedCardMsg(FeedCard feedCard) {
         Map<String, Object> sendData = Maps.newHashMap();
         sendData.put("msgtype", "feedCard");
-        sendData.put("feedCard", JsonUtil.toJson(feedCard));
-        doSend(JsonUtil.toJson(sendData));
+        sendData.put("feedCard", JSONUtil.toJsonStr(feedCard));
+        doSend(JSONUtil.toJsonStr(sendData));
     }
 
     /**
@@ -61,24 +55,20 @@ public class DingService {
         Map<String, Object> contentMap = new HashMap<>();
         contentMap.put("content", content);
         body.put("text", contentMap);
-        return doSend(body);
+        return doSend(JSONUtil.toJsonStr(body));
     }
 
-    public String doSend(Object data) {
+    public String doSend(String data) {
         String token = systemProperties.getDingToken();
         Long timestamp = System.currentTimeMillis();
         String sign = sign(timestamp);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-
-        HttpEntity<Object> request = new HttpEntity<>(data, headers);
-
-        String result = restTemplate.postForObject(systemProperties.getDingUrl(),
-            request,
-            String.class,
-            token, sign, timestamp);
-
+        String result = HttpRequest.post(systemProperties.getDingUrl())
+            .form("access_token", token)
+            .form("sign", sign)
+            .form("timestamp", timestamp)
+            .body(data)
+            .execute().body();
         logger.info("Robot return {}", result);
         return result;
     }

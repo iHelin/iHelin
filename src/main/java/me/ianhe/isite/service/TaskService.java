@@ -1,13 +1,14 @@
 package me.ianhe.isite.service;
 
+import cn.hutool.http.HttpUtil;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import me.ianhe.isite.model.ding.FeedCard;
-import me.ianhe.isite.model.ding.Link;
-import me.ianhe.isite.model.douban.Movie;
-import me.ianhe.isite.model.douban.Subject;
-import me.ianhe.isite.utils.JsonUtil;
-import me.ianhe.isite.utils.WeChatUtil;
+import me.ianhe.isite.pojo.ding.FeedCard;
+import me.ianhe.isite.pojo.ding.Link;
+import me.ianhe.isite.pojo.douban.Movie;
+import me.ianhe.isite.pojo.douban.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,18 +118,18 @@ public class TaskService {
         long betweenDays = (terminalLong - nowLong) / (1000L * 3600 * 24);
         if (betweenDays > 0) {
             Map<String, Object> contentMap = Maps.newHashMap();
-            String res = WeChatUtil.doGetStr("http://open.iciba.com/dsapi");
-            Map<String, Object> resMap = JsonUtil.parseMap(res);
+            String res = HttpUtil.get("http://open.iciba.com/dsapi");
+            JSONObject resMap = JSONUtil.parseObj(res);
             contentMap.put("title", "葫芦娃学英语");
             String text = "## 距离2019【ky】还剩" + betweenDays + "天！\n" +
-                "![葫芦娃学英语](" + resMap.get("picture") + ")\n" +
-                "##### " + resMap.get("content") + " \n" +
-                "> " + resMap.get("note") + " \n";
+                "![葫芦娃学英语](" + resMap.getStr("picture") + ")\n" +
+                "##### " + resMap.getStr("content") + " \n" +
+                "> " + resMap.getStr("note") + " \n";
             contentMap.put("text", text);
             Map<String, Object> data = Maps.newHashMap();
             data.put("msgtype", "markdown");
             data.put("markdown", contentMap);
-            dingService.doSend(data);
+            dingService.doSend(JSONUtil.toJsonStr(data));
         }
     }
 
@@ -140,8 +141,8 @@ public class TaskService {
      */
     private void sendMovie() {
         String url = "https://movie.douban.com/j/search_subjects?type=movie&tag=%E7%83%AD%E9%97%A8&page_limit=50&page_start=0";
-        String res = WeChatUtil.doGetStr(url);
-        Movie movie = JsonUtil.parseObject(res, Movie.class);
+        String res = HttpUtil.get(url);
+        Movie movie = JSONUtil.toBean(res, Movie.class);
         List<Subject> subjectList = movie.getSubjects();
         if (subjectList == null || subjectList.isEmpty()) {
             dingService.sendTextMsg("电影接口有问题啦，快去看看咋回事！");

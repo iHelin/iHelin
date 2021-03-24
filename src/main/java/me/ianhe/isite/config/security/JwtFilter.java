@@ -45,7 +45,6 @@ public class JwtFilter extends OncePerRequestFilter {
             //token 存在但未登录
             if (SecurityContextHolder.getContext().getAuthentication() == null) {
                 User user = userService.getById(id);
-                request.setAttribute("loginUser", user);
                 UsernamePasswordAuthenticationToken authenticationToken
                     = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

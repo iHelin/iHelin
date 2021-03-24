@@ -1,7 +1,7 @@
 package me.ianhe.isite.controller;
 
 import me.ianhe.isite.entity.User;
-import me.ianhe.isite.model.R;
+import me.ianhe.isite.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

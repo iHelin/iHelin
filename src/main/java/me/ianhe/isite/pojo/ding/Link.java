@@ -1,4 +1,4 @@
-package me.ianhe.isite.model.ding;
+package me.ianhe.isite.pojo.ding;
 
 /**
  * @author iHelin

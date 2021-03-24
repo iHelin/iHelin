@@ -1,13 +1,15 @@
 package me.ianhe.isite.controller;
 
+import cn.hutool.core.img.ImgUtil;
 import me.ianhe.isite.entity.Article;
-import me.ianhe.isite.model.R;
+import me.ianhe.isite.utils.R;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.OutputStream;
 import java.time.ZoneId;
 import java.util.*;
 
@@ -67,6 +69,21 @@ public class TestController extends BaseController {
         Map<String, Object> maps = new HashMap<>();
         maps.put("article", article);
         return maps;
+    }
+
+    /**
+     * 生成二维码
+     *
+     * @author iHelin
+     * @since 2017/8/31 22:24
+     */
+    @GetMapping(value = "generate", produces = {"image/png"})
+    public void generateQRCode(String content,
+                               @RequestParam(defaultValue = "300") Integer width,
+                               @RequestParam(defaultValue = "300") Integer height,
+                               OutputStream outputStream) {
+        qrcodeService.generate(content, width, height, ImgUtil.IMAGE_TYPE_PNG, outputStream);
+        logger.info("Success generate qrcode： {}", content);
     }
 
 }

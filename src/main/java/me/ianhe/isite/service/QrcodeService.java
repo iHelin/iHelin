@@ -1,18 +1,11 @@
 package me.ianhe.isite.service;
 
-import com.google.common.collect.Maps;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
-import me.ianhe.isite.model.MatrixToImageWriter;
+import cn.hutool.extra.qrcode.QrCodeUtil;
+import cn.hutool.extra.qrcode.QrConfig;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
+import java.awt.*;
 import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.Map;
 
 /**
  * @author iHelin
@@ -29,19 +22,14 @@ public class QrcodeService {
      * @param height       二维码高度(像素)
      * @param format       二维码格式(jpg、png等)
      * @param outputStream 输出流
-     * @throws WriterException
-     * @throws IOException
      * @author iHelin
      */
-    public void generate(String content, int width, int height, String format, OutputStream outputStream)
-            throws IOException, WriterException {
-        Map<EncodeHintType, Object> hints = Maps.newHashMap();
-        hints.put(EncodeHintType.CHARACTER_SET, StandardCharsets.UTF_8);
-        hints.put(EncodeHintType.MARGIN, 1);
-        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-        BitMatrix bitMatrix = multiFormatWriter.encode(content, BarcodeFormat.QR_CODE,
-                width, height, hints);
-        MatrixToImageWriter.writeToStream(bitMatrix, format, outputStream);
+    public void generate(String content, int width, int height, String format, OutputStream outputStream) {
+        QrConfig config = new QrConfig(width, height);
+        config.setMargin(2);
+        config.setForeColor(Color.CYAN);
+        config.setBackColor(Color.GRAY);
+        QrCodeUtil.generate(content, config, format, outputStream);
     }
 
 }

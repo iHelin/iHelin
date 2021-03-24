@@ -1,0 +1,1 @@
+<img src="http://localhost:8080/test/generate?content=123" alt="qrcode">

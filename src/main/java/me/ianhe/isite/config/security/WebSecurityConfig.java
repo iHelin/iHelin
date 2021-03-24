@@ -62,7 +62,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-//        web.ignoring().antMatchers("/index.html", "/static/**", Constant.LOGIN_PAGE);
+        web.ignoring().antMatchers("/favicon.ico");
     }
 
     @Override
@@ -87,7 +87,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeRequests()
-            .antMatchers("/login", "/logout", "/test/**", "/wechat/login").permitAll()
+            .antMatchers("/login", "/logout", "/test/**", "/favicon.ico", "/wechat/login")
+            .permitAll()
             .anyRequest().authenticated();
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         http.exceptionHandling()

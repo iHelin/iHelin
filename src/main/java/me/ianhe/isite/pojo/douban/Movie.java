@@ -1,4 +1,4 @@
-package me.ianhe.isite.model.douban;
+package me.ianhe.isite.pojo.douban;
 
 import java.util.List;
 

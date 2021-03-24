@@ -1,7 +1,7 @@
 package me.ianhe.isite.controller;
 
 import me.ianhe.isite.entity.Score;
-import me.ianhe.isite.model.R;
+import me.ianhe.isite.utils.R;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 

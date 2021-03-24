@@ -6,8 +6,6 @@ package me.ianhe.isite.utils;
  */
 public interface Constant {
 
-    String LOGIN_PAGE = "/login_p";
-
     String LOGIN_PROCESSING_URL = "/login";
 
 }

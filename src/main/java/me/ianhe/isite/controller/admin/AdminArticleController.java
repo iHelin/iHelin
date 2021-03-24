@@ -2,7 +2,7 @@ package me.ianhe.isite.controller.admin;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import me.ianhe.isite.entity.Article;
-import me.ianhe.isite.model.R;
+import me.ianhe.isite.utils.R;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;

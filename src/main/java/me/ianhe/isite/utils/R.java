@@ -1,4 +1,4 @@
-package me.ianhe.isite.model;
+package me.ianhe.isite.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;

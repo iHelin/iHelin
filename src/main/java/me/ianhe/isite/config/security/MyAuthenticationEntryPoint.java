@@ -1,7 +1,7 @@
 package me.ianhe.isite.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import me.ianhe.isite.model.R;
+import me.ianhe.isite.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
