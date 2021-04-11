@@ -63,23 +63,26 @@ public class DingService {
         Long timestamp = System.currentTimeMillis();
         String sign = sign(timestamp);
 
-        String result = HttpRequest.post(systemProperties.getDingUrl())
-            .form("access_token", token)
-            .form("sign", sign)
-            .form("timestamp", timestamp)
-            .body(data)
-            .execute().body();
+        String result = HttpRequest.post(systemProperties.getDingUrl()
+                + "?access_token=" + token
+                + "&timestamp=" + timestamp
+                + "&sign=" + sign)
+//            .form("access_token", token)
+//                .form("sign", sign)
+//                .form("timestamp", timestamp)
+                .body(data)
+                .execute().body();
         logger.info("Robot return {}", result);
         return result;
     }
 
     private String sign(Long timestamp) {
-        String stringToSign = timestamp + "\n" + systemProperties.getDingSign();
+        String stringToSign = timestamp + "\n" + systemProperties.getDingSecret();
         byte[] bytesToSign = stringToSign.getBytes(StandardCharsets.UTF_8);
         String sign = "";
         try {
             Mac mac = Mac.getInstance("HmacSHA256");
-            mac.init(new SecretKeySpec(systemProperties.getDingSign().getBytes(StandardCharsets.UTF_8), "HmacSHA256"));
+            mac.init(new SecretKeySpec(systemProperties.getDingSecret().getBytes(StandardCharsets.UTF_8), "HmacSHA256"));
             byte[] signData = mac.doFinal(bytesToSign);
             sign = URLEncoder.encode(new String(Base64.encodeBase64(signData)), "UTF-8");
         } catch (Exception e) {

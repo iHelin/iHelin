@@ -1,12 +1,13 @@
 package me.ianhe.isite.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -15,11 +16,11 @@ import java.util.Date;
  * @author iHelin
  * @since 2017/10/17 15:27
  */
-public class Article implements Serializable {
+@TableName("t_article")
+public class Article {
 
-    private static final long serialVersionUID = 2945012551297126221L;
-
-    private Long id;
+    @TableId
+    private Integer id;
 
     @NotBlank
     private String title;
@@ -38,11 +39,11 @@ public class Article implements Serializable {
     @Size(min = 1, max = 100)
     private String content;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

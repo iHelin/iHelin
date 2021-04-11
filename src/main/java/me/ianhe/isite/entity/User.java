@@ -1,6 +1,5 @@
 package me.ianhe.isite.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -10,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * User
@@ -36,9 +34,6 @@ public class User implements UserDetails {
     private String sessionKey;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
-    @TableField(exist = false)
-    private List<Role> roles;
-
 
     public String getSessionKey() {
         return sessionKey;
@@ -88,14 +83,6 @@ public class User implements UserDetails {
         this.wxOpenId = wxOpenId;
     }
 
-    public List<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
-
     public Long getId() {
         return id;
     }
@@ -132,11 +119,6 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-//
-//    public void setEnabled(Boolean enabled) {
-//        this.enabled = enabled;
-//    }
-
 
     public Boolean getBinding() {
         return binding;

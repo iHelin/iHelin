@@ -19,8 +19,8 @@ public class SystemProperties {
      * 钉钉
      */
     private String dingUrl;
-    private String dingSign;
     private String dingToken;
+    private String dingSecret;
 
     private String jwtSecret = "iHelin";
     private Long jwtExp = 1000L * 60 * 60 * 24 * 7;
@@ -57,12 +57,12 @@ public class SystemProperties {
         this.dingUrl = dingUrl;
     }
 
-    public String getDingSign() {
-        return dingSign;
+    public String getDingSecret() {
+        return dingSecret;
     }
 
-    public void setDingSign(String dingSign) {
-        this.dingSign = dingSign;
+    public void setDingSecret(String dingSecret) {
+        this.dingSecret = dingSecret;
     }
 
     public String getDingToken() {

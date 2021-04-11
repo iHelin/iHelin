@@ -17,19 +17,19 @@
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
     </resultMap>
-    <resultMap id="lazyLoadRoles" type="me.ianhe.isite.entity.User" extends="BaseResultMap">
-        <collection property="roles" ofType="me.ianhe.isite.entity.Role"
-                    select="me.ianhe.isite.dao.SysUserMapper.getRolesByUserId"
-                    column="id">
-        </collection>
-    </resultMap>
-    <resultMap id="eagerLoadRoles" type="me.ianhe.isite.entity.User" extends="BaseResultMap">
-        <collection property="roles" ofType="me.ianhe.isite.entity.Role">
-            <id property="id" column="rid"/>
-            <result property="name" column="rname"/>
-            <result property="nameZh" column="rnameZh"/>
-        </collection>
-    </resultMap>
+    <!--    <resultMap id="lazyLoadRoles" type="me.ianhe.isite.entity.User" extends="BaseResultMap">-->
+    <!--        <collection property="roles" ofType="me.ianhe.isite.entity.Role"-->
+    <!--                    select="me.ianhe.isite.dao.SysUserMapper.getRolesByUserId"-->
+    <!--                    column="id">-->
+    <!--        </collection>-->
+    <!--    </resultMap>-->
+    <!--    <resultMap id="eagerLoadRoles" type="me.ianhe.isite.entity.User" extends="BaseResultMap">-->
+    <!--        <collection property="roles" ofType="me.ianhe.isite.entity.Role">-->
+    <!--            <id property="id" column="rid"/>-->
+    <!--            <result property="name" column="rname"/>-->
+    <!--            <result property="nameZh" column="rnameZh"/>-->
+    <!--        </collection>-->
+    <!--    </resultMap>-->
     <select id="loadUserByUsername" resultMap="BaseResultMap">
         select *
         from t_user

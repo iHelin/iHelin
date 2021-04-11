@@ -19,7 +19,4 @@ public class DingServiceTest {
         dingService.sendTextMsg("xxxxx");
     }
 
-    @Test
-    public void sendFeedCardMsg() {
-    }
 }
