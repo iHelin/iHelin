@@ -22,13 +22,7 @@ public class ArticleController extends BaseController {
     @GetMapping("/{id:\\d+}")
     public Article getArticle(@PathVariable Integer id) {
         Assert.notNull(id, "Article id can not be null.");
-        Article article = articleService.selectArticleById(id);
-//        if (article != null) {
-//            Long readCount = commonRedisDao.getLong(Constant.READ_COUNT_KEY + id);
-//            producerService.sendMessage(destination, id);
-//            article.setReadNum(readCount);
-//        }
-        return article;
+        return articleService.selectArticleById(id);
     }
 
     /**
