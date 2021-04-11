@@ -1,8 +1,5 @@
 FROM frolvlad/alpine-oraclejdk8:slim
-
 WORKDIR /root
-#VOLUME /tmp
-
 ADD iHelin-2.0.0.jar app.jar
 RUN sh -c 'touch /app.jar'
 ENV JAVA_OPTS=""
