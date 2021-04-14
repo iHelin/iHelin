@@ -14,18 +14,21 @@
                 <el-input
                     type="password"
                     v-model="dataForm.password"
+                    show-password
                 ></el-input>
             </el-form-item>
             <el-form-item label="新密码" prop="newPassword">
                 <el-input
                     type="password"
                     v-model="dataForm.newPassword"
+                    show-password
                 ></el-input>
             </el-form-item>
             <el-form-item label="确认密码" prop="confirmPassword">
                 <el-input
                     type="password"
                     v-model="dataForm.confirmPassword"
+                    show-password
                 ></el-input>
             </el-form-item>
         </el-form>
