@@ -3,6 +3,7 @@ package me.ianhe.isite.controller;
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.api.WxMaUserService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
+import cn.hutool.core.date.DateTime;
 import com.google.common.collect.Maps;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.ianhe.isite.entity.SysUserEntity;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
 import java.util.Map;
 
 /**
@@ -81,7 +81,7 @@ public class WeChatController extends BaseController {
         user.setUsername(payload.get("username"));
         user.setIdCard(payload.get("idCard"));
         user.setMobile(payload.get("telephone"));
-        user.setUpdateTime(LocalDateTime.now());
+        user.setUpdateTime(DateTime.now());
         sysUserService.updateById(user);
         return R.ok();
     }

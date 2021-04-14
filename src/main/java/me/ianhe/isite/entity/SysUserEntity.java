@@ -11,9 +11,10 @@ import me.ianhe.isite.pojo.validator.UpdateGroup;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,6 +38,11 @@ public class SysUserEntity implements UserDetails {
      */
     @NotBlank(message = "密码不能为空", groups = AddGroup.class)
     private String password;
+    /**
+     * 邮箱
+     */
+    @Email(message = "邮箱格式不正确", groups = {AddGroup.class, UpdateGroup.class})
+    private String email;
     private String nickname;
     private String mobile;
     /**
@@ -60,9 +66,9 @@ public class SysUserEntity implements UserDetails {
      */
     private Integer createUserId;
     @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
+    private Date createTime;
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime;
+    private Date updateTime;
     @TableField(exist = false)
     private Collection<GrantedAuthority> authorities;
 
@@ -106,19 +112,19 @@ public class SysUserEntity implements UserDetails {
         this.createUserId = createUserId;
     }
 
-    public LocalDateTime getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDateTime createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-    public LocalDateTime getUpdateTime() {
+    public Date getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(LocalDateTime updateTime) {
+    public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
 
@@ -214,6 +220,14 @@ public class SysUserEntity implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getRemark() {

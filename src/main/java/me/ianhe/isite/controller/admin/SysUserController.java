@@ -68,10 +68,8 @@ public class SysUserController extends BaseAdminController {
      */
     @PostMapping("/password")
     public R password(@RequestBody PasswordForm form) {
-
         String oldPassword = form.getPassword();
         String newPassword = form.getNewPassword();
-
         //更新密码
         boolean flag = sysUserService.updatePassword(getUser().getId(), oldPassword, newPassword);
         if (!flag) {

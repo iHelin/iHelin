@@ -1,5 +1,6 @@
 package me.ianhe.isite.service;
 
+import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -17,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -131,8 +131,8 @@ public class SysUserService extends ServiceImpl<SysUserMapper, SysUserEntity> im
             newUser.setAvatarUrl(avatarUrl);
             newUser.setNickname(nickname);
             newUser.setSessionKey(sessionKey);
-            newUser.setCreateTime(LocalDateTime.now());
-            newUser.setUpdateTime(LocalDateTime.now());
+            newUser.setCreateTime(DateTime.now());
+            newUser.setUpdateTime(DateTime.now());
             this.save(newUser);
             return newUser;
         } else {
