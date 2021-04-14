@@ -36,8 +36,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         String requestURI = request.getRequestURI();
         if (!antPathMatcher.match(Constant.LOGIN_URI, requestURI)) {
-            String token = request.getHeader(systemProperties.getJwtHeader());
-            if (StringUtils.hasText(token)) {
+            String authorization = request.getHeader(systemProperties.getJwtHeader());
+            if (StringUtils.hasText(authorization)) {
+                String token = authorization.substring("Bearer".length());
                 String username = jwtComponent.parseJWT(token).getSubject();
                 if (StringUtils.hasText(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
                     SysUserEntity sysUserEntity;
