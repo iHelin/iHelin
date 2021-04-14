@@ -1,6 +1,6 @@
 package me.ianhe.isite.service;
 
-import me.ianhe.isite.exception.SystemException;
+import me.ianhe.isite.exception.RRException;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +57,7 @@ public class EmailService {
                 helper.addAttachment(pair.getLeft(), new FileSystemResource(pair.getRight()));
             }
         } catch (Exception e) {
-            throw new SystemException(e);
+            throw new RRException(e.getMessage(), e);
         }
         mailSender.send(mimeMessage);
     }
@@ -77,7 +77,7 @@ public class EmailService {
                 }
             }
         } catch (Exception e) {
-            throw new SystemException(e);
+            throw new RRException(e.getMessage(), e);
         }
         mailSender.send(mimeMessage);
     }

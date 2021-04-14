@@ -31,7 +31,7 @@ public abstract class BaseController {
     @Autowired
     protected TaskService taskService;
     @Autowired
-    protected UserService userService;
+    protected SysUserService sysUserService;
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 

@@ -31,7 +31,7 @@ public class JwtComponent {
         //生成JWT的时间
         long currentTimeMillis = System.currentTimeMillis();
         Date now = new Date(currentTimeMillis);
-        long expMillis = currentTimeMillis + systemProperties.getJwtExp();
+        long expMillis = currentTimeMillis + systemProperties.getJwtExpire();
         Date expiration = new Date(expMillis);
         //创建payload的私有声明（根据特定的业务需要添加，如果要拿这个做验证，一般是需要和jwt的接收方提前沟通好验证方式的）
         //这里其实就是new一个JwtBuilder，设置jwt的body

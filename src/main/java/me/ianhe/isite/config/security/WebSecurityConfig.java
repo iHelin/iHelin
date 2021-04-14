@@ -1,10 +1,12 @@
 package me.ianhe.isite.config.security;
 
-import me.ianhe.isite.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import me.ianhe.isite.service.SysUserService;
+import me.ianhe.isite.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -18,47 +20,47 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * @author iHelin
  * @since 2018/4/26 09:43
  */
-@Configuration
 @EnableWebSecurity
-//@EnableGlobalMethodSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UserService userDetailsService;
+    private SecurityAuthenticationEntryPoint authenticationEntryPoint;
     @Autowired
-    private MyAccessDeniedHandler myAccessDeniedHandler;
-    //    @Autowired
-//    private AuthenticationFailureHandler authenticationFailureHandler;
-//    @Autowired
-//    private AuthenticationSuccessHandler authenticationSuccessHandler;
-//    @Autowired
-//    private UrlFilterInvocationSecurityMetadataSource urlFilterInvocationSecurityMetadataSource;
-//    @Autowired
-//    private UrlAccessDecisionManager urlAccessDecisionManager;
+    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
     @Autowired
-    private MyAuthenticationEntryPoint myAuthenticationEntryPoint;
+    private SysUserService sysUserService;
     @Autowired
-    private JwtFilter jwtFilter;
-
-//    @Bean
-//    public DefaultKaptcha defaultKaptcha() {
-//        DefaultKaptcha defaultKaptcha = new DefaultKaptcha();
-//        Properties properties = new Properties();
-//        properties.setProperty(Constants.KAPTCHA_TEXTPRODUCER_CHAR_LENGTH, "4");
-//        Config config = new Config(properties);
-//        defaultKaptcha.setConfig(config);
-//        return defaultKaptcha;
-//    }
+    private SecurityAuthenticationSuccessHandler authenticationSuccessHandler;
+    @Autowired
+    private SecurityAuthenticationFailureHandler authenticationFailureHandler;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    public LoginFilter loginFilter() throws Exception {
+        LoginFilter loginFilter = new LoginFilter();
+        loginFilter.setAuthenticationSuccessHandler(authenticationSuccessHandler);
+        loginFilter.setAuthenticationFailureHandler(authenticationFailureHandler);
+        loginFilter.setFilterProcessesUrl(Constant.LOGIN_URI);
+//        这句很关键，重用WebSecurityConfigurerAdapter配置的AuthenticationManager，不然要自己组装AuthenticationManager
+        loginFilter.setAuthenticationManager(authenticationManagerBean());
+        return loginFilter;
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable()
+                .cors().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .authorizeRequests()
+                .antMatchers("/wechat/**").permitAll()
+                .anyRequest().authenticated();
+        http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
+        http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterAt(loginFilter(), UsernamePasswordAuthenticationFilter.class);
     }
+
 
     @Override
     public void configure(WebSecurity web) {
@@ -66,34 +68,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-//        CaptchaFilter captchaFilter = new CaptchaFilter();
-//        captchaFilter.setAuthenticationFailureHandler(authenticationFailureHandler);
-//        http.addFilterBefore(captchaFilter, UsernamePasswordAuthenticationFilter.class)
-//                .authorizeRequests().withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
-//                    @Override
-//                    public FilterSecurityInterceptor postProcess(FilterSecurityInterceptor interceptor) {
-//                        interceptor.setSecurityMetadataSource(urlFilterInvocationSecurityMetadataSource);
-//                        interceptor.setAccessDecisionManager(urlAccessDecisionManager);
-//                        return interceptor;
-//                    }
-//                }).and()
-//                .formLogin().loginPage(Constant.LOGIN_PAGE).loginProcessingUrl(Constant.LOGIN_PROCESSING_URL).permitAll()
-//                .failureHandler(authenticationFailureHandler).successHandler(authenticationSuccessHandler).and()
-//                .logout().permitAll().and()
-//                .csrf().disable()
-//                .exceptionHandling().authenticationEntryPoint(myAuthenticationEntryPoint)
-//                .accessDeniedHandler(accessDeniedHandler);
-        http.csrf().disable()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-            .authorizeRequests()
-            .antMatchers("/login", "/logout", "/test/**", "/favicon.ico", "/wechat/login")
-            .permitAll()
-            .anyRequest().authenticated();
-        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-        http.exceptionHandling()
-            .accessDeniedHandler(myAccessDeniedHandler)
-            .authenticationEntryPoint(myAuthenticationEntryPoint);
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(sysUserService).passwordEncoder(passwordEncoder());
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
 }

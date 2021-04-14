@@ -1,12 +1,17 @@
 package me.ianhe.isite.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Objects;
+import me.ianhe.isite.pojo.validator.AddGroup;
+import me.ianhe.isite.pojo.validator.UpdateGroup;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -16,24 +21,49 @@ import java.util.Collection;
  * @author iHelin
  * @since 2017/11/9 19:44
  */
-@TableName("t_user")
-public class User implements UserDetails {
+@TableName("sys_user")
+public class SysUserEntity implements UserDetails {
 
     @TableId
-    private Long id;
-    private String nickname;
-    private String telephone;
-    private String address;
-    private Boolean binding;
+    private Integer id;
+    /**
+     * 用户名
+     */
+    @NotBlank(message = "用户名不能为空", groups = {AddGroup.class, UpdateGroup.class})
     private String username;
+    /**
+     * 密码
+     */
+    @NotBlank(message = "密码不能为空", groups = AddGroup.class)
     private String password;
+    private String nickname;
+    private String mobile;
+    private String address;
+    /**
+     * 状态  false：禁用   true：正常
+     */
+    @TableField(fill = FieldFill.INSERT)
+    private Boolean enabled = true;
+    private Boolean binding;
     private String remark;
     private String wxOpenId;
     private String avatarUrl;
     private String idCard;
     private String sessionKey;
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
+    @TableField(exist = false)
+    private Collection<GrantedAuthority> authorities;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getSessionKey() {
         return sessionKey;
@@ -83,14 +113,6 @@ public class User implements UserDetails {
         this.wxOpenId = wxOpenId;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getNickname() {
         return nickname;
     }
@@ -99,12 +121,12 @@ public class User implements UserDetails {
         this.nickname = nickname;
     }
 
-    public String getTelephone() {
-        return telephone;
+    public String getMobile() {
+        return mobile;
     }
 
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
     public String getAddress() {
@@ -117,7 +139,11 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     public Boolean getBinding() {
@@ -157,7 +183,11 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
+    }
+
+    public void setAuthorities(Collection<GrantedAuthority> authorities) {
+        this.authorities = authorities;
     }
 
     @JsonIgnore
@@ -182,7 +212,7 @@ public class User implements UserDetails {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
+        SysUserEntity user = (SysUserEntity) o;
         return Objects.equal(id, user.id);
     }
 

@@ -1,6 +1,6 @@
 package me.ianhe.isite.controller;
 
-import me.ianhe.isite.entity.User;
+import me.ianhe.isite.entity.SysUserEntity;
 import me.ianhe.isite.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -45,7 +45,7 @@ public class CommonController extends BaseController {
     public R login(@RequestBody Map<String, Object> body) {
         String username = (String) body.get("username");
         String password = (String) body.get("password");
-        User user = userService.loadUserByUsername(username);
+        SysUserEntity user = sysUserService.loadUserByUsername(username);
         if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
             return R.error("用户名或密码不正确");
         }

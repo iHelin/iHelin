@@ -1,16 +1,16 @@
 package me.ianhe.isite.controller;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
+import cn.binarywang.wx.miniapp.api.WxMaUserService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import com.google.common.collect.Maps;
 import me.chanjar.weixin.common.error.WxErrorException;
-import me.ianhe.isite.entity.User;
-import me.ianhe.isite.service.UserService;
+import me.ianhe.isite.entity.SysUserEntity;
+import me.ianhe.isite.service.SysUserService;
 import me.ianhe.isite.utils.R;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,7 +34,7 @@ public class WeChatController extends BaseController {
     @Autowired
     private WxMaService wxMaService;
     @Autowired
-    private UserService userService;
+    private SysUserService sysUserService;
 
     /**
      * 小程序登录
@@ -45,11 +45,16 @@ public class WeChatController extends BaseController {
     @PostMapping("/login")
     public R login(@RequestBody Map<String, String> body) throws WxErrorException {
         String code = body.get("code");
+        String nickname = body.get("nickname");
+        String avatarUrl = body.get("avatarUrl");
         if (StringUtils.isEmpty(code)) {
-            return R.error(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.name());
+            return R.error("登录失败");
         }
-        WxMaJscode2SessionResult result = wxMaService.getUserService().getSessionInfo(code);
-        User user = userService.login(body, result.getOpenid(), result.getSessionKey());
+        WxMaUserService wxUserService = wxMaService.getUserService();
+        WxMaJscode2SessionResult result = wxUserService.getSessionInfo(code);
+        String openid = result.getOpenid();
+        String sessionKey = result.getSessionKey();
+        SysUserEntity user = sysUserService.login(nickname, avatarUrl, openid, sessionKey);
         //颁发token
         String token = jwtComponent.createJWT(user.getId().toString());
         Map<String, Object> resultMap = Maps.newHashMap();
@@ -57,20 +62,27 @@ public class WeChatController extends BaseController {
         resultMap.put("binding", user.getBinding());
         resultMap.put("username", user.getUsername());
         resultMap.put("idCard", user.getIdCard());
-        resultMap.put("telephone", user.getTelephone());
+        resultMap.put("telephone", user.getMobile());
         resultMap.put("token", token);
         return R.ok(resultMap);
     }
 
+    /**
+     * 绑定用户信息
+     *
+     * @param payload
+     * @param token
+     * @return
+     */
     @PostMapping("/binding")
-    public R bindUser(@RequestBody Map<String, String> payload, UsernamePasswordAuthenticationToken token) {
-        User user = (User) token.getPrincipal();
+    public R binding(@RequestBody Map<String, String> payload, UsernamePasswordAuthenticationToken token) {
+        SysUserEntity user = (SysUserEntity) token.getPrincipal();
         user.setBinding(true);
         user.setUsername(payload.get("username"));
         user.setIdCard(payload.get("idCard"));
-        user.setTelephone(payload.get("telephone"));
+        user.setMobile(payload.get("telephone"));
         user.setUpdateTime(LocalDateTime.now());
-        userService.updateById(user);
+        sysUserService.updateById(user);
         return R.ok();
     }
 

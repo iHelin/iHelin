@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties(prefix = "seven")
+@ConfigurationProperties(prefix = "system")
 public class SystemProperties {
 
     /**
@@ -22,8 +22,12 @@ public class SystemProperties {
     private String dingToken;
     private String dingSecret;
 
-    private String jwtSecret = "iHelin";
-    private Long jwtExp = 1000L * 60 * 60 * 24 * 7;
+    /**
+     * jwt
+     */
+    private String jwtSecret;
+    private Long jwtExpire;
+    private String jwtHeader;
 
     public String getDomain() {
         return domain;
@@ -81,11 +85,19 @@ public class SystemProperties {
         this.jwtSecret = jwtSecret;
     }
 
-    public Long getJwtExp() {
-        return jwtExp;
+    public Long getJwtExpire() {
+        return jwtExpire;
     }
 
-    public void setJwtExp(Long jwtExp) {
-        this.jwtExp = jwtExp;
+    public void setJwtExpire(Long jwtExpire) {
+        this.jwtExpire = jwtExpire;
+    }
+
+    public String getJwtHeader() {
+        return jwtHeader;
+    }
+
+    public void setJwtHeader(String jwtHeader) {
+        this.jwtHeader = jwtHeader;
     }
 }
