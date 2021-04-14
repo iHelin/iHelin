@@ -39,21 +39,23 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             String authorization = request.getHeader(systemProperties.getJwtHeader());
             if (StringUtils.hasText(authorization)) {
                 String token = authorization.substring("Bearer".length());
-                String username = jwtComponent.parseJWT(token).getSubject();
-                if (StringUtils.hasText(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
-                    SysUserEntity sysUserEntity;
-                    String agent = request.getHeader("agent");
-                    if ("wechat".equals(agent)) {
-                        //来自微信小程序，小程序token里面携带的是用户id
-                        sysUserEntity = sysUserService.loadUserById(username);
-                    } else {
-                        sysUserEntity = sysUserService.loadUserByUsername(username);
-                    }
-                    if (sysUserEntity != null) {
-                        UsernamePasswordAuthenticationToken authentication =
-                                new UsernamePasswordAuthenticationToken(sysUserEntity, null, sysUserEntity.getAuthorities());
-                        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                        SecurityContextHolder.getContext().setAuthentication(authentication);
+                if (StringUtils.hasText(token)) {
+                    String username = jwtComponent.parseJWT(token).getSubject();
+                    if (StringUtils.hasText(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
+                        SysUserEntity sysUserEntity;
+                        String agent = request.getHeader("agent");
+                        if ("wechat".equals(agent)) {
+                            //来自微信小程序，小程序token里面携带的是用户id
+                            sysUserEntity = sysUserService.loadUserById(username);
+                        } else {
+                            sysUserEntity = sysUserService.loadUserByUsername(username);
+                        }
+                        if (sysUserEntity != null) {
+                            UsernamePasswordAuthenticationToken authentication =
+                                    new UsernamePasswordAuthenticationToken(sysUserEntity, null, sysUserEntity.getAuthorities());
+                            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                            SecurityContextHolder.getContext().setAuthentication(authentication);
+                        }
                     }
                 }
             }
