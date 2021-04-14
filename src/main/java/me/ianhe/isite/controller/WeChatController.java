@@ -62,7 +62,7 @@ public class WeChatController extends BaseController {
         resultMap.put("binding", user.getBinding());
         resultMap.put("username", user.getUsername());
         resultMap.put("idCard", user.getIdCard());
-        resultMap.put("telephone", user.getMobile());
+        resultMap.put("mobile", user.getMobile());
         resultMap.put("token", token);
         return R.ok(resultMap);
     }
@@ -80,7 +80,7 @@ public class WeChatController extends BaseController {
         user.setBinding(true);
         user.setUsername(payload.get("username"));
         user.setIdCard(payload.get("idCard"));
-        user.setMobile(payload.get("telephone"));
+        user.setMobile(payload.get("mobile"));
         user.setUpdateTime(DateTime.now());
         sysUserService.updateById(user);
         return R.ok();
