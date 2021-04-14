@@ -1,9 +1,12 @@
 package me.ianhe.isite.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import me.ianhe.isite.dao.SysUserMapper;
 import me.ianhe.isite.entity.SysUserEntity;
+import me.ianhe.isite.exception.RRException;
+import me.ianhe.isite.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -87,6 +91,38 @@ public class SysUserService extends ServiceImpl<SysUserMapper, SysUserEntity> im
         return sysUserEntity;
     }
 
+    /**
+     * 保存用户
+     *
+     * @param user
+     */
+    @Transactional
+    public void saveUser(SysUserEntity user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        this.save(user);
+        //检查角色是否越权
+        checkRole(user);
+        //保存用户与角色关系
+        sysUserRoleService.saveOrUpdate(user.getId(), user.getRoleIdList());
+    }
+
+
+    @Transactional
+    public void updateUser(SysUserEntity user) {
+        if (StringUtils.hasText(user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        } else {
+            user.setPassword(null);
+        }
+        this.updateById(user);
+
+        //检查角色是否越权
+        checkRole(user);
+
+        //保存用户与角色关系
+        sysUserRoleService.saveOrUpdate(user.getId(), user.getRoleIdList());
+    }
+
     public SysUserEntity login(String nickname, String avatarUrl, String openId, String sessionKey) {
         SysUserEntity user = this.getOne(new QueryWrapper<SysUserEntity>().eq("wx_open_id", openId));
         if (user == null) {
@@ -121,4 +157,46 @@ public class SysUserService extends ServiceImpl<SysUserMapper, SysUserEntity> im
                 .collect(Collectors.toList());
     }
 
+
+    /**
+     * 修改密码
+     *
+     * @param userId         修改密码的用户id
+     * @param oldRawPassword 原密码、旧密码
+     * @param newRawPassword 新的明文密码：需要加密存储
+     * @return
+     */
+    public boolean updatePassword(Integer userId, String oldRawPassword, String newRawPassword) {
+        SysUserEntity sysUserEntity = this.getById(userId);
+        if (passwordEncoder.matches(oldRawPassword, sysUserEntity.getPassword())) {
+            SysUserEntity userEntity = new SysUserEntity();
+            String encodedNewPassword = passwordEncoder.encode(newRawPassword);
+            userEntity.setPassword(encodedNewPassword);
+            return this.update(userEntity,
+                    new UpdateWrapper<SysUserEntity>().eq("id", userId));
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 检查角色是否越权
+     */
+    private void checkRole(SysUserEntity user) {
+        if (user.getRoleIdList() == null || user.getRoleIdList().size() == 0) {
+            return;
+        }
+        //如果是超级管理员，则不需要判断用户的角色是否自己创建
+        if (Constant.SUPER_ADMIN_ID.equals(user.getCreateUserId())) {
+            return;
+        }
+
+        //查询用户创建的角色列表
+        List<Integer> roleIdList = sysRoleService.queryRoleIdList(user.getCreateUserId());
+
+        //判断是否越权
+        if (!roleIdList.containsAll(user.getRoleIdList())) {
+            throw new RRException("新增用户所选角色，不是本人创建");
+        }
+    }
 }

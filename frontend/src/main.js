@@ -1,47 +1,32 @@
 import Vue from 'vue'
-import App from './App'
+import App from './App.vue'
 import router from './router'
-
-import VueResource from 'vue-resource';
-import store from './store';
+import store from '@/store'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-import 'simplemde/dist/simplemde.min.css';
-// import 'src/styles/element-variables.scss';
-import 'src/styles/app.css';
-import {formatTime, parseTime} from 'src/components/index';
+import '@/icons'
+import '@/assets/scss/index.scss'
+import httpRequest from '@/utils/httpRequest' // api: https://github.com/axios/axios
+import {formatPayType, formatStatus, isAuth} from '@/utils';
+import cloneDeep from 'lodash/cloneDeep';
 
-Vue.filter('formatTime', formatTime);
 
-Vue.config.productionTip = false;
-
-Vue.prototype.$parseTime = parseTime;
 Vue.use(ElementUI);
-Vue.use(VueResource);
 
-Vue.http.interceptors.push((request, next) => {
-    next(response => {
-        if (200 === response.status || 400 === response.status) {
-        } else if (401 === response.status) {
-            router.push({
-                path: '/login',
-            });
-            // store.dispatch('setFrom', router.from);
-        } else if (403 === response.status) {
-            ElementUI.Message.error('权限不足');
-        } else {
-            ElementUI.Notification.error({
-                title: response.status + ' ' + response.statusText,
-                message: 'path: ' + response.data.path
-            });
-        }
-        return response;
-    });
-});
-Vue.http.options.emulateJSON = true;
+Vue.config.productionTip = false
+
+// 挂载全局
+Vue.prototype.$http = httpRequest; // ajax请求方法
+Vue.prototype.isAuth = isAuth;     // 权限方法
+Vue.filter('formatStatus', formatStatus);
+Vue.filter('formatPayType', formatPayType);
+
+// 保存整站vuex本地储存初始状态
+window.SITE_CONFIG = {};
+window.SITE_CONFIG['storeState'] = cloneDeep(store.state)
 
 new Vue({
     router,
     store,
     render: h => h(App)
-}).$mount('#app');
+}).$mount('#app')

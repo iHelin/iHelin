@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * User
@@ -38,7 +39,6 @@ public class SysUserEntity implements UserDetails {
     private String password;
     private String nickname;
     private String mobile;
-    private String address;
     /**
      * 状态  false：禁用   true：正常
      */
@@ -50,6 +50,15 @@ public class SysUserEntity implements UserDetails {
     private String avatarUrl;
     private String idCard;
     private String sessionKey;
+    /**
+     * 角色ID列表
+     */
+    @TableField(exist = false)
+    private List<Integer> roleIdList;
+    /**
+     * 创建者ID
+     */
+    private Integer createUserId;
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
     @TableField(fill = FieldFill.INSERT_UPDATE)
@@ -79,6 +88,22 @@ public class SysUserEntity implements UserDetails {
 
     public void setIdCard(String idCard) {
         this.idCard = idCard;
+    }
+
+    public List<Integer> getRoleIdList() {
+        return roleIdList;
+    }
+
+    public void setRoleIdList(List<Integer> roleIdList) {
+        this.roleIdList = roleIdList;
+    }
+
+    public Integer getCreateUserId() {
+        return createUserId;
+    }
+
+    public void setCreateUserId(Integer createUserId) {
+        this.createUserId = createUserId;
     }
 
     public LocalDateTime getCreateTime() {
@@ -127,14 +152,6 @@ public class SysUserEntity implements UserDetails {
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     @Override
@@ -190,7 +207,6 @@ public class SysUserEntity implements UserDetails {
         this.authorities = authorities;
     }
 
-    @JsonIgnore
     @Override
     public String getPassword() {
         return password;

@@ -1,23 +1,23 @@
 import Vue from 'vue'
-import Vuex from 'vuex';
+import Vuex from 'vuex'
+import cloneDeep from 'lodash/cloneDeep'
+import common from './modules/common'
+import user from './modules/user'
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
-const store = new Vuex.Store({
-    state: {
-        username: sessionStorage.getItem("username")
+export default new Vuex.Store({
+    modules: {
+        common,
+        user
     },
     mutations: {
-        SET_USERNAME: (state, username) => {
-            state.username = username;
-            sessionStorage.setItem("username", username);
+        // 重置vuex本地储存状态
+        resetStore(state) {
+            Object.keys(state).forEach((key) => {
+                state[key] = cloneDeep(window.SITE_CONFIG['storeState'][key])
+            })
         }
     },
-    actions: {
-        setUsername({commit}, username) {
-            commit('SET_USERNAME', username);
-        }
-    }
-});
-
-export default store;
+    strict: process.env.NODE_ENV !== 'production'
+})
