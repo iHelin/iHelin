@@ -44,6 +44,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                     SysUserEntity sysUserEntity;
                     String agent = request.getHeader("agent");
                     if ("wechat".equals(agent)) {
+                        //来自微信小程序，小程序token里面携带的是用户id
                         sysUserEntity = sysUserService.loadUserById(username);
                     } else {
                         sysUserEntity = sysUserService.loadUserByUsername(username);
