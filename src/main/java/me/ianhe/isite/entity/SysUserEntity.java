@@ -50,7 +50,10 @@ public class SysUserEntity implements UserDetails {
      */
     @TableField(fill = FieldFill.INSERT)
     private Boolean enabled = true;
+    @TableField(fill = FieldFill.INSERT)
     private Boolean binding;
+    @TableField(fill = FieldFill.INSERT)
+    private Boolean vip;
     private String remark;
     private String wxOpenId;
     private String avatarUrl;
@@ -175,6 +178,14 @@ public class SysUserEntity implements UserDetails {
 
     public void setBinding(Boolean binding) {
         this.binding = binding;
+    }
+
+    public Boolean getVip() {
+        return vip;
+    }
+
+    public void setVip(Boolean vip) {
+        this.vip = vip;
     }
 
     @Override

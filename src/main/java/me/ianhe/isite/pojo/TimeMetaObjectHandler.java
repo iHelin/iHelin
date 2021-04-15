@@ -22,6 +22,8 @@ public class TimeMetaObjectHandler implements MetaObjectHandler {
         this.setFieldValByName("enabled", true, metaObject);
         this.setFieldValByName("version", 1, metaObject);
         this.setFieldValByName("deleted", false, metaObject);
+        this.setFieldValByName("vip", false, metaObject);
+        this.setFieldValByName("binding", false, metaObject);
     }
 
     @Override
