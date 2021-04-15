@@ -2,7 +2,7 @@ package me.ianhe.isite.controller;
 
 import cn.hutool.core.img.ImgUtil;
 import com.google.common.collect.Maps;
-import me.ianhe.isite.entity.Article;
+import me.ianhe.isite.entity.ArticleEntity;
 import me.ianhe.isite.utils.R;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
@@ -22,7 +22,7 @@ import java.util.*;
 public class TestController extends BaseController {
 
     @PostMapping("/validate")
-    public R validate(@Valid Article article, Errors errors) {
+    public R validate(@Valid ArticleEntity articleEntity, Errors errors) {
         if (errors.hasErrors()) {
             List<FieldError> fieldErrors = errors.getFieldErrors();
             for (FieldError fieldError : fieldErrors) {
@@ -65,9 +65,9 @@ public class TestController extends BaseController {
     }
 
     @GetMapping("/test4")
-    public R test4(Article article) {
+    public R test4(ArticleEntity articleEntity) {
         Map<String, Object> maps = new HashMap<>();
-        maps.put("article", article);
+        maps.put("article", articleEntity);
         return R.ok(maps);
     }
 

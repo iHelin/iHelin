@@ -1,4 +1,4 @@
-package me.ianhe.isite.controller;
+package me.ianhe.isite.controller.wechat;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.api.WxMaUserService;
@@ -6,6 +6,7 @@ import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.hutool.core.date.DateTime;
 import com.google.common.collect.Maps;
 import me.chanjar.weixin.common.error.WxErrorException;
+import me.ianhe.isite.controller.BaseController;
 import me.ianhe.isite.entity.SysUserEntity;
 import me.ianhe.isite.service.SysUserService;
 import me.ianhe.isite.utils.R;

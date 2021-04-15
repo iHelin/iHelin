@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import me.ianhe.isite.entity.Score;
 
 /**
- * MyScoreMapper
+ * ScoreMapper
  *
  * @author iHelin
  * @since 2018/7/9 12:38

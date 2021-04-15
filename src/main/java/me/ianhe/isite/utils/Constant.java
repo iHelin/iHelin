@@ -33,6 +33,11 @@ public interface Constant {
     String LOGIN_URI = "/sys/login";
 
     /**
+     * 云存储配置KEY
+     */
+    String CLOUD_STORAGE_CONFIG_KEY = "CLOUD_STORAGE_CONFIG_KEY";
+
+    /**
      * 菜单类型
      *
      * @author chenshun
