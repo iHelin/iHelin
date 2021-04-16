@@ -46,16 +46,16 @@ public class SysArticleController {
         QueryWrapper<ArticleEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(id != null, "id", id);
         queryWrapper.eq("type", type);
-        ArticleEntity notice = articleService.getOne(queryWrapper);
-        return R.ok().put("data", notice);
+        ArticleEntity articleEntity = articleService.getOne(queryWrapper);
+        return R.ok().put("data", articleEntity);
     }
 
     /**
      * 新增
      */
     @PostMapping("/save")
-    public R save(@RequestBody ArticleEntity noticeEntity) {
-        articleService.save(noticeEntity);
+    public R save(@RequestBody ArticleEntity articleEntity) {
+        articleService.save(articleEntity);
         return R.ok();
     }
 
