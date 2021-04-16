@@ -42,11 +42,21 @@ public class SysArticleController {
      * 信息
      */
     @GetMapping("/info")
-    public R info(String type) {
+    public R info(Integer id, String type) {
         QueryWrapper<ArticleEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(id != null, "id", id);
         queryWrapper.eq("type", type);
         ArticleEntity notice = articleService.getOne(queryWrapper);
         return R.ok().put("data", notice);
+    }
+
+    /**
+     * 新增
+     */
+    @PostMapping("/save")
+    public R save(@RequestBody ArticleEntity noticeEntity) {
+        articleService.save(noticeEntity);
+        return R.ok();
     }
 
 

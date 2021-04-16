@@ -90,7 +90,7 @@ export default {
                         url: "/sys/article/info",
                         method: "get",
                         params: {
-                            type: "notice",
+                            type: "common",
                             id: this.dataForm.id,
                         },
                     }).then(({ data }) => {
@@ -121,7 +121,7 @@ export default {
                             version: this.dataForm.version,
                             content: this.dataForm.content,
                             enabled: this.dataForm.enabled,
-                            type: "notice",
+                            type: "common",
                         },
                     }).then(({ data }) => {
                         if (data && data.code === 0) {

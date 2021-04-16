@@ -32,6 +32,9 @@
                         <el-form-item label="微信OpenId">
                             <span>{{ scope.row.wxOpenId }}</span>
                         </el-form-item>
+                        <el-form-item label="身份证号">
+                            <span>{{ scope.row.idCard }}</span>
+                        </el-form-item>
                     </el-form>
                 </template>
             </el-table-column>

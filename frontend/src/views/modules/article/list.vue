@@ -160,13 +160,13 @@ export default {
         getDataList() {
             this.dataListLoading = true
             this.$http({
-                url: "/sys/notice/list",
+                url: "/sys/article/list",
                 method: "get",
                 params: {
                     page: this.pageIndex,
                     limit: this.pageSize,
                     key: this.key,
-                    type: "notice",
+                    type: "common",
                 },
             }).then(({ data }) => {
                 if (data && data.code === 0) {
