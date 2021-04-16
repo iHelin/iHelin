@@ -2,8 +2,7 @@
     <el-dialog
         :title="dataForm.id ? '修改' : '新增'"
         :close-on-click-modal="false"
-        :visible.sync="visible"
-    >
+        :visible.sync="visible">
         <el-form
             :model="dataForm"
             :rules="dataRule"
