@@ -160,7 +160,7 @@ export default {
         getDataList() {
             this.dataListLoading = true
             this.$http({
-                url: "/sys/notice/list",
+                url: "/sys/article/list",
                 method: "get",
                 params: {
                     page: this.pageIndex,
