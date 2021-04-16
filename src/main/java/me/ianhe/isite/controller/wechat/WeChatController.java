@@ -73,7 +73,8 @@ public class WeChatController extends BaseController {
      * @return
      */
     @PostMapping("/binding")
-    public R binding(@RequestBody Map<String, String> payload, UsernamePasswordAuthenticationToken token) {
+    public R binding(@RequestBody Map<String, String> payload,
+                     UsernamePasswordAuthenticationToken token) {
         SysUserEntity user = (SysUserEntity) token.getPrincipal();
         user.setBinding(true);
         user.setUsername(payload.get("username"));
@@ -84,9 +85,25 @@ public class WeChatController extends BaseController {
         return R.ok();
     }
 
+    /**
+     * 用户基本信息
+     *
+     * @param token
+     * @return
+     */
     @GetMapping("/me")
     public R loginInfo(UsernamePasswordAuthenticationToken token) {
         return R.ok(token.getPrincipal());
+    }
+
+    /**
+     * 获取系统时间
+     *
+     * @return
+     */
+    @GetMapping("/now")
+    public R now() {
+        return R.ok(System.currentTimeMillis());
     }
 
 }
