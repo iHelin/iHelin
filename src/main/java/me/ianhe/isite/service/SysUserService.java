@@ -123,7 +123,8 @@ public class SysUserService extends ServiceImpl<SysUserMapper, SysUserEntity> im
         sysUserRoleService.saveOrUpdate(user.getId(), user.getRoleIdList());
     }
 
-    public SysUserEntity login(String nickname, String avatarUrl, String openId, String sessionKey) {
+    public SysUserEntity login(String nickname, String avatarUrl, String openId, String sessionKey,
+                               Integer gender, String country, String province, String city, String language) {
         SysUserEntity user = this.getOne(new QueryWrapper<SysUserEntity>().eq("wx_open_id", openId));
         if (user == null) {
             SysUserEntity newUser = new SysUserEntity();

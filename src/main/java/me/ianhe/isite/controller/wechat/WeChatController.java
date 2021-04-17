@@ -4,6 +4,7 @@ import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.api.WxMaUserService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.hutool.core.date.DateTime;
+import cn.hutool.json.JSONObject;
 import com.google.common.collect.Maps;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.ianhe.isite.controller.BaseController;
@@ -41,10 +42,16 @@ public class WeChatController extends BaseController {
      * @return
      */
     @PostMapping("/login")
-    public R login(@RequestBody Map<String, String> body) throws WxErrorException {
-        String code = body.get("code");
-        String nickname = body.get("nickname");
-        String avatarUrl = body.get("avatarUrl");
+    public R login(@RequestBody JSONObject body) throws WxErrorException {
+        String code = body.getStr("code");
+        String nickname = body.getStr("nickname");
+        String avatarUrl = body.getStr("avatarUrl");
+        // 0 未知 1 男性 2 女性
+        Integer gender = body.getInt("gender");
+        String country = body.getStr("country");
+        String province = body.getStr("province");
+        String city = body.getStr("city");
+        String language = body.getStr("language");
         if (StringUtils.isEmpty(code)) {
             return R.error("登录失败");
         }
@@ -52,7 +59,8 @@ public class WeChatController extends BaseController {
         WxMaJscode2SessionResult result = wxUserService.getSessionInfo(code);
         String openid = result.getOpenid();
         String sessionKey = result.getSessionKey();
-        SysUserEntity user = sysUserService.login(nickname, avatarUrl, openid, sessionKey);
+        SysUserEntity user = sysUserService.login(nickname, avatarUrl, openid, sessionKey, gender, country,
+                province, city, language);
         //颁发token
         String token = jwtComponent.createJWT(user.getId().toString());
         Map<String, Object> resultMap = Maps.newHashMap();
