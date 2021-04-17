@@ -129,9 +129,14 @@ public class SysUserService extends ServiceImpl<SysUserMapper, SysUserEntity> im
         if (user == null) {
             SysUserEntity newUser = new SysUserEntity();
             newUser.setWxOpenId(openId);
-            newUser.setAvatarUrl(avatarUrl);
             newUser.setNickname(nickname);
+            newUser.setAvatarUrl(avatarUrl);
             newUser.setSessionKey(sessionKey);
+            newUser.setGender(gender);
+            newUser.setCountry(country);
+            newUser.setProvince(province);
+            newUser.setCity(city);
+            newUser.setLanguage(language);
             newUser.setCreateTime(DateTime.now());
             newUser.setUpdateTime(DateTime.now());
             this.save(newUser);
@@ -140,6 +145,11 @@ public class SysUserService extends ServiceImpl<SysUserMapper, SysUserEntity> im
             user.setAvatarUrl(avatarUrl);
             user.setNickname(nickname);
             user.setSessionKey(sessionKey);
+            user.setGender(gender);
+            user.setCountry(country);
+            user.setProvince(province);
+            user.setCity(city);
+            user.setLanguage(language);
             this.updateById(user);
             return user;
         }
