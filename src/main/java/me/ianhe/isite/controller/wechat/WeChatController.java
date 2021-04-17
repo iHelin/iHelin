@@ -46,7 +46,6 @@ public class WeChatController extends BaseController {
         String code = body.getStr("code");
         String nickname = body.getStr("nickname");
         String avatarUrl = body.getStr("avatarUrl");
-        // 0 未知 1 男性 2 女性
         Integer gender = body.getInt("gender");
         String country = body.getStr("country");
         String province = body.getStr("province");

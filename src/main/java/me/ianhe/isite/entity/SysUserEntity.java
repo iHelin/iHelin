@@ -57,6 +57,10 @@ public class SysUserEntity implements UserDetails {
     private String remark;
     private String wxOpenId;
     private String avatarUrl;
+    /**
+     * 性别
+     * 0:未知,1:男性,2:女性
+     */
     private Integer gender;
     private String country;
     private String province;
