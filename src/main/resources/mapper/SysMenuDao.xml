@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="me.ianhe.isite.dao.SysMenuDao">
+<mapper namespace="me.ianhe.pp.dao.SysMenuDao">
 
-    <select id="getMenusByParentId" resultType="me.ianhe.isite.entity.SysMenuEntity">
+    <select id="getMenusByParentId" resultType="me.ianhe.pp.entity.SysMenuEntity">
         select * from sys_menu where parent_id = #{parentId} order by order_num asc
     </select>
 
-    <select id="queryNotButtonList" resultType="me.ianhe.isite.entity.SysMenuEntity">
+    <select id="queryNotButtonList" resultType="me.ianhe.pp.entity.SysMenuEntity">
         select * from sys_menu where type != 2 order by order_num asc
     </select>
 

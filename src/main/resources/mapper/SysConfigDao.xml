@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="me.ianhe.isite.dao.SysConfigDao">
+<mapper namespace="me.ianhe.pp.dao.SysConfigDao">
 
     <!-- 根据key，更新value -->
     <update id="updateValueByKey" parameterType="map">
@@ -8,7 +8,7 @@
     </update>
 
     <!-- 根据key，查询value -->
-    <select id="queryByKey" parameterType="string" resultType="me.ianhe.isite.entity.SysConfigEntity">
+    <select id="queryByKey" parameterType="string" resultType="me.ianhe.pp.entity.SysConfigEntity">
         select * from sys_config where param_key = #{paramKey}
     </select>
 
