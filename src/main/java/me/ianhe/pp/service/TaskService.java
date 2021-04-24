@@ -40,7 +40,7 @@ public class TaskService {
      * @author iHelin
      * @since 2018/1/10 09:07
      */
-    @Scheduled(cron = "0 0 11 ? * MON-FRI")
+    @Scheduled(cron = "*/10 * * * * ?")
     public void runEveryDay11() {
         logger.debug("runWorkDay11");
     }
