@@ -35,7 +35,7 @@ public class TaskService {
      * @author iHelin
      * @since 2018/1/10 09:07
      */
-    @Scheduled(cron = "*/10 * * * * ?")
+    @Scheduled(cron = "0 0 11 ? * MON-FRI")
     public void runEveryDay11() {
         logger.debug("runWorkDay11");
     }
@@ -81,7 +81,7 @@ public class TaskService {
      * @author iHelin
      * @since 2018/1/10 09:07
      */
-    @Scheduled(cron = "0 35 11 * * *")
+    @Scheduled(cron = "0 0 12 * * ?")
     public void runEveryDay() {
         logger.debug("runEveryDay");
         dailyEnglish();
@@ -103,10 +103,12 @@ public class TaskService {
     /**
      * 每日一句
      */
-    private void daily(){
+    private void daily() {
         String res = HttpUtil.get("http://poetry.apiopen.top/sentences");
         JSONObject sentences = JSONUtil.parseObj(res);
-        dingService.sendTextMsg(sentences.getJSONObject("result").getStr("name"));
+        String name = sentences.getJSONObject("result").getStr("name");
+        String from = sentences.getJSONObject("result").getStr("from");
+        dingService.sendTextMsg(name + "--from：" + from);
     }
 
     /**
