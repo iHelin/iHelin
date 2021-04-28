@@ -50,13 +50,6 @@
             <version>3.3.3</version>
         </dependency>
 
-        <!--utils-->
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>30.1.1-jre</version>
-        </dependency>
-
         <!--mybatis-->
         <dependency>
             <groupId>mysql</groupId>
@@ -137,12 +130,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <!-- mybatis generator逆向工程生成代码插件 -->
-            <plugin>
-                <groupId>org.mybatis.generator</groupId>
-                <artifactId>mybatis-generator-maven-plugin</artifactId>
-                <version>1.3.5</version>
             </plugin>
             <plugin>
                 <groupId>com.spotify</groupId>
